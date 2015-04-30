@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="6751" systemVersion="14D131" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6736"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view contentMode="scaleToFill" id="iN0-l3-epB">
+            <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="PiS-Sx-uDw">
+                    <rect key="frame" x="0.0" y="60" width="600" height="540"/>
+                    <subviews>
+                        <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="none" translatesAutoresizingMaskIntoConstraints="NO" id="z12-7P-vz5">
+                            <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                            <constraints>
+                                <constraint firstAttribute="width" constant="600" id="3fm-cV-Em8"/>
+                                <constraint firstAttribute="height" constant="600" id="mXp-L0-8CT"/>
+                            </constraints>
+                            <collectionViewFlowLayout key="collectionViewLayout" scrollDirection="horizontal" minimumLineSpacing="0.0" minimumInteritemSpacing="0.0" id="Nks-Xo-iwR">
+                                <size key="itemSize" width="100" height="600"/>
+                                <size key="headerReferenceSize" width="40" height="0.0"/>
+                                <size key="footerReferenceSize" width="0.0" height="0.0"/>
+                                <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
+                            </collectionViewFlowLayout>
+                        </collectionView>
+                    </subviews>
+                    <constraints>
+                        <constraint firstItem="z12-7P-vz5" firstAttribute="top" secondItem="PiS-Sx-uDw" secondAttribute="top" id="3eL-8Y-Foe"/>
+                        <constraint firstAttribute="height" constant="540" id="8dA-gu-sbN"/>
+                        <constraint firstItem="z12-7P-vz5" firstAttribute="leading" secondItem="PiS-Sx-uDw" secondAttribute="leading" id="PxG-7W-pRL"/>
+                        <constraint firstAttribute="trailing" secondItem="z12-7P-vz5" secondAttribute="trailing" id="gnB-nR-Gb8"/>
+                        <constraint firstAttribute="bottom" secondItem="z12-7P-vz5" secondAttribute="bottom" id="m2G-K7-2Uz"/>
+                    </constraints>
+                </scrollView>
+                <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="U3P-PJ-gGs">
+                    <rect key="frame" x="0.0" y="0.0" width="600" height="60"/>
+                </scrollView>
+            </subviews>
+            <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+            <constraints>
+                <constraint firstItem="U3P-PJ-gGs" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" id="NaJ-6p-Yol"/>
+                <constraint firstItem="z12-7P-vz5" firstAttribute="top" secondItem="U3P-PJ-gGs" secondAttribute="bottom" id="YPU-2b-4R9"/>
+                <constraint firstAttribute="trailing" secondItem="PiS-Sx-uDw" secondAttribute="trailing" id="ZAQ-ed-hBv"/>
+                <constraint firstAttribute="trailing" secondItem="U3P-PJ-gGs" secondAttribute="trailing" id="bjP-qM-Q9w"/>
+                <constraint firstAttribute="bottom" secondItem="PiS-Sx-uDw" secondAttribute="bottom" id="hKg-kW-aho"/>
+                <constraint firstItem="U3P-PJ-gGs" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="qD8-YM-wg6"/>
+                <constraint firstItem="PiS-Sx-uDw" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="s3I-eQ-SSF"/>
+            </constraints>
+        </view>
+    </objects>
+</document>
