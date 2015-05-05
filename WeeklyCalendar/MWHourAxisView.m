@@ -7,38 +7,60 @@
 //
 
 #import "MWHourAxisView.h"
+#import "CGHelper.h"
+#import "NSDate+MWWeeklyCalendar.h"
 
 @implementation MWHourAxisView
 
-
+IB_DESIGNABLE
 - (void)drawRect:(CGRect)rect
 {
-    //// Color Declarations
-    UIColor* axisColor = [UIColor colorWithRed: 1 green: 0.149 blue: 0 alpha: 1];
+    [super drawRect:rect];
     
-    //// Frames
-    CGRect frame = CGRectMake(0, 0, 148, 119);
+    //// Date Component
+    NSDateComponents *dateComponents = [[NSDateComponents alloc] init];
     
+    //// Label
+    UIFont *font = [UIFont preferredFontForTextStyle:UIFontTextStyleFootnote];
+    NSMutableParagraphStyle *paragraphStyle = [[NSParagraphStyle defaultParagraphStyle] mutableCopy];
+    paragraphStyle.lineBreakMode = NSLineBreakByTruncatingHead;
+    paragraphStyle.alignment = NSTextAlignmentRight;
+    NSDictionary *attributes = @{ NSFontAttributeName:              font,
+                                  NSParagraphStyleAttributeName:    paragraphStyle,
+                                  NSForegroundColorAttributeName:   self.axisColor};
     
-    //// Abstracted Attributes
-    NSString* textContent = @"12 PM";
+    CGContextRef context = UIGraphicsGetCurrentContext();
     
-    
-    //// Bezier Line uno Drawing
-    UIBezierPath* bezierLineUnoPath = [UIBezierPath bezierPath];
-    [bezierLineUnoPath moveToPoint: CGPointMake(CGRectGetMinX(frame) + 72, CGRectGetMinY(frame) + 16.5)];
-    [bezierLineUnoPath addCurveToPoint: CGPointMake(CGRectGetMinX(frame) + 148, CGRectGetMinY(frame) + 16.5) controlPoint1: CGPointMake(CGRectGetMinX(frame) + 148, CGRectGetMinY(frame) + 16.5) controlPoint2: CGPointMake(CGRectGetMinX(frame) + 148, CGRectGetMinY(frame) + 16.5)];
-    [axisColor setStroke];
-    bezierLineUnoPath.lineWidth = 1;
-    [bezierLineUnoPath stroke];
-    
-    
-    //// Text Drawing
-    CGRect textRect = CGRectMake(CGRectGetMinX(frame), CGRectGetMinY(frame) + 8, 64, 16);
-    [axisColor setFill];
-    [textContent drawInRect: textRect withFont: [UIFont fontWithName: @"Helvetica" size: 12] lineBreakMode: UILineBreakModeWordWrap alignment: UITextAlignmentRight];
-
+    CGFloat horizontalLineXPosition = kHoursAxisInset.top;
+    for (int hour = 0; hour <= 23; hour++) {
+        draw1PxStroke(context, CGPointMake(kHoursAxisInset.left + 0.5, horizontalLineXPosition + 0.5), CGPointMake(CGRectGetMaxX(rect) + 0.5, horizontalLineXPosition + 0.5), self.axisColor.CGColor);
+        
+        dateComponents.hour = hour;
+        NSDate *date = [[NSCalendar currentCalendar] dateFromComponents:dateComponents];
+        NSString *hourString = [NSDate timeStringFromDate:date];
+        const CGFloat hourStringHeight = font.pointSize;
+        CGRect hourRect = CGRectMake(0, roundTo1Px(horizontalLineXPosition - hourStringHeight / 2), kHoursAxisInset.left - 8, hourStringHeight);
+        [hourString drawInRect:hourRect withAttributes:attributes];
+        
+        horizontalLineXPosition += self.hourStepHeight;
+    }
 }
 
+- (void)prepareForInterfaceBuilder
+{
+    [self setNeedsDisplay];
+}
+
+- (void)setHourStepHeight:(CGFloat)hourStepHeight
+{
+    _hourStepHeight = hourStepHeight;
+    [self setNeedsLayout];
+    [self layoutIfNeeded];
+}
+
+- (CGSize)intrinsicContentSize
+{
+    return CGSizeMake(UIViewNoIntrinsicMetric, 24 * self.hourStepHeight);
+}
 
 @end

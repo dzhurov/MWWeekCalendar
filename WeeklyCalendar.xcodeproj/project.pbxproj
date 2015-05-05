@@ -7,9 +7,10 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		7E4001FC1AF8C2AC009C924A /* CGHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E4001FA1AF8C2AC009C924A /* CGHelper.m */; };
+		7E4001FF1AF8C449009C924A /* NSDate+MWWeeklyCalendar.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E4001FE1AF8C449009C924A /* NSDate+MWWeeklyCalendar.m */; };
 		7ED58BF91AF27CB0001B53D2 /* HoursScaleCollectionHeaderView.m in Sources */ = {isa = PBXBuildFile; fileRef = 7ED58BF71AF27CB0001B53D2 /* HoursScaleCollectionHeaderView.m */; };
 		7ED58BFA1AF27CB0001B53D2 /* HoursScaleCollectionHeaderView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7ED58BF81AF27CB0001B53D2 /* HoursScaleCollectionHeaderView.xib */; };
-		7ED58BFE1AF28076001B53D2 /* PDKTStickySectionHeadersCollectionViewLayout.m in Sources */ = {isa = PBXBuildFile; fileRef = 7ED58BFD1AF28076001B53D2 /* PDKTStickySectionHeadersCollectionViewLayout.m */; };
 		7ED58C011AF2890F001B53D2 /* MWHourAxisView.m in Sources */ = {isa = PBXBuildFile; fileRef = 7ED58C001AF2890F001B53D2 /* MWHourAxisView.m */; };
 		7EF1B9F21AEE77A10086763A /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 7EF1B9F11AEE77A10086763A /* main.m */; };
 		7EF1B9F51AEE77A10086763A /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 7EF1B9F41AEE77A10086763A /* AppDelegate.m */; };
@@ -38,11 +39,13 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		7E4001FA1AF8C2AC009C924A /* CGHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CGHelper.m; sourceTree = "<group>"; };
+		7E4001FB1AF8C2AC009C924A /* CGHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CGHelper.h; sourceTree = "<group>"; };
+		7E4001FD1AF8C449009C924A /* NSDate+MWWeeklyCalendar.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSDate+MWWeeklyCalendar.h"; sourceTree = "<group>"; };
+		7E4001FE1AF8C449009C924A /* NSDate+MWWeeklyCalendar.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSDate+MWWeeklyCalendar.m"; sourceTree = "<group>"; };
 		7ED58BF61AF27CB0001B53D2 /* HoursScaleCollectionHeaderView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HoursScaleCollectionHeaderView.h; sourceTree = "<group>"; };
 		7ED58BF71AF27CB0001B53D2 /* HoursScaleCollectionHeaderView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HoursScaleCollectionHeaderView.m; sourceTree = "<group>"; };
 		7ED58BF81AF27CB0001B53D2 /* HoursScaleCollectionHeaderView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = HoursScaleCollectionHeaderView.xib; sourceTree = "<group>"; };
-		7ED58BFC1AF28076001B53D2 /* PDKTStickySectionHeadersCollectionViewLayout.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PDKTStickySectionHeadersCollectionViewLayout.h; sourceTree = "<group>"; };
-		7ED58BFD1AF28076001B53D2 /* PDKTStickySectionHeadersCollectionViewLayout.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PDKTStickySectionHeadersCollectionViewLayout.m; sourceTree = "<group>"; };
 		7ED58BFF1AF2890F001B53D2 /* MWHourAxisView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MWHourAxisView.h; sourceTree = "<group>"; };
 		7ED58C001AF2890F001B53D2 /* MWHourAxisView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MWHourAxisView.m; sourceTree = "<group>"; };
 		7EF1B9EC1AEE77A10086763A /* WeeklyCalendar.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = WeeklyCalendar.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -88,15 +91,6 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		7ED58BFB1AF28076001B53D2 /* PDKTStickySectionHeadersCollectionViewLayout */ = {
-			isa = PBXGroup;
-			children = (
-				7ED58BFC1AF28076001B53D2 /* PDKTStickySectionHeadersCollectionViewLayout.h */,
-				7ED58BFD1AF28076001B53D2 /* PDKTStickySectionHeadersCollectionViewLayout.m */,
-			);
-			path = PDKTStickySectionHeadersCollectionViewLayout;
-			sourceTree = "<group>";
-		};
 		7EF1B9E31AEE77A10086763A = {
 			isa = PBXGroup;
 			children = (
@@ -136,11 +130,14 @@
 				7ED58BF81AF27CB0001B53D2 /* HoursScaleCollectionHeaderView.xib */,
 				7ED58BFF1AF2890F001B53D2 /* MWHourAxisView.h */,
 				7ED58C001AF2890F001B53D2 /* MWHourAxisView.m */,
+				7E4001FD1AF8C449009C924A /* NSDate+MWWeeklyCalendar.h */,
+				7E4001FE1AF8C449009C924A /* NSDate+MWWeeklyCalendar.m */,
+				7E4001FB1AF8C2AC009C924A /* CGHelper.h */,
+				7E4001FA1AF8C2AC009C924A /* CGHelper.m */,
 				7EF1BA151AEE77D50086763A /* Calendar.xib */,
 				7EF1B9F91AEE77A10086763A /* Main.storyboard */,
 				7EF1B9FC1AEE77A10086763A /* Images.xcassets */,
 				7EF1B9FE1AEE77A10086763A /* LaunchScreen.xib */,
-				7ED58BFB1AF28076001B53D2 /* PDKTStickySectionHeadersCollectionViewLayout */,
 				7EF1B9EF1AEE77A10086763A /* Supporting Files */,
 			);
 			path = WeeklyCalendar;
@@ -277,10 +274,11 @@
 			buildActionMask = 2147483647;
 			files = (
 				7EF1B9F81AEE77A10086763A /* ViewController.m in Sources */,
+				7E4001FF1AF8C449009C924A /* NSDate+MWWeeklyCalendar.m in Sources */,
 				7ED58C011AF2890F001B53D2 /* MWHourAxisView.m in Sources */,
-				7ED58BFE1AF28076001B53D2 /* PDKTStickySectionHeadersCollectionViewLayout.m in Sources */,
 				7EF1BA1F1AEE93590086763A /* HeaderDayCell.m in Sources */,
 				7EF1B9F51AEE77A10086763A /* AppDelegate.m in Sources */,
+				7E4001FC1AF8C2AC009C924A /* CGHelper.m in Sources */,
 				7EF1BA1A1AEE86520086763A /* MWWeekCalendarViewController.m in Sources */,
 				7ED58BF91AF27CB0001B53D2 /* HoursScaleCollectionHeaderView.m in Sources */,
 				7EF1BA271AEE98DC0086763A /* DayBodyCell.m in Sources */,

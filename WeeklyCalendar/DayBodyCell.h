@@ -10,4 +10,6 @@
 
 @interface DayBodyCell : UICollectionViewCell
 
+@property (nonatomic, strong) UIColor *axisColor;
+
 @end

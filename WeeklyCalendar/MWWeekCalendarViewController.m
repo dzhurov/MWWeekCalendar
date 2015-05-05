@@ -10,18 +10,25 @@
 #import "HeaderDayCell.h"
 #import "DayBodyCell.h"
 #import "HoursScaleCollectionHeaderView.h"
-#import "PDKTStickySectionHeadersCollectionViewLayout.h"
+#import "MWHourAxisView.h"
+#import "CGHelper.h"
 
 @interface MWWeekCalendarViewController () <UICollectionViewDataSource, UICollectionViewDelegate>
 @property (weak, nonatomic) IBOutlet UICollectionView *headerCollectionView;
 @property (weak, nonatomic) IBOutlet UIScrollView *contentScrollView;
 @property (weak, nonatomic) IBOutlet UICollectionView *bodyCollectionView;
-@property (weak, nonatomic) IBOutlet NSLayoutConstraint *bodyCollectionHeightConstraint;
-@property (weak, nonatomic) IBOutlet NSLayoutConstraint *bodyCollectionWidthConstraint;
+@property (weak, nonatomic) IBOutlet MWHourAxisView *hourAxisView;
 
 @end
 
 @implementation MWWeekCalendarViewController
+
+- (instancetype)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
+{
+    self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
+    self.numberOfVisibleDays = 7;
+    return self;
+}
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -34,14 +41,11 @@
     [self.bodyCollectionView registerNib:[UINib nibWithNibName:hoursScaleHeaderId bundle:nil]
               forSupplementaryViewOfKind:UICollectionElementKindSectionHeader
                      withReuseIdentifier:hoursScaleHeaderId];
-//    self.bodyCollectionView.collectionViewLayout = [PDKTStickySectionHeadersCollectionViewLayout new];
 }
 
 - (void)viewDidLayoutSubviews
 {
     [super viewDidLayoutSubviews];
-    self.bodyCollectionHeightConstraint.constant = self.view.bounds.size.height;
-    self.bodyCollectionWidthConstraint.constant = self.view.bounds.size.width;
 }
 
 - (void)didReceiveMemoryWarning {
@@ -84,6 +88,87 @@
     return nil;
 }
 
+- (CGSize)collectionView:(UICollectionView *)collectionView
+                  layout:(UICollectionViewLayout *)collectionViewLayout
+  sizeForItemAtIndexPath:(NSIndexPath *)indexPath
+{
+    CGSize size = CGSizeMake(roundTo1Px( collectionView.bounds.size.width / self.numberOfVisibleDays ), -1);
+    if (collectionView == self.bodyCollectionView){
+        size.height = self.hourAxisView.bounds.size.height;
+    }
+    else{
+        size.height = self.headerCollectionView.bounds.size.height;
+    }
+  
+    // Adjust cell size for orientation
+    if (UIDeviceOrientationIsLandscape([[UIApplication sharedApplication] statusBarOrientation])) {
+//        return CGSizeMake(170.f, 170.f);
+    }
+    return size;
+}
 
+#pragma mark - Rotation
+
+- (void)didRotateFromInterfaceOrientation:(UIInterfaceOrientation)fromInterfaceOrientation
+{
+    [self.bodyCollectionView performBatchUpdates:nil completion:nil];
+}
+
+#pragma mark - UIScrollViewDelegate
+
+- (void)scrollViewDidScroll:(UIScrollView *)scrollView
+{
+    if (scrollView == self.headerCollectionView || scrollView == self.bodyCollectionView){
+        UIScrollView *anotherScrollView = scrollView == self.headerCollectionView ? self.bodyCollectionView : self.headerCollectionView;
+        anotherScrollView.contentOffset = scrollView.contentOffset;
+    }
+}
+
+- (void)scrollViewWillEndDragging:(UIScrollView *)scrollView withVelocity:(CGPoint)velocity targetContentOffset:(inout CGPoint *)targetContentOffset
+{
+    if (scrollView == self.headerCollectionView || scrollView == self.bodyCollectionView){
+        CGFloat leftOffset, rightOffset;
+        CGFloat pageWidth = self.bodyCollectionView.frame.size.width;
+        
+        // When Velocity is low paging makes by day
+        if (fabs(velocity.x) < 0.5){
+            pageWidth = roundTo1Px( pageWidth / self.numberOfVisibleDays );
+            NSLog(@"Paging by day. Velocity : %f", velocity.x);
+        }
+        
+        [self getPagingOffsetsForOffset:scrollView.contentOffset.x
+                           forPageWidth:pageWidth
+                             leftOffset:&leftOffset
+                            rigthOffset:&rightOffset];
+        
+        if (fabs(leftOffset - (*targetContentOffset).x) > fabs((*targetContentOffset).x - rightOffset)){
+            (*targetContentOffset).x = rightOffset;
+        }
+        else{
+            (*targetContentOffset).x = leftOffset;
+        }
+        
+        if (fabs(velocity.x) < 0.5){
+            CGPoint point = *targetContentOffset;
+            dispatch_async(dispatch_get_main_queue(), ^{
+                [scrollView setContentOffset:point animated:YES];
+            });
+        }
+    }
+}
+
+#pragma mark - Paging 
+
+- (void)getPagingOffsetsForOffset:(CGFloat)offset forPageWidth:(CGFloat)pageWidth leftOffset:(out CGFloat*)leftOffset rigthOffset:(out CGFloat*)rightOffset
+{
+    int fullPages = (int)( offset / pageWidth );
+    if (leftOffset){
+        *leftOffset = fullPages * pageWidth;
+    }
+    
+    if (rightOffset){
+        *rightOffset = (fullPages + 1) * pageWidth;
+    }
+}
 
 @end
