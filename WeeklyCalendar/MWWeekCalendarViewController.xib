@@ -10,6 +10,7 @@
                 <outlet property="contentScrollView" destination="17i-c2-x7Q" id="0ke-eO-KUQ"/>
                 <outlet property="headerCollectionView" destination="uUv-Ag-P8z" id="Ug3-I3-MeV"/>
                 <outlet property="hourAxisView" destination="u0T-e1-2jm" id="5Fk-0m-xVN"/>
+                <outlet property="longPressGestureRecognizer" destination="vae-vh-Uua" id="p6T-k0-h9D"/>
                 <outlet property="view" destination="UGa-2h-u01" id="cTB-3C-G4l"/>
             </connections>
         </placeholder>
@@ -20,6 +21,7 @@
             <subviews>
                 <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="none" translatesAutoresizingMaskIntoConstraints="NO" id="uUv-Ag-P8z">
                     <rect key="frame" x="64" y="0.0" width="536" height="60"/>
+                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                     <constraints>
                         <constraint firstAttribute="height" constant="60" id="erB-jb-gsJ"/>
                     </constraints>
@@ -51,7 +53,7 @@
                         </view>
                         <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="none" translatesAutoresizingMaskIntoConstraints="NO" id="N6Z-Xx-72t">
                             <rect key="frame" x="64" y="0.0" width="536" height="1760"/>
-                            <color key="backgroundColor" red="0.0" green="0.4784313738" blue="1" alpha="0.34999999999999998" colorSpace="calibratedRGB"/>
+                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                             <collectionViewFlowLayout key="collectionViewLayout" scrollDirection="horizontal" minimumLineSpacing="0.0" minimumInteritemSpacing="0.0" id="qrp-jp-CcZ">
                                 <size key="itemSize" width="100" height="600"/>
                                 <size key="headerReferenceSize" width="0.0" height="0.0"/>
@@ -64,6 +66,7 @@
                             </connections>
                         </collectionView>
                     </subviews>
+                    <gestureRecognizers/>
                     <constraints>
                         <constraint firstItem="u0T-e1-2jm" firstAttribute="top" secondItem="17i-c2-x7Q" secondAttribute="top" id="B6M-zE-GJL"/>
                         <constraint firstAttribute="bottom" secondItem="u0T-e1-2jm" secondAttribute="bottom" id="Nek-a0-i4R"/>
@@ -81,6 +84,7 @@
                     </variation>
                     <connections>
                         <outlet property="delegate" destination="-1" id="5yb-nN-9Iw"/>
+                        <outletCollection property="gestureRecognizers" destination="vae-vh-Uua" appends="YES" id="wgl-24-CbF"/>
                     </connections>
                 </scrollView>
             </subviews>
@@ -98,5 +102,10 @@
             </constraints>
             <point key="canvasLocation" x="334" y="321"/>
         </view>
+        <pongPressGestureRecognizer allowableMovement="5" minimumPressDuration="0.5" id="vae-vh-Uua">
+            <connections>
+                <outlet property="delegate" destination="-1" id="fzE-UW-4RC"/>
+            </connections>
+        </pongPressGestureRecognizer>
     </objects>
 </document>

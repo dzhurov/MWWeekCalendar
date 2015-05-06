@@ -13,7 +13,7 @@
 
 - (void)awakeFromNib
 {
-    self.axisColor = [UIColor magentaColor];
+    self.axisColor = [UIColor lightGrayColor];
     [self setNeedsDisplay];
 }
 

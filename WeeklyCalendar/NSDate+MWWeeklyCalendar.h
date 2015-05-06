@@ -10,8 +10,10 @@
 
 @interface NSDate (MWWeeklyCalendar)
 
-+ (NSDateComponents *)componentsOfDate:(NSDate *)date;
+- (NSDateComponents *)dateComponents;
 + (NSString *)timeStringFromDate:(NSDate *)date;
-
++ (NSString *)dayOfWeekOfDate:(NSDate *)date;
++ (NSString *)dayOfMonthOfDate:(NSDate *)date;
+- (BOOL)isToday;
 
 @end

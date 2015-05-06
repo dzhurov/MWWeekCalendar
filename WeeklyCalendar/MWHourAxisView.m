@@ -32,7 +32,7 @@ IB_DESIGNABLE
     CGContextRef context = UIGraphicsGetCurrentContext();
     
     CGFloat horizontalLineXPosition = kHoursAxisInset.top;
-    for (int hour = 0; hour <= 23; hour++) {
+    for (int hour = 0; hour <= 24; hour++) {
         draw1PxStroke(context, CGPointMake(kHoursAxisInset.left + 0.5, horizontalLineXPosition + 0.5), CGPointMake(CGRectGetMaxX(rect) + 0.5, horizontalLineXPosition + 0.5), self.axisColor.CGColor);
         
         dateComponents.hour = hour;
@@ -60,7 +60,7 @@ IB_DESIGNABLE
 
 - (CGSize)intrinsicContentSize
 {
-    return CGSizeMake(UIViewNoIntrinsicMetric, 24 * self.hourStepHeight);
+    return CGSizeMake(UIViewNoIntrinsicMetric, 24 * self.hourStepHeight + kHoursAxisInset.top + kHoursAxisInset.bottom);
 }
 
 @end

@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="6751" systemVersion="14D131" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="6751" systemVersion="14D136" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6736"/>
     </dependencies>
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
-        <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="HeaderDayCell" id="gTV-IL-0wX">
+        <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="HeaderDayCell" id="gTV-IL-0wX" customClass="HeaderDayCell">
             <rect key="frame" x="0.0" y="0.0" width="100" height="60"/>
             <autoresizingMask key="autoresizingMask"/>
             <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
@@ -38,6 +38,10 @@
                 <constraint firstAttribute="centerY" secondItem="2hI-uL-nDd" secondAttribute="centerY" id="guf-th-GCg"/>
                 <constraint firstAttribute="centerY" secondItem="0ih-dC-fiq" secondAttribute="centerY" constant="0.5" id="tJc-Y9-Lhx"/>
             </constraints>
+            <connections>
+                <outlet property="dayOfMonthLabel" destination="2hI-uL-nDd" id="jx4-Iy-xEo"/>
+                <outlet property="dayOfWeekLabel" destination="0ih-dC-fiq" id="EEL-fh-IIQ"/>
+            </connections>
         </collectionViewCell>
     </objects>
 </document>

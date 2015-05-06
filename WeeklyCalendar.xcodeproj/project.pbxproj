@@ -9,6 +9,8 @@
 /* Begin PBXBuildFile section */
 		7E4001FC1AF8C2AC009C924A /* CGHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E4001FA1AF8C2AC009C924A /* CGHelper.m */; };
 		7E4001FF1AF8C449009C924A /* NSDate+MWWeeklyCalendar.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E4001FE1AF8C449009C924A /* NSDate+MWWeeklyCalendar.m */; };
+		7EA00DB21AFA249600072B5A /* NSDate+Utilities.m in Sources */ = {isa = PBXBuildFile; fileRef = 7EA00DB11AFA249600072B5A /* NSDate+Utilities.m */; };
+		7EA00DB51AFA376800072B5A /* UIColor+MWWeeklyCalendar.m in Sources */ = {isa = PBXBuildFile; fileRef = 7EA00DB41AFA376800072B5A /* UIColor+MWWeeklyCalendar.m */; };
 		7ED58BF91AF27CB0001B53D2 /* HoursScaleCollectionHeaderView.m in Sources */ = {isa = PBXBuildFile; fileRef = 7ED58BF71AF27CB0001B53D2 /* HoursScaleCollectionHeaderView.m */; };
 		7ED58BFA1AF27CB0001B53D2 /* HoursScaleCollectionHeaderView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7ED58BF81AF27CB0001B53D2 /* HoursScaleCollectionHeaderView.xib */; };
 		7ED58C011AF2890F001B53D2 /* MWHourAxisView.m in Sources */ = {isa = PBXBuildFile; fileRef = 7ED58C001AF2890F001B53D2 /* MWHourAxisView.m */; };
@@ -43,6 +45,10 @@
 		7E4001FB1AF8C2AC009C924A /* CGHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CGHelper.h; sourceTree = "<group>"; };
 		7E4001FD1AF8C449009C924A /* NSDate+MWWeeklyCalendar.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSDate+MWWeeklyCalendar.h"; sourceTree = "<group>"; };
 		7E4001FE1AF8C449009C924A /* NSDate+MWWeeklyCalendar.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSDate+MWWeeklyCalendar.m"; sourceTree = "<group>"; };
+		7EA00DB01AFA249600072B5A /* NSDate+Utilities.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSDate+Utilities.h"; sourceTree = "<group>"; };
+		7EA00DB11AFA249600072B5A /* NSDate+Utilities.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSDate+Utilities.m"; sourceTree = "<group>"; };
+		7EA00DB31AFA376800072B5A /* UIColor+MWWeeklyCalendar.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIColor+MWWeeklyCalendar.h"; sourceTree = "<group>"; };
+		7EA00DB41AFA376800072B5A /* UIColor+MWWeeklyCalendar.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIColor+MWWeeklyCalendar.m"; sourceTree = "<group>"; };
 		7ED58BF61AF27CB0001B53D2 /* HoursScaleCollectionHeaderView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HoursScaleCollectionHeaderView.h; sourceTree = "<group>"; };
 		7ED58BF71AF27CB0001B53D2 /* HoursScaleCollectionHeaderView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HoursScaleCollectionHeaderView.m; sourceTree = "<group>"; };
 		7ED58BF81AF27CB0001B53D2 /* HoursScaleCollectionHeaderView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = HoursScaleCollectionHeaderView.xib; sourceTree = "<group>"; };
@@ -132,6 +138,10 @@
 				7ED58C001AF2890F001B53D2 /* MWHourAxisView.m */,
 				7E4001FD1AF8C449009C924A /* NSDate+MWWeeklyCalendar.h */,
 				7E4001FE1AF8C449009C924A /* NSDate+MWWeeklyCalendar.m */,
+				7EA00DB01AFA249600072B5A /* NSDate+Utilities.h */,
+				7EA00DB11AFA249600072B5A /* NSDate+Utilities.m */,
+				7EA00DB31AFA376800072B5A /* UIColor+MWWeeklyCalendar.h */,
+				7EA00DB41AFA376800072B5A /* UIColor+MWWeeklyCalendar.m */,
 				7E4001FB1AF8C2AC009C924A /* CGHelper.h */,
 				7E4001FA1AF8C2AC009C924A /* CGHelper.m */,
 				7EF1BA151AEE77D50086763A /* Calendar.xib */,
@@ -273,10 +283,12 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				7EA00DB51AFA376800072B5A /* UIColor+MWWeeklyCalendar.m in Sources */,
 				7EF1B9F81AEE77A10086763A /* ViewController.m in Sources */,
 				7E4001FF1AF8C449009C924A /* NSDate+MWWeeklyCalendar.m in Sources */,
 				7ED58C011AF2890F001B53D2 /* MWHourAxisView.m in Sources */,
 				7EF1BA1F1AEE93590086763A /* HeaderDayCell.m in Sources */,
+				7EA00DB21AFA249600072B5A /* NSDate+Utilities.m in Sources */,
 				7EF1B9F51AEE77A10086763A /* AppDelegate.m in Sources */,
 				7E4001FC1AF8C2AC009C924A /* CGHelper.m in Sources */,
 				7EF1BA1A1AEE86520086763A /* MWWeekCalendarViewController.m in Sources */,
