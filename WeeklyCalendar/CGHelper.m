@@ -25,3 +25,8 @@ CGFloat roundTo1Px(CGFloat f)
     CGFloat result = roundf(f * scale) / scale;
     return result;
 }
+
+CGFloat vectorLength(CGPoint p)
+{
+    return sqrt(p.x * p.x + p.y * p.y);
+}

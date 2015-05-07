@@ -13,12 +13,19 @@
 #import "CGHelper.h"
 #import "NSDate+Utilities.h"
 #import "NSDate+MWWeeklyCalendar.h"
+#import "MWWeekEventView.h"
+#import <POP.h>
+#import <QuartzCore/QuartzCore.h>
 
 @interface MWWeekCalendarViewController () <UICollectionViewDataSource, UICollectionViewDelegate, UIGestureRecognizerDelegate>{
     NSUInteger _numberOfDays;
     NSUInteger _todaysDayIndex;
-    
     BOOL _initializationInProgress;
+    
+    MWWeekEventView *_currentAddingWeekEventView;
+    NSUInteger _currentAddingEventColumn;
+    CGPoint _currentAddintEventPreviousPoint;
+    CFAbsoluteTime _currentAddingEventPreviousPointTime;
 }
 @property (weak, nonatomic) IBOutlet UICollectionView *headerCollectionView;
 @property (weak, nonatomic) IBOutlet UIScrollView *contentScrollView;
@@ -54,8 +61,6 @@
         _initializationInProgress = NO;
     });
     [self.longPressGestureRecognizer addTarget:self action:@selector(longPressed:)];
-    
-//    [self scrollViewDidScroll:self.bodyCollectionView];
 }
 
 - (void)viewDidLayoutSubviews
@@ -154,7 +159,7 @@
 {
     if (scrollView == self.headerCollectionView || scrollView == self.bodyCollectionView){
         CGFloat leftOffset, rightOffset;
-        CGFloat oneDayPageWidth = roundTo1Px( self.bodyCollectionView.frame.size.width / self.numberOfVisibleDays );
+        CGFloat oneDayPageWidth = self.dayColumnWidth;
         CGFloat pageWidth = oneDayPageWidth * self.numberOfVisibleDays;
         
         // When Velocity is low paging makes by day
@@ -251,7 +256,12 @@
     return [NSIndexPath indexPathForItem:index inSection:0];
 }
 
-#pragma mark - - UIGestureRecognizerDelegate
+- (CGFloat)dayColumnWidth
+{
+    return roundTo1Px( self.bodyCollectionView.frame.size.width / self.numberOfVisibleDays );
+}
+
+#pragma mark - UIGestureRecognizerDelegate
 
 - (BOOL)gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldRequireFailureOfGestureRecognizer:(UIGestureRecognizer *)otherGestureRecognizer
 {
@@ -263,7 +273,59 @@
 
 - (void)longPressed:(UILongPressGestureRecognizer*)recognizer
 {
-    NSLog(@"LONG PRESS");
+    CGPoint point = [recognizer locationInView:self.bodyCollectionView];
+    NSUInteger previousColumn = _currentAddingEventColumn;
+    _currentAddingEventColumn = floor(point.x / self.dayColumnWidth);
+    CFTimeInterval timeInterval = CFAbsoluteTimeGetCurrent() - _currentAddingEventPreviousPointTime;
+    
+    CGPoint position;
+    position.x = _currentAddingEventColumn * self.dayColumnWidth;
+    position.y = roundTo1Px(point.y - self.hourAxisView.hourStepHeight / 2);
+    if (recognizer.state == UIGestureRecognizerStateBegan){
+        _currentAddingWeekEventView = [[MWWeekEventView alloc] initWithFrame:(CGRect){position,{self.dayColumnWidth - 1, self.hourAxisView.hourStepHeight - 1}}];
+        [self.bodyCollectionView addSubview:_currentAddingWeekEventView];
+        _currentAddingWeekEventView.layer.affineTransform = CGAffineTransformScale(CGAffineTransformIdentity, 0.1, 0.1);
+        
+        
+        POPSpringAnimation *animation = [POPSpringAnimation animationWithPropertyNamed:kPOPLayerScaleXY];
+        animation.fromValue = [NSValue valueWithCGPoint:CGPointMake(0.1, 0.1)];
+        animation.toValue = [NSValue valueWithCGPoint:CGPointMake(1., 1.)];;
+        animation.springBounciness = 10;
+        [_currentAddingWeekEventView.layer pop_addAnimation:animation forKey:@"AppearScale"];
+        
+        POPBasicAnimation *alphaAnimation = [POPBasicAnimation easeOutAnimation];
+        alphaAnimation.property = [POPAnimatableProperty propertyWithName: kPOPViewAlpha];
+        alphaAnimation.fromValue = @(0.);
+        alphaAnimation.toValue = @(1.);
+        [_currentAddingWeekEventView pop_addAnimation:alphaAnimation forKey:@"AppearAlpha"];
+        [_currentAddingWeekEventView setNeedsLayout];
+    }
+    _currentAddingEventPreviousPointTime = CFAbsoluteTimeGetCurrent();
+    
+    if (recognizer.state == UIGestureRecognizerStateChanged){
+        CGRect frame = _currentAddingWeekEventView.frame;
+        frame.origin = position;
+
+        POPBasicAnimation *moveAnimation = [_currentAddingWeekEventView pop_animationForKey:@"Move"];
+        if (previousColumn != _currentAddingEventColumn){
+            moveAnimation = [POPBasicAnimation linearAnimation];
+            moveAnimation.property = [POPAnimatableProperty propertyWithName: kPOPViewFrame];
+            moveAnimation.toValue = [NSValue valueWithCGRect:frame];
+            [_currentAddingWeekEventView pop_addAnimation:moveAnimation forKey:@"Move"];
+        }
+        else if (moveAnimation){
+            moveAnimation.toValue = [NSValue valueWithCGRect:frame];
+        }
+        else{
+            _currentAddingWeekEventView.frame = frame;
+        }
+    }
+    
+    if (recognizer.state == UIGestureRecognizerStateEnded){
+        
+    }
+    
+    _currentAddintEventPreviousPoint = point;
 }
 
 @end

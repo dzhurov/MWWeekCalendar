@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="6751" systemVersion="14D136" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="7702" systemVersion="14D136" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6736"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7701"/>
     </dependencies>
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="MWWeekCalendarViewController">
@@ -10,7 +10,7 @@
                 <outlet property="contentScrollView" destination="17i-c2-x7Q" id="0ke-eO-KUQ"/>
                 <outlet property="headerCollectionView" destination="uUv-Ag-P8z" id="Ug3-I3-MeV"/>
                 <outlet property="hourAxisView" destination="u0T-e1-2jm" id="5Fk-0m-xVN"/>
-                <outlet property="longPressGestureRecognizer" destination="vae-vh-Uua" id="p6T-k0-h9D"/>
+                <outlet property="longPressGestureRecognizer" destination="HKI-cZ-Y8w" id="ETC-uH-92t"/>
                 <outlet property="view" destination="UGa-2h-u01" id="cTB-3C-G4l"/>
             </connections>
         </placeholder>
@@ -84,7 +84,7 @@
                     </variation>
                     <connections>
                         <outlet property="delegate" destination="-1" id="5yb-nN-9Iw"/>
-                        <outletCollection property="gestureRecognizers" destination="vae-vh-Uua" appends="YES" id="wgl-24-CbF"/>
+                        <outletCollection property="gestureRecognizers" destination="HKI-cZ-Y8w" appends="YES" id="dyp-Gq-xWB"/>
                     </connections>
                 </scrollView>
             </subviews>
@@ -102,10 +102,6 @@
             </constraints>
             <point key="canvasLocation" x="334" y="321"/>
         </view>
-        <pongPressGestureRecognizer allowableMovement="5" minimumPressDuration="0.5" id="vae-vh-Uua">
-            <connections>
-                <outlet property="delegate" destination="-1" id="fzE-UW-4RC"/>
-            </connections>
-        </pongPressGestureRecognizer>
+        <pongPressGestureRecognizer delaysTouchesBegan="YES" allowableMovement="10" minimumPressDuration="0.5" id="HKI-cZ-Y8w"/>
     </objects>
 </document>
