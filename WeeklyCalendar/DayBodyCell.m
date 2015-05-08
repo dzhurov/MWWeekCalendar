@@ -32,4 +32,10 @@
     draw1PxStroke(context, CGPointMake(CGRectGetMaxX(rect) - 0.5, 0.5), CGPointMake(CGRectGetMaxX(rect) - 0.5, CGRectGetMaxY(rect) + 0.5), self.axisColor.CGColor);
 }
 
+- (void)setBounds:(CGRect)bounds
+{
+    [super setBounds:bounds];
+    [self setNeedsDisplay];
+}
+
 @end

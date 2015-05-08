@@ -22,7 +22,12 @@ void draw1PxStroke(CGContextRef context, CGPoint startPoint, CGPoint endPoint, C
 CGFloat roundTo1Px(CGFloat f)
 {
     CGFloat scale = [UIScreen mainScreen].scale;
-    CGFloat result = roundf(f * scale) / scale;
+    return roundWithStep(f, scale);
+}
+
+CGFloat roundWithStep(CGFloat f, CGFloat step)
+{
+    CGFloat result = roundf(f / step) * step;
     return result;
 }
 

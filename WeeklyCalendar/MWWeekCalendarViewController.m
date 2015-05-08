@@ -114,7 +114,7 @@
     else{
         size.height = self.headerCollectionView.bounds.size.height;
     }
-  
+
     // Adjust cell size for orientation
     if (UIDeviceOrientationIsLandscape([[UIApplication sharedApplication] statusBarOrientation])) {
 //        return CGSizeMake(170.f, 170.f);
@@ -261,6 +261,12 @@
     return roundTo1Px( self.bodyCollectionView.frame.size.width / self.numberOfVisibleDays );
 }
 
+- (NSIndexPath *)indexPathOfFirstVisibleCell
+{
+    NSUInteger indexOfFirstColumn = self.bodyCollectionView.contentOffset.x / self.dayColumnWidth;
+    return [NSIndexPath indexPathForItem:indexOfFirstColumn inSection:0];
+}
+
 #pragma mark - UIGestureRecognizerDelegate
 
 - (BOOL)gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldRequireFailureOfGestureRecognizer:(UIGestureRecognizer *)otherGestureRecognizer
@@ -281,6 +287,8 @@
     CGPoint position;
     position.x = _currentAddingEventColumn * self.dayColumnWidth;
     position.y = roundTo1Px(point.y - self.hourAxisView.hourStepHeight / 2);
+    
+    CGPoint positionOnHourAxisView = [self.bodyCollectionView convertPoint:position toView:self.hourAxisView];
     if (recognizer.state == UIGestureRecognizerStateBegan){
         _currentAddingWeekEventView = [[MWWeekEventView alloc] initWithFrame:(CGRect){position,{self.dayColumnWidth - 1, self.hourAxisView.hourStepHeight - 1}}];
         [self.bodyCollectionView addSubview:_currentAddingWeekEventView];
@@ -299,6 +307,7 @@
         alphaAnimation.toValue = @(1.);
         [_currentAddingWeekEventView pop_addAnimation:alphaAnimation forKey:@"AppearAlpha"];
         [_currentAddingWeekEventView setNeedsLayout];
+        [self.hourAxisView showEventTimeForTouch:positionOnHourAxisView];
     }
     _currentAddingEventPreviousPointTime = CFAbsoluteTimeGetCurrent();
     
@@ -319,10 +328,22 @@
         else{
             _currentAddingWeekEventView.frame = frame;
         }
+        [self.hourAxisView showEventTimeForTouch:positionOnHourAxisView];
     }
     
     if (recognizer.state == UIGestureRecognizerStateEnded){
+        NSDate *hoursMinutesDate = [self.hourAxisView showEventTimeForTouch:positionOnHourAxisView];
+        NSIndexPath *indexPath = [NSIndexPath indexPathForItem:_currentAddingEventColumn inSection:0];
+        NSDate *date = [self dateForIndexPath:indexPath];
+        NSDateComponents *dateComponents = date.dateComponents;
+        dateComponents.minute = hoursMinutesDate.dateComponents.minute;
+        dateComponents.hour = hoursMinutesDate.dateComponents.hour;
         
+        _currentAddingWeekEventView.startDate = [[NSCalendar currentCalendar] dateFromComponents:dateComponents];
+        dateComponents.hour ++;
+        _currentAddingWeekEventView.endDate = [[NSCalendar currentCalendar] dateFromComponents:dateComponents];
+        
+        [self.hourAxisView hideEventTouch];
     }
     
     _currentAddintEventPreviousPoint = point;
