@@ -16,6 +16,7 @@
 #import "MWWeekEventView.h"
 #import <POP.h>
 #import <QuartzCore/QuartzCore.h>
+#import "MWWeekEvent.h"
 
 @interface MWWeekCalendarViewController () <UICollectionViewDataSource, UICollectionViewDelegate, UIGestureRecognizerDelegate>{
     NSUInteger _numberOfDays;
@@ -317,9 +318,10 @@
 
         POPBasicAnimation *moveAnimation = [_currentAddingWeekEventView pop_animationForKey:@"Move"];
         if (previousColumn != _currentAddingEventColumn){
-            moveAnimation = [POPBasicAnimation linearAnimation];
+            moveAnimation = [POPBasicAnimation easeInEaseOutAnimation];
             moveAnimation.property = [POPAnimatableProperty propertyWithName: kPOPViewFrame];
             moveAnimation.toValue = [NSValue valueWithCGRect:frame];
+            moveAnimation.duration = 0.15;
             [_currentAddingWeekEventView pop_addAnimation:moveAnimation forKey:@"Move"];
         }
         else if (moveAnimation){
@@ -338,6 +340,8 @@
         NSDateComponents *dateComponents = date.dateComponents;
         dateComponents.minute = hoursMinutesDate.dateComponents.minute;
         dateComponents.hour = hoursMinutesDate.dateComponents.hour;
+        
+        MWWeekEvent *weekEvent = [MWWeekEvent new];
         
         _currentAddingWeekEventView.startDate = [[NSCalendar currentCalendar] dateFromComponents:dateComponents];
         dateComponents.hour ++;

@@ -10,6 +10,7 @@
 		2EE4CB42C565B74F70723FA0 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 5BEB10B125AC7D54BD876140 /* libPods.a */; };
 		7E29DAEE1AFB684800B4F1F3 /* Podfile in Resources */ = {isa = PBXBuildFile; fileRef = 7E29DAED1AFB684800B4F1F3 /* Podfile */; };
 		7E29DAF11AFB6A8600B4F1F3 /* MWWeekEventView.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E29DAF01AFB6A8600B4F1F3 /* MWWeekEventView.m */; };
+		7E9F2E0B1B02011F007D1ABB /* MWWeekEvent.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E9F2E0A1B02011F007D1ABB /* MWWeekEvent.m */; };
 		7ED3F2BF1AFCE2DF00CB585D /* CGHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 7ED3F2B81AFCE2DF00CB585D /* CGHelper.m */; };
 		7ED3F2C01AFCE2DF00CB585D /* NSDate+MWWeeklyCalendar.m in Sources */ = {isa = PBXBuildFile; fileRef = 7ED3F2BA1AFCE2DF00CB585D /* NSDate+MWWeeklyCalendar.m */; };
 		7ED3F2C11AFCE2DF00CB585D /* NSDate+Utilities.m in Sources */ = {isa = PBXBuildFile; fileRef = 7ED3F2BC1AFCE2DF00CB585D /* NSDate+Utilities.m */; };
@@ -48,6 +49,9 @@
 		7E29DAED1AFB684800B4F1F3 /* Podfile */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Podfile; sourceTree = "<group>"; };
 		7E29DAEF1AFB6A8600B4F1F3 /* MWWeekEventView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MWWeekEventView.h; sourceTree = "<group>"; };
 		7E29DAF01AFB6A8600B4F1F3 /* MWWeekEventView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MWWeekEventView.m; sourceTree = "<group>"; };
+		7E9F2E071B01F693007D1ABB /* MWWeekCalendarConsts.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MWWeekCalendarConsts.h; sourceTree = "<group>"; };
+		7E9F2E091B02011F007D1ABB /* MWWeekEvent.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MWWeekEvent.h; sourceTree = "<group>"; };
+		7E9F2E0A1B02011F007D1ABB /* MWWeekEvent.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MWWeekEvent.m; sourceTree = "<group>"; };
 		7ED3F2B71AFCE2DF00CB585D /* CGHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CGHelper.h; sourceTree = "<group>"; };
 		7ED3F2B81AFCE2DF00CB585D /* CGHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CGHelper.m; sourceTree = "<group>"; };
 		7ED3F2B91AFCE2DF00CB585D /* NSDate+MWWeeklyCalendar.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSDate+MWWeeklyCalendar.h"; sourceTree = "<group>"; };
@@ -163,8 +167,11 @@
 				7EF1BA261AEE98DC0086763A /* DayBodyCell.xib */,
 				7E29DAEF1AFB6A8600B4F1F3 /* MWWeekEventView.h */,
 				7E29DAF01AFB6A8600B4F1F3 /* MWWeekEventView.m */,
+				7E9F2E091B02011F007D1ABB /* MWWeekEvent.h */,
+				7E9F2E0A1B02011F007D1ABB /* MWWeekEvent.m */,
 				7ED58BFF1AF2890F001B53D2 /* MWHourAxisView.h */,
 				7ED58C001AF2890F001B53D2 /* MWHourAxisView.m */,
+				7E9F2E071B01F693007D1ABB /* MWWeekCalendarConsts.h */,
 				7ED3F2B61AFCE2DF00CB585D /* Categories */,
 				7EF1BA151AEE77D50086763A /* Calendar.xib */,
 				7EF1B9F91AEE77A10086763A /* Main.storyboard */,
@@ -355,6 +362,7 @@
 				7EF1B9F81AEE77A10086763A /* ViewController.m in Sources */,
 				7ED58C011AF2890F001B53D2 /* MWHourAxisView.m in Sources */,
 				7EF1BA1F1AEE93590086763A /* HeaderDayCell.m in Sources */,
+				7E9F2E0B1B02011F007D1ABB /* MWWeekEvent.m in Sources */,
 				7ED3F2C11AFCE2DF00CB585D /* NSDate+Utilities.m in Sources */,
 				7ED3F2BF1AFCE2DF00CB585D /* CGHelper.m in Sources */,
 				7EF1B9F51AEE77A10086763A /* AppDelegate.m in Sources */,

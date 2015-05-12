@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="6751" systemVersion="14D136" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="7702" systemVersion="14D136" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6736"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7701"/>
     </dependencies>
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
@@ -12,23 +12,26 @@
             <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
                 <rect key="frame" x="0.0" y="0.0" width="100" height="960"/>
                 <subviews>
-                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Top" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="A3K-gx-xQb">
-                        <rect key="frame" x="36" y="8" width="28" height="21"/>
-                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                        <color key="textColor" red="1" green="0.0" blue="0.1176470588" alpha="1" colorSpace="calibratedRGB"/>
-                        <color key="highlightedColor" red="1" green="0.0" blue="0.1176470588" alpha="1" colorSpace="calibratedRGB"/>
-                    </label>
-                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Bottom" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="7WK-Qx-Mgk">
-                        <rect key="frame" x="22" y="931" width="57" height="21"/>
-                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                        <color key="textColor" red="1" green="0.0" blue="0.1176470588" alpha="1" colorSpace="calibratedRGB"/>
-                        <color key="highlightedColor" red="1" green="0.0" blue="0.1176470588" alpha="1" colorSpace="calibratedRGB"/>
-                    </label>
+                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="oxY-0e-K2E">
+                        <rect key="frame" x="0.0" y="10" width="100" height="940"/>
+                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                    </view>
                 </subviews>
                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
             </view>
+            <constraints>
+                <constraint firstItem="oxY-0e-K2E" firstAttribute="leading" secondItem="gTV-IL-0wX" secondAttribute="leading" id="PQI-YQ-y4r"/>
+                <constraint firstAttribute="trailing" secondItem="oxY-0e-K2E" secondAttribute="trailing" id="YVG-NE-iJt"/>
+                <constraint firstItem="oxY-0e-K2E" firstAttribute="top" secondItem="gTV-IL-0wX" secondAttribute="top" constant="10" id="bAZ-91-p6H"/>
+                <constraint firstAttribute="bottom" secondItem="oxY-0e-K2E" secondAttribute="bottom" constant="10" id="m0Q-Kx-57G"/>
+            </constraints>
             <size key="customSize" width="100" height="960"/>
-            <point key="canvasLocation" x="391" y="391"/>
+            <connections>
+                <outlet property="eventContainerBottomConstraint" destination="m0Q-Kx-57G" id="s3s-my-EUl"/>
+                <outlet property="eventContainerTopConstraint" destination="bAZ-91-p6H" id="iBA-P6-U9d"/>
+                <outlet property="eventViewsContainer" destination="oxY-0e-K2E" id="5cp-LG-HIi"/>
+            </connections>
+            <point key="canvasLocation" x="-15" y="406"/>
         </collectionViewCell>
     </objects>
 </document>

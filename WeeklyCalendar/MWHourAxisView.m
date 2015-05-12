@@ -9,6 +9,8 @@
 #import "MWHourAxisView.h"
 #import "CGHelper.h"
 #import "NSDate+MWWeeklyCalendar.h"
+#import "MWWeekCalendarConsts.h"
+
 
 @interface MWHourAxisView ()
 @property (nonatomic, strong) NSDate *currentEventDate;

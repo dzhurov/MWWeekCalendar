@@ -35,3 +35,21 @@ CGFloat vectorLength(CGPoint p)
 {
     return sqrt(p.x * p.x + p.y * p.y);
 }
+
+@implementation UIColor (Brightness)
+
+- (UIColor *)colorWithBrightness:(CGFloat)brightness
+{
+    CGFloat hue, saturation, alpha;
+    [self getHue:&hue saturation:&saturation brightness: NULL alpha:&alpha];
+    return [UIColor colorWithHue:hue saturation:saturation brightness:brightness alpha:alpha];
+}
+
+- (UIColor *)colorWithBrightnessMultiplier:(CGFloat)brightnessMultiplier
+{
+    CGFloat hue, saturation, brightness, alpha;
+    [self getHue:&hue saturation:&saturation brightness:&brightness alpha:&alpha];
+    return [UIColor colorWithHue:hue saturation:saturation brightness:brightness * brightnessMultiplier alpha:alpha];
+}
+
+@end

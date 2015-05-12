@@ -8,8 +8,6 @@
 
 #import <UIKit/UIKit.h>
 
-static const UIEdgeInsets kHoursAxisInset= {10.f, 64.f, 10.f, 0.f};
-
 IB_DESIGNABLE
 @interface MWHourAxisView : UIView
 

@@ -11,3 +11,11 @@ void draw1PxStroke(CGContextRef context, CGPoint startPoint, CGPoint endPoint, C
 CGFloat roundTo1Px(CGFloat f);
 CGFloat roundWithStep(CGFloat f, CGFloat step);
 CGFloat vectorLength(CGPoint p);
+
+
+@interface UIColor (Brightness)
+
+- (UIColor*)colorWithBrightness:(CGFloat)brightness;
+- (UIColor*)colorWithBrightnessMultiplier:(CGFloat)brightness;
+
+@end
