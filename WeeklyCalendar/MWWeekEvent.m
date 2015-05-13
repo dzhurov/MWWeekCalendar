@@ -29,4 +29,9 @@
     return self;
 }
 
+- (NSTimeInterval)duration
+{
+    return [self.endDate timeIntervalSinceDate:self.startDate];
+}
+
 @end

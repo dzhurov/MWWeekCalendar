@@ -17,5 +17,6 @@
 @property (nonatomic, strong) UIColor *calendarColor;       // default R27 G173 B248
 
 + (instancetype)eventWithStartDate:(NSDate*)startDate endDate:(NSDate*)endDate;
+- (NSTimeInterval)duration;
 
 @end

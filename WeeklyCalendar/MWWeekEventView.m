@@ -34,20 +34,21 @@ static const float kNotSelectedAlpha = 0.2;
     [self.verticalLineView autoSetDimension:ALDimensionWidth toSize:2.];
     
     UIFont *titleFont =         [UIFont boldSystemFontOfSize:14.f];
-    UIFont *descriptionFont =   [UIFont boldSystemFontOfSize:12.f];
+    UIFont *descriptionFont =   [UIFont systemFontOfSize:12.f];
     
-    self.titleLabel = [[UILabel alloc] initWithFrame:CGRectMake(4., 1., 0., 0.)];
+    self.titleLabel = [UILabel new];
     [self addSubview:self.titleLabel];
     [self.titleLabel autoPinEdgeToSuperviewEdge:ALEdgeTop withInset:1.f];
     [self.titleLabel autoPinEdgeToSuperviewEdge:ALEdgeTrailing];
     [self.titleLabel autoPinEdge:ALEdgeLeft toEdge:ALEdgeRight ofView:self.verticalLineView withOffset:2.f];
     self.titleLabel.font = titleFont;
     
-    self.detailsLabel = [[UILabel alloc] initWithFrame:CGRectMake(4., 17., 0, 0)];
+    self.detailsLabel = [UILabel new];
     [self addSubview:self.detailsLabel];
     [self.detailsLabel autoPinEdge:ALEdgeLeft toEdge:ALEdgeLeft ofView:self.titleLabel];
     [self.detailsLabel autoPinEdge:ALEdgeTop toEdge:ALEdgeBottom ofView:self.titleLabel withOffset:2.f];
     [self.detailsLabel autoPinEdgeToSuperviewEdge:ALEdgeTrailing];
+    [self.detailsLabel autoPinEdgeToSuperviewEdge:ALEdgeBottom withInset:2. relation:NSLayoutRelationLessThanOrEqual];
     self.detailsLabel.font = descriptionFont;
     self.detailsLabel.numberOfLines = 0;
 }

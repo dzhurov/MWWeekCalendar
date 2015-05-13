@@ -293,15 +293,23 @@
     if (recognizer.state == UIGestureRecognizerStateBegan){
         _currentAddingWeekEventView = [[MWWeekEventView alloc] initWithFrame:(CGRect){position,{self.dayColumnWidth - 1, self.hourAxisView.hourStepHeight - 1}}];
         [self.bodyCollectionView addSubview:_currentAddingWeekEventView];
-        _currentAddingWeekEventView.layer.affineTransform = CGAffineTransformScale(CGAffineTransformIdentity, 0.1, 0.1);
+        MWWeekEvent *event = [MWWeekEvent new];
         
         
-        POPSpringAnimation *animation = [POPSpringAnimation animationWithPropertyNamed:kPOPLayerScaleXY];
-        animation.fromValue = [NSValue valueWithCGPoint:CGPointMake(0.1, 0.1)];
-        animation.toValue = [NSValue valueWithCGPoint:CGPointMake(1., 1.)];;
-        animation.springBounciness = 10;
-        [_currentAddingWeekEventView.layer pop_addAnimation:animation forKey:@"AppearScale"];
+        _currentAddingWeekEventView.event = event;
+        _currentAddingWeekEventView.layer.affineTransform = CGAffineTransformMakeScale(0.1, 0.1);
+        _currentAddingWeekEventView.alpha = 0.f;
+        _currentAddingWeekEventView.selected = YES;
         
+        [UIView animateWithDuration:0.4
+                              delay:0
+             usingSpringWithDamping:0.5
+              initialSpringVelocity:1
+                            options:0 animations:^{
+                                _currentAddingWeekEventView.layer.affineTransform = CGAffineTransformIdentity;
+                            }
+                         completion:nil];
+
         POPBasicAnimation *alphaAnimation = [POPBasicAnimation easeOutAnimation];
         alphaAnimation.property = [POPAnimatableProperty propertyWithName: kPOPViewAlpha];
         alphaAnimation.fromValue = @(0.);
@@ -340,13 +348,14 @@
         NSDateComponents *dateComponents = date.dateComponents;
         dateComponents.minute = hoursMinutesDate.dateComponents.minute;
         dateComponents.hour = hoursMinutesDate.dateComponents.hour;
-        
-        MWWeekEvent *weekEvent = [MWWeekEvent new];
-        
-        _currentAddingWeekEventView.startDate = [[NSCalendar currentCalendar] dateFromComponents:dateComponents];
+        _currentAddingWeekEventView.event.startDate = [[NSCalendar currentCalendar] dateFromComponents:dateComponents];
         dateComponents.hour ++;
-        _currentAddingWeekEventView.endDate = [[NSCalendar currentCalendar] dateFromComponents:dateComponents];
-        
+        _currentAddingWeekEventView.event.endDate = [[NSCalendar currentCalendar] dateFromComponents:dateComponents];
+        [_currentAddingWeekEventView removeFromSuperview];
+        DayBodyCell *dayBodyCell = (DayBodyCell*)[self.bodyCollectionView cellForItemAtIndexPath:[NSIndexPath indexPathForItem:_currentAddingEventColumn inSection:0]];
+        [dayBodyCell addEventView:_currentAddingWeekEventView];
+        _currentAddingWeekEventView.selected = NO;
+        _currentAddingWeekEventView = nil;
         [self.hourAxisView hideEventTouch];
     }
     

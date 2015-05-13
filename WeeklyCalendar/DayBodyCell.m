@@ -10,6 +10,7 @@
 #import "CGHelper.h"
 #import "MWWeekCalendarConsts.h"
 #import <PureLayout.h>
+#import "NSDate+Utilities.h"
 
 @interface DayBodyCell ()
 
@@ -61,6 +62,16 @@
 - (void)addEventView:(MWWeekEventView *)eventView
 {
     NSAssert(eventView.event, @"Event View must contain event");
+    
+    [self.eventViewsContainer addSubview:eventView];
+    
+    CGFloat relatedHeight = eventView.event.duration / (60. * 60. * 24.);
+    CGFloat relatedYPosition = [eventView.event.startDate timeIntervalSinceDate:[eventView.event.startDate dateAtStartOfDay]] / (60. * 60. * 24.);
+    [eventView autoMatchDimension:ALDimensionHeight toDimension:ALDimensionHeight ofView:self.eventViewsContainer withMultiplier:relatedHeight];
+    [eventView autoPinEdgeToSuperviewEdge:ALEdgeLeading];
+    [eventView autoPinEdgeToSuperviewEdge:ALEdgeTrailing];
+    [eventView autoConstrainAttribute:ALAttributeTop toAttribute:ALAttributeBottom ofView:self.eventViewsContainer withMultiplier:relatedYPosition];
+    
     
 }
 
