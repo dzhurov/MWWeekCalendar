@@ -12,9 +12,10 @@
 #import <PureLayout.h>
 #import "NSDate+Utilities.h"
 
-@interface DayBodyCell ()
+@interface DayBodyCell (){
+    NSMutableArray *_events;
+}
 
-@property (nonatomic, strong) NSMutableArray *eventViews;
 @property (weak, nonatomic) IBOutlet UIView *eventViewsContainer;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *eventContainerTopConstraint;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *eventContainerBottomConstraint;
@@ -26,7 +27,6 @@
 - (void)awakeFromNib
 {
     self.axisColor = [UIColor lightGrayColor];
-    _eventViews = [NSMutableArray new];
     _events = [NSMutableArray new];
     self.eventContainerTopConstraint.constant = kHoursAxisInset.top;
     self.eventContainerBottomConstraint.constant = kHoursAxisInset.bottom;
@@ -47,7 +47,7 @@
 
     draw1PxStroke(context,
                   CGPointMake(CGRectGetMaxX(rect) - 0.5,
-                              kHoursAxisInset.top),
+                              kHoursAxisInset.top + 0.5),
                   CGPointMake(CGRectGetMaxX(rect) - 0.5,
                               CGRectGetMaxY(rect) - kHoursAxisInset.bottom),
                   self.axisColor.CGColor);
@@ -67,12 +67,30 @@
     
     CGFloat relatedHeight = eventView.event.duration / (60. * 60. * 24.);
     CGFloat relatedYPosition = [eventView.event.startDate timeIntervalSinceDate:[eventView.event.startDate dateAtStartOfDay]] / (60. * 60. * 24.);
+    if (relatedYPosition == 0)
+        relatedYPosition = 0.0001;
+    
     [eventView autoMatchDimension:ALDimensionHeight toDimension:ALDimensionHeight ofView:self.eventViewsContainer withMultiplier:relatedHeight];
     [eventView autoPinEdgeToSuperviewEdge:ALEdgeLeading];
     [eventView autoPinEdgeToSuperviewEdge:ALEdgeTrailing];
     [eventView autoConstrainAttribute:ALAttributeTop toAttribute:ALAttributeBottom ofView:self.eventViewsContainer withMultiplier:relatedYPosition];
-    
-    
+    [_events addObject:eventView.event];
+}
+
+- (NSArray *)eventViews
+{
+    return self.eventViewsContainer.subviews;
+}
+
+- (void)setEvents:(NSArray *)events
+{
+    [self.eventViews makeObjectsPerformSelector:@selector(removeFromSuperview)];
+    for (MWWeekEvent *event in events) {
+        MWWeekEventView *eventView = [MWWeekEventView new];
+        eventView.event = event;
+        [self addEventView:eventView];
+    }
+    _events = [events mutableCopy];
 }
 
 @end

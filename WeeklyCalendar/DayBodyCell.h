@@ -15,7 +15,7 @@
 /*! [MWWeekEventView]   */
 @property (nonatomic, readonly) NSArray *eventViews;
 /*! [MWWeekEvent]       */
-@property (nonatomic, strong) NSArray *events;
+@property (nonatomic, copy) NSArray *events;
 
 - (void)addEventView:(MWWeekEventView*)eventView;
 

@@ -48,7 +48,7 @@ static const float kNotSelectedAlpha = 0.2;
     [self.detailsLabel autoPinEdge:ALEdgeLeft toEdge:ALEdgeLeft ofView:self.titleLabel];
     [self.detailsLabel autoPinEdge:ALEdgeTop toEdge:ALEdgeBottom ofView:self.titleLabel withOffset:2.f];
     [self.detailsLabel autoPinEdgeToSuperviewEdge:ALEdgeTrailing];
-    [self.detailsLabel autoPinEdgeToSuperviewEdge:ALEdgeBottom withInset:2. relation:NSLayoutRelationLessThanOrEqual];
+    [self.detailsLabel autoPinEdgeToSuperviewEdge:ALEdgeBottom withInset:2. relation:NSLayoutRelationGreaterThanOrEqual];
     self.detailsLabel.font = descriptionFont;
     self.detailsLabel.numberOfLines = 0;
 }

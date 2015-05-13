@@ -31,9 +31,9 @@ CGFloat roundWithStep(CGFloat f, CGFloat step)
     return result;
 }
 
-CGFloat vectorLength(CGPoint p)
+CGFloat vectorLength(CGVector v)
 {
-    return sqrt(p.x * p.x + p.y * p.y);
+    return sqrt(v.dx * v.dx + v.dy * v.dy);
 }
 
 @implementation UIColor (Brightness)

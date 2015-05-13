@@ -18,6 +18,12 @@
 #import <QuartzCore/QuartzCore.h>
 #import "MWWeekEvent.h"
 
+struct TouchInfo {
+    CGPoint point;
+    CFAbsoluteTime time;
+    CGVector velocity;
+};
+
 @interface MWWeekCalendarViewController () <UICollectionViewDataSource, UICollectionViewDelegate, UIGestureRecognizerDelegate>{
     NSUInteger _numberOfDays;
     NSUInteger _todaysDayIndex;
@@ -25,8 +31,11 @@
     
     MWWeekEventView *_currentAddingWeekEventView;
     NSUInteger _currentAddingEventColumn;
-    CGPoint _currentAddintEventPreviousPoint;
-    CFAbsoluteTime _currentAddingEventPreviousPointTime;
+    
+    struct TouchInfo _addingEventTouchInfo;
+//    CGPoint         _currentAddintEventPreviousPoint;
+//    CFAbsoluteTime  _currentAddingEventPreviousPointTime;
+//    CGVector        _
 }
 @property (weak, nonatomic) IBOutlet UICollectionView *headerCollectionView;
 @property (weak, nonatomic) IBOutlet UIScrollView *contentScrollView;
@@ -281,85 +290,139 @@
 - (void)longPressed:(UILongPressGestureRecognizer*)recognizer
 {
     CGPoint point = [recognizer locationInView:self.bodyCollectionView];
+    NSLog(@"point %@", NSStringFromCGPoint(point));
     NSUInteger previousColumn = _currentAddingEventColumn;
     _currentAddingEventColumn = floor(point.x / self.dayColumnWidth);
-    CFTimeInterval timeInterval = CFAbsoluteTimeGetCurrent() - _currentAddingEventPreviousPointTime;
-    
+    CFTimeInterval timeInterval = CFAbsoluteTimeGetCurrent() - _addingEventTouchInfo.time;
+    if (recognizer.state != UIGestureRecognizerStateEnded){
+        _addingEventTouchInfo.velocity = CGVectorMake((point.x - _addingEventTouchInfo.point.x) / timeInterval,
+                                                      (point.y - _addingEventTouchInfo.point.y) / timeInterval);
+        _addingEventTouchInfo.point = point;
+    }
+    else{
+        if (timeInterval > 0.1){
+            _addingEventTouchInfo.velocity = CGVectorMake(0, 0);
+        }
+    }
+    _addingEventTouchInfo.time = CFAbsoluteTimeGetCurrent();
     CGPoint position;
     position.x = _currentAddingEventColumn * self.dayColumnWidth;
     position.y = roundTo1Px(point.y - self.hourAxisView.hourStepHeight / 2);
     
     CGPoint positionOnHourAxisView = [self.bodyCollectionView convertPoint:position toView:self.hourAxisView];
+    NSDate *hoursMinutesDate = [self.hourAxisView showEventTimeForTouch:positionOnHourAxisView];
+    
     if (recognizer.state == UIGestureRecognizerStateBegan){
-        _currentAddingWeekEventView = [[MWWeekEventView alloc] initWithFrame:(CGRect){position,{self.dayColumnWidth - 1, self.hourAxisView.hourStepHeight - 1}}];
-        [self.bodyCollectionView addSubview:_currentAddingWeekEventView];
-        MWWeekEvent *event = [MWWeekEvent new];
-        
-        
-        _currentAddingWeekEventView.event = event;
-        _currentAddingWeekEventView.layer.affineTransform = CGAffineTransformMakeScale(0.1, 0.1);
-        _currentAddingWeekEventView.alpha = 0.f;
-        _currentAddingWeekEventView.selected = YES;
-        
-        [UIView animateWithDuration:0.4
-                              delay:0
-             usingSpringWithDamping:0.5
-              initialSpringVelocity:1
-                            options:0 animations:^{
-                                _currentAddingWeekEventView.layer.affineTransform = CGAffineTransformIdentity;
-                            }
-                         completion:nil];
-
-        POPBasicAnimation *alphaAnimation = [POPBasicAnimation easeOutAnimation];
-        alphaAnimation.property = [POPAnimatableProperty propertyWithName: kPOPViewAlpha];
-        alphaAnimation.fromValue = @(0.);
-        alphaAnimation.toValue = @(1.);
-        [_currentAddingWeekEventView pop_addAnimation:alphaAnimation forKey:@"AppearAlpha"];
-        [_currentAddingWeekEventView setNeedsLayout];
-        [self.hourAxisView showEventTimeForTouch:positionOnHourAxisView];
+        [self addEventViewWithPosition:position];
     }
-    _currentAddingEventPreviousPointTime = CFAbsoluteTimeGetCurrent();
     
     if (recognizer.state == UIGestureRecognizerStateChanged){
-        CGRect frame = _currentAddingWeekEventView.frame;
-        frame.origin = position;
-
-        POPBasicAnimation *moveAnimation = [_currentAddingWeekEventView pop_animationForKey:@"Move"];
-        if (previousColumn != _currentAddingEventColumn){
-            moveAnimation = [POPBasicAnimation easeInEaseOutAnimation];
-            moveAnimation.property = [POPAnimatableProperty propertyWithName: kPOPViewFrame];
-            moveAnimation.toValue = [NSValue valueWithCGRect:frame];
-            moveAnimation.duration = 0.15;
-            [_currentAddingWeekEventView pop_addAnimation:moveAnimation forKey:@"Move"];
-        }
-        else if (moveAnimation){
-            moveAnimation.toValue = [NSValue valueWithCGRect:frame];
-        }
-        else{
-            _currentAddingWeekEventView.frame = frame;
-        }
-        [self.hourAxisView showEventTimeForTouch:positionOnHourAxisView];
+        [self moveCurrentEventViewToPoint:position animated: previousColumn != _currentAddingEventColumn];
+    }
+    
+    if (recognizer.state == UIGestureRecognizerStateCancelled){
+        NSLog(@"UIGestureRecognizerStateCancelled");
     }
     
     if (recognizer.state == UIGestureRecognizerStateEnded){
-        NSDate *hoursMinutesDate = [self.hourAxisView showEventTimeForTouch:positionOnHourAxisView];
-        NSIndexPath *indexPath = [NSIndexPath indexPathForItem:_currentAddingEventColumn inSection:0];
-        NSDate *date = [self dateForIndexPath:indexPath];
-        NSDateComponents *dateComponents = date.dateComponents;
-        dateComponents.minute = hoursMinutesDate.dateComponents.minute;
-        dateComponents.hour = hoursMinutesDate.dateComponents.hour;
-        _currentAddingWeekEventView.event.startDate = [[NSCalendar currentCalendar] dateFromComponents:dateComponents];
-        dateComponents.hour ++;
-        _currentAddingWeekEventView.event.endDate = [[NSCalendar currentCalendar] dateFromComponents:dateComponents];
-        [_currentAddingWeekEventView removeFromSuperview];
-        DayBodyCell *dayBodyCell = (DayBodyCell*)[self.bodyCollectionView cellForItemAtIndexPath:[NSIndexPath indexPathForItem:_currentAddingEventColumn inSection:0]];
-        [dayBodyCell addEventView:_currentAddingWeekEventView];
-        _currentAddingWeekEventView.selected = NO;
-        _currentAddingWeekEventView = nil;
-        [self.hourAxisView hideEventTouch];
+        if (vectorLength(_addingEventTouchInfo.velocity) > 100){
+            NSLog(@"UIGestureRecognizerStateEnded >>>> velocity (%f, %f) = %f", _addingEventTouchInfo.velocity.dx, _addingEventTouchInfo.velocity.dy, vectorLength(_addingEventTouchInfo.velocity));
+            [self removeCurerntEventFromPoint:position withVelocity:_addingEventTouchInfo.velocity];
+        }
+        else{
+            NSLog(@"UIGestureRecognizerStateEnded ||");
+            NSIndexPath *indexPath = [NSIndexPath indexPathForItem:_currentAddingEventColumn inSection:0];
+            [self addCurrentEventToCellAtIndexPath:indexPath timeDate:hoursMinutesDate];
+            [self.hourAxisView hideEventTouch];
+        }
     }
-    
-    _currentAddintEventPreviousPoint = point;
 }
+
+#pragma mark - MWWeekEvent Movements
+
+
+- (void)addEventViewWithPosition:(CGPoint)position
+{
+    _currentAddingWeekEventView = [[MWWeekEventView alloc] initWithFrame:(CGRect){position,{self.dayColumnWidth - 1, self.hourAxisView.hourStepHeight - 1}}];
+    [self.bodyCollectionView addSubview:_currentAddingWeekEventView];
+    MWWeekEvent *event = [MWWeekEvent new];
+    _currentAddingWeekEventView.event = event;
+    _currentAddingWeekEventView.layer.affineTransform = CGAffineTransformMakeScale(0.1, 0.1);
+    _currentAddingWeekEventView.alpha = 0.f;
+    _currentAddingWeekEventView.selected = YES;
+    
+    [UIView animateWithDuration:0.4
+                          delay:0
+         usingSpringWithDamping:0.5
+          initialSpringVelocity:1
+                        options:0
+                     animations:^{
+                         _currentAddingWeekEventView.layer.affineTransform = CGAffineTransformIdentity;
+                     }
+                     completion:nil];
+    
+    POPBasicAnimation *alphaAnimation = [POPBasicAnimation easeOutAnimation];
+    alphaAnimation.property = [POPAnimatableProperty propertyWithName: kPOPViewAlpha];
+    alphaAnimation.fromValue = @(0.);
+    alphaAnimation.toValue = @(1.);
+    [_currentAddingWeekEventView pop_addAnimation:alphaAnimation forKey:@"AppearAlpha"];
+    [_currentAddingWeekEventView setNeedsLayout];
+}
+
+- (void)moveCurrentEventViewToPoint:(CGPoint)position animated:(BOOL)animated
+{
+    CGRect frame = _currentAddingWeekEventView.frame;
+    frame.origin = position;
+    
+    POPBasicAnimation *moveAnimation = [_currentAddingWeekEventView pop_animationForKey:@"Move"];
+    if (moveAnimation){
+        moveAnimation.toValue = [NSValue valueWithCGRect:frame];
+    }
+    else if (animated){
+        moveAnimation = [POPBasicAnimation easeInEaseOutAnimation];
+        moveAnimation.property = [POPAnimatableProperty propertyWithName: kPOPViewFrame];
+        moveAnimation.toValue = [NSValue valueWithCGRect:frame];
+        moveAnimation.duration = 0.15;
+        [_currentAddingWeekEventView pop_addAnimation:moveAnimation forKey:@"Move"];
+    }
+    else{
+        _currentAddingWeekEventView.frame = frame;
+    }
+}
+
+- (void)addCurrentEventToCellAtIndexPath:(NSIndexPath*)indexPath timeDate:(NSDate*)timeDate
+{
+    NSDate *date = [self dateForIndexPath:indexPath];
+    NSDateComponents *dateComponents = date.dateComponents;
+    dateComponents.minute = timeDate.dateComponents.minute;
+    dateComponents.hour = timeDate.dateComponents.hour;
+    _currentAddingWeekEventView.event.startDate = [[NSCalendar currentCalendar] dateFromComponents:dateComponents];
+    dateComponents.hour ++;
+    _currentAddingWeekEventView.event.endDate = [[NSCalendar currentCalendar] dateFromComponents:dateComponents];
+    [_currentAddingWeekEventView removeFromSuperview];
+    DayBodyCell *dayBodyCell = (DayBodyCell*)[self.bodyCollectionView cellForItemAtIndexPath:indexPath];
+    [dayBodyCell addEventView:_currentAddingWeekEventView];
+    _currentAddingWeekEventView.selected = NO;
+    _currentAddingWeekEventView = nil;
+}
+
+- (void)removeCurerntEventFromPoint:(CGPoint)point withVelocity:(CGVector)velocity
+{
+    CGRect targetRect = _currentAddingWeekEventView.frame;
+    
+    NSTimeInterval duration = 0.3;
+    
+    targetRect.origin.x += velocity.dx * duration;
+    targetRect.origin.y += velocity.dy * duration;
+    [UIView animateWithDuration:duration animations:^{
+        _currentAddingWeekEventView.frame = targetRect;
+        _currentAddingWeekEventView.alpha = 0.f;
+    } completion:^(BOOL finished) {
+        [_currentAddingWeekEventView removeFromSuperview];
+        _currentAddingWeekEventView = nil;
+    }];
+}
+
+#pragma mark -
 
 @end
