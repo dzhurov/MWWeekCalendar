@@ -42,6 +42,20 @@ IB_DESIGNABLE
     
     CGContextRef context = UIGraphicsGetCurrentContext();
     
+    NSDate *currentDate = [NSDate date];
+    NSDateComponents *components = [[NSCalendar currentCalendar] components:(NSCalendarUnitHour | NSCalendarUnitMinute) fromDate:currentDate];
+    CGFloat currentDateHours = [components hour] + [components minute] / 60.0;
+    CGFloat currentDateXPosition = kHoursAxisInset.top + self.hourStepHeight * currentDateHours;
+    CGRect currentDateRect = hourLabelRectForLinePosition(currentDateXPosition);
+    NSDateFormatter *formatter = [NSDateFormatter new];
+    formatter.dateFormat = @"h:mm a";
+    NSString *currentHourString = [formatter stringFromDate:currentDate];
+    NSDictionary *currentDateAttributes = @{ NSFontAttributeName:              font,
+                                             NSParagraphStyleAttributeName:    paragraphStyle,
+                                             NSForegroundColorAttributeName:   [UIColor redColor]};
+
+    [currentHourString drawInRect:currentDateRect withAttributes:currentDateAttributes];
+    
     // Adding Hours labels and horizontal lines
     CGFloat horizontalLineXPosition = kHoursAxisInset.top;
     for (int hour = 0; hour <= 24; hour++) {
@@ -56,8 +70,9 @@ IB_DESIGNABLE
         NSString *hourString = [NSDate timeStringFromDate:date];
         
         CGRect hourRect = hourLabelRectForLinePosition(horizontalLineXPosition);
-        [hourString drawInRect:hourRect withAttributes:attributes];
-        
+        if (!CGRectIntersectsRect(hourRect, currentDateRect)) {
+            [hourString drawInRect:hourRect withAttributes:attributes];
+        }
         horizontalLineXPosition += self.hourStepHeight;
     }
     
@@ -68,7 +83,9 @@ IB_DESIGNABLE
             CGFloat linePosition = (minutes / 60. + self.currentEventDate.dateComponents.hour) * self.hourStepHeight + kHoursAxisInset.top;
             CGRect minutesRect = hourLabelRectForLinePosition(linePosition);
             NSString *minutesString = [NSString stringWithFormat:@":%d", minutes];
-            [minutesString drawInRect:minutesRect withAttributes:attributes];
+            if (!CGRectIntersectsRect(minutesRect, currentDateRect)) {
+                [minutesString drawInRect:minutesRect withAttributes:attributes];
+            }
         }
         //TODO: handle current time and not show in case abs(current_time - event_time) < 15
     }
