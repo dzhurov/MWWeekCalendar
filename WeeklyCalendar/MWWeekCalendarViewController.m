@@ -80,7 +80,7 @@ struct TouchInfo {
     [self.longPressGestureRecognizer addTarget:self action:@selector(longPressed:)];
     self.redCircle.layer.cornerRadius = 5;
     self.redCircleSubview.layer.cornerRadius = 4;
-    self.redLineTimer = [NSTimer scheduledTimerWithTimeInterval:60.0
+    self.redLineTimer = [NSTimer scheduledTimerWithTimeInterval:30.0
                                                          target:self
                                                        selector:@selector(redLineTimerMethod:)
                                                        userInfo:nil
@@ -446,6 +446,7 @@ struct TouchInfo {
 - (void)redLineTimerMethod:(NSTimer *)timer
 {
     [self setupRedLinePosition];
+    [self.hourAxisView setNeedsDisplay];
 }
 
 - (void)setupRedLinePosition
@@ -461,7 +462,6 @@ struct TouchInfo {
     CGFloat contentOffset = self.headerCollectionView.contentOffset.x;
     self.redCircleXPositionConstraint.constant = kHoursAxisInset.left - (self.redCircle.bounds.size.width / 2) - contentOffset + cellWidth *_todaysDayIndex;
     [self setupRedLineVisible];
-    self.redCircle.hidden = self.redLine.hidden || (self.redCircleXPositionConstraint.constant < kHoursAxisInset.left);
 }
 
 - (void)setupRedLineVisible
@@ -479,6 +479,11 @@ struct TouchInfo {
     CGFloat lastCellWeek = lastCellDateComponents.weekOfYear;
     CGFloat currentDateWeek = currentDateComponents.weekOfYear;
     self.redLine.hidden = (currentDateWeek - firstCellWeek > 1) || (lastCellWeek - currentDateWeek > 1);
+    self.redCircle.hidden = self.redLine.hidden || (self.redCircleXPositionConstraint.constant < kHoursAxisInset.left);
+    if (self.hourAxisView.showCurrentDate == self.redLine.hidden) {
+        self.hourAxisView.showCurrentDate = !self.redLine.hidden;
+        [self.hourAxisView setNeedsDisplay];
+    }
 }
 
 @end

@@ -42,19 +42,22 @@ IB_DESIGNABLE
     
     CGContextRef context = UIGraphicsGetCurrentContext();
     
-    NSDate *currentDate = [NSDate date];
-    NSDateComponents *components = [[NSCalendar currentCalendar] components:(NSCalendarUnitHour | NSCalendarUnitMinute) fromDate:currentDate];
-    CGFloat currentDateHours = [components hour] + [components minute] / 60.0;
-    CGFloat currentDateXPosition = kHoursAxisInset.top + self.hourStepHeight * currentDateHours;
-    CGRect currentDateRect = hourLabelRectForLinePosition(currentDateXPosition);
-    NSDateFormatter *formatter = [NSDateFormatter new];
-    formatter.dateFormat = @"h:mm a";
-    NSString *currentHourString = [formatter stringFromDate:currentDate];
-    NSDictionary *currentDateAttributes = @{ NSFontAttributeName:              font,
-                                             NSParagraphStyleAttributeName:    paragraphStyle,
-                                             NSForegroundColorAttributeName:   [UIColor redColor]};
+    CGRect currentDateRect = CGRectZero;
+    if (self.showCurrentDate) {
+        NSDate *currentDate = [NSDate date];
+        NSDateComponents *components = [[NSCalendar currentCalendar] components:(NSCalendarUnitHour | NSCalendarUnitMinute) fromDate:currentDate];
+        CGFloat currentDateHours = [components hour] + [components minute] / 60.0;
+        CGFloat currentDateXPosition = kHoursAxisInset.top + self.hourStepHeight * currentDateHours;
+        currentDateRect = hourLabelRectForLinePosition(currentDateXPosition);
+        NSDateFormatter *formatter = [NSDateFormatter new];
+        formatter.dateFormat = @"h:mm a";
+        NSString *currentHourString = [formatter stringFromDate:currentDate];
+        NSDictionary *currentDateAttributes = @{ NSFontAttributeName:              font,
+                                                 NSParagraphStyleAttributeName:    paragraphStyle,
+                                                 NSForegroundColorAttributeName:   [UIColor redColor]};
 
-    [currentHourString drawInRect:currentDateRect withAttributes:currentDateAttributes];
+        [currentHourString drawInRect:currentDateRect withAttributes:currentDateAttributes];
+    }
     
     // Adding Hours labels and horizontal lines
     CGFloat horizontalLineXPosition = kHoursAxisInset.top;

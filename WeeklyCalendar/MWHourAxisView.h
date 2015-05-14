@@ -13,6 +13,7 @@ IB_DESIGNABLE
 
 @property (nonatomic) IBInspectable CGFloat hourStepHeight;
 @property (nonatomic) IBInspectable UIColor* axisColor;
+@property (nonatomic) BOOL showCurrentDate;
 
 /*! @return time date for current touch NOTE: use only time (hours and minutes) from returned value */
 - (NSDate*)showEventTimeForTouch:(CGPoint)touchPoint;
