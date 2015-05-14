@@ -34,4 +34,27 @@
     return [self.endDate timeIntervalSinceDate:self.startDate];
 }
 
+- (id)copyWithZone:(NSZone *)zone
+{
+    MWWeekEvent *event = [MWWeekEvent eventWithStartDate:self.startDate endDate:self.endDate];
+    event.eventDescription = self.eventDescription;
+    event.title = self.title;
+    event.calendarColor = self.calendarColor;
+    return event;
+}
+
+- (BOOL)isEqual:(MWWeekEvent *)object
+{
+    return [self.startDate isEqual:object.startDate] &&
+    [self.endDate isEqual:object.endDate] &&
+    [self.eventDescription isEqual:object.eventDescription] &&
+    [self.title isEqual:object.title] &&
+    [self.calendarColor isEqual:object.calendarColor];
+}
+
+- (NSUInteger)hash
+{
+    return [NSStringFromClass([MWWeekEvent class]) hash] ^ self.startDate.hash ^ self.endDate.hash ^ self.eventDescription.hash ^ self.title.hash ^ self.calendarColor.hash;
+}
+
 @end

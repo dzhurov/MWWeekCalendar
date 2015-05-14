@@ -134,4 +134,13 @@ IB_DESIGNABLE
     [self setNeedsDisplay];
 }
 
+- (void)setShowCurrentDate:(BOOL)showCurrentDate
+{
+    BOOL lastValue = _showCurrentDate;
+    _showCurrentDate = showCurrentDate;
+    if (showCurrentDate != lastValue) {
+        [self setNeedsDisplay];
+    }
+}
+
 @end

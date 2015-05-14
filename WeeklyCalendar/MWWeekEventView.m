@@ -51,6 +51,21 @@ static const float kNotSelectedAlpha = 0.2;
     [self.detailsLabel autoPinEdgeToSuperviewEdge:ALEdgeBottom withInset:2. relation:NSLayoutRelationGreaterThanOrEqual];
     self.detailsLabel.font = descriptionFont;
     self.detailsLabel.numberOfLines = 0;
+    
+    UIButton *button = [[UIButton alloc] initWithFrame:self.bounds];
+    [self addSubview:button];
+    [button autoPinEdgeToSuperviewEdge:ALEdgeTop];
+    [button autoPinEdgeToSuperviewEdge:ALEdgeLeading];
+    [button autoPinEdgeToSuperviewEdge:ALEdgeBottom];
+    [button autoPinEdgeToSuperviewEdge:ALEdgeTrailing];
+    [button addTarget:self action:@selector(buttonPressed:) forControlEvents:UIControlEventTouchUpInside];
+}
+
+- (void)buttonPressed:(UIButton *)sender
+{
+    if ([self.delegate respondsToSelector:@selector(weekEventViewDidTap:)]) {
+        [self.delegate weekEventViewDidTap:self];
+    }
 }
 
 #pragma mark - Getters/Setters

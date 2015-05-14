@@ -19,6 +19,7 @@
 #import "MWWeekEvent.h"
 #import "MWWeekCalendarConsts.h"
 #import "MWWeekCalendarLayout.h"
+#import "MWEventsContainer.h"
 
 struct TouchInfo {
     CGPoint point;
@@ -26,7 +27,9 @@ struct TouchInfo {
     CGVector velocity;
 };
 
-@interface MWWeekCalendarViewController () <UICollectionViewDataSource, UICollectionViewDelegate, UIGestureRecognizerDelegate, MWWeekCalendarLayoutDelegate>{
+
+@interface MWWeekCalendarViewController () <UICollectionViewDataSource, UICollectionViewDelegate, UIGestureRecognizerDelegate, DayBodyCellDelegate, MWWeekCalendarLayoutDelegate>
+{
     NSUInteger _numberOfDays;
     NSUInteger _todaysDayIndex;
     BOOL _initializationInProgress;
@@ -51,7 +54,8 @@ struct TouchInfo {
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *redLineYPositionConstraint;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *redCircleXPositionConstraint;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *headerCollectionLeadingSpaceConstraint;
-@property (weak, nonatomic) NSTimer *redLineTimer;
+@property (strong, nonatomic) NSTimer *redLineTimer;
+@property (nonatomic, strong) MWEventsContainer *eventsContainer;
 
 @end
 
@@ -60,10 +64,13 @@ struct TouchInfo {
 - (instancetype)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
-    self.numberOfVisibleDays = 7;
-    _numberOfDays = 60;
-    _todaysDayIndex = self.numberOfVisibleDays * 4 + [[NSDate date] dateComponents].weekday - 1;
-    _initializationInProgress = YES;
+    if (self) {
+        self.numberOfVisibleDays = 7;
+        _numberOfDays = 60;
+        _todaysDayIndex = self.numberOfVisibleDays * 4 + [[NSDate date] dateComponents].weekday - 1;
+        _initializationInProgress = YES;
+        _eventsContainer = [MWEventsContainer new];
+    }
     return self;
 }
 
@@ -103,6 +110,13 @@ struct TouchInfo {
     // Dispose of any resources that can be recreated.
 }
 
+- (void)dealloc
+{
+    if ([self.redLineTimer isValid]) {
+        [self.redLineTimer invalidate];
+    }
+}
+
 #pragma mark - UICollectionViewDataSource
 
 - (NSInteger)numberOfSectionsInCollectionView:(UICollectionView *)collectionView
@@ -126,6 +140,8 @@ struct TouchInfo {
     }
     else{
         DayBodyCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:NSStringFromClass([DayBodyCell class]) forIndexPath:indexPath];
+        cell.events = [self.eventsContainer eventsForDay:date];
+        cell.delegate = self;
         return cell;
     }
 }
@@ -429,8 +445,10 @@ struct TouchInfo {
     _currentAddingWeekEventView.layer.shadowRadius = 0.f;
     _currentAddingWeekEventView.layer.shadowOpacity = 0.f;
     [_currentAddingWeekEventView removeFromSuperview];
-    DayBodyCell *dayBodyCell = (DayBodyCell*)[self.bodyCollectionView cellForItemAtIndexPath:indexPath];
-    [dayBodyCell addEventView:_currentAddingWeekEventView];
+    
+    [self.eventsContainer addEvent:_currentAddingWeekEventView.event forDate:_currentAddingWeekEventView.event.startDate];
+    [self.bodyCollectionView reloadItemsAtIndexPaths:@[indexPath]];
+
     _currentAddingWeekEventView.selected = NO;
     _currentAddingWeekEventView = nil;
 }
@@ -496,10 +514,17 @@ struct TouchInfo {
     CGFloat currentDateWeek = currentDateComponents.weekOfYear;
     self.redLine.hidden = (currentDateWeek - firstCellWeek > 1) || (lastCellWeek - currentDateWeek > 1);
     self.redCircle.hidden = self.redLine.hidden || (self.redCircleXPositionConstraint.constant < kHoursAxisInset.left);
-    if (self.hourAxisView.showCurrentDate == self.redLine.hidden) {
-        self.hourAxisView.showCurrentDate = !self.redLine.hidden;
-        [self.hourAxisView setNeedsDisplay];
-    }
+    self.hourAxisView.showCurrentDate = !self.redLine.hidden;
+}
+
+#pragma mark - DayBodyCellDelegate
+
+- (void)dayBodyCell:(DayBodyCell *)cell eventDidTapped:(MWWeekEvent *)event
+{
+    [[cell eventViewForEvent:event] setSelected:YES];
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+        [[cell eventViewForEvent:event] setSelected:NO];
+    });
 }
 
 @end
