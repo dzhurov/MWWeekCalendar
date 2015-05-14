@@ -91,6 +91,7 @@ struct TouchInfo {
 {
     [super viewDidLayoutSubviews];
     [self setupRedLinePosition];
+    [self setupRedCirclePosition];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -112,7 +113,7 @@ struct TouchInfo {
 
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath
 {
-    NSDate *date = [self dateForIndexPath:indexPath];
+    NSDate *date = [self dateForItem:indexPath.item];
     if (collectionView == _headerCollectionView){
         HeaderDayCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:NSStringFromClass([HeaderDayCell class]) forIndexPath:indexPath];
         [cell setDate:date selected:[date isToday] weekend:[date isTypicallyWeekend]];
@@ -265,9 +266,9 @@ struct TouchInfo {
 
 #pragma mark - Private
 
-- (NSDate *)dateForIndexPath:(NSIndexPath*)indexPath
+- (NSDate *)dateForItem:(NSInteger)item
 {
-    NSInteger daysAfterToday = indexPath.item - _todaysDayIndex;
+    NSInteger daysAfterToday = item - _todaysDayIndex;
     return [NSDate dateWithTimeIntervalSinceNow:daysAfterToday * D_DAY];
 }
 
@@ -409,7 +410,7 @@ struct TouchInfo {
 
 - (void)addCurrentEventToCellAtIndexPath:(NSIndexPath*)indexPath timeDate:(NSDate*)timeDate
 {
-    NSDate *date = [self dateForIndexPath:indexPath];
+    NSDate *date = [self dateForItem:indexPath.item];
     NSDateComponents *dateComponents = date.dateComponents;
     dateComponents.minute = timeDate.dateComponents.minute;
     dateComponents.hour = timeDate.dateComponents.hour;
@@ -459,7 +460,25 @@ struct TouchInfo {
     CGFloat cellWidth = roundTo1Px( self.headerCollectionView.bounds.size.width / self.numberOfVisibleDays );
     CGFloat contentOffset = self.headerCollectionView.contentOffset.x;
     self.redCircleXPositionConstraint.constant = kHoursAxisInset.left - (self.redCircle.bounds.size.width / 2) - contentOffset + cellWidth *_todaysDayIndex;
-    self.redCircle.hidden = self.redCircleXPositionConstraint.constant < kHoursAxisInset.left;
+    [self setupRedLineVisible];
+    self.redCircle.hidden = self.redLine.hidden || (self.redCircleXPositionConstraint.constant < kHoursAxisInset.left);
+}
+
+- (void)setupRedLineVisible
+{
+    CGFloat cellWidth = roundTo1Px( self.headerCollectionView.bounds.size.width / self.numberOfVisibleDays );
+    CGFloat contentOffset = self.headerCollectionView.contentOffset.x;
+    NSInteger indexFofFirstCell = floorf(contentOffset / cellWidth);
+    NSInteger indexFofLastCell = floorf((contentOffset - 1) / cellWidth) + self.numberOfVisibleDays;
+    NSDate *dateFofFirstCell = [self dateForItem:indexFofFirstCell];
+    NSDate *dateFofLastCell = [self dateForItem:indexFofLastCell];
+    NSDateComponents *firstCellDateComponents = [[NSCalendar currentCalendar] components:(NSCalendarUnitWeekOfYear) fromDate:dateFofFirstCell];
+    NSDateComponents *lastCellDateComponents = [[NSCalendar currentCalendar] components:(NSCalendarUnitWeekOfYear) fromDate:dateFofLastCell];
+    NSDateComponents *currentDateComponents = [[NSCalendar currentCalendar] components:(NSCalendarUnitWeekOfYear) fromDate:[NSDate date]];
+    CGFloat firstCellWeek = firstCellDateComponents.weekOfYear;
+    CGFloat lastCellWeek = lastCellDateComponents.weekOfYear;
+    CGFloat currentDateWeek = currentDateComponents.weekOfYear;
+    self.redLine.hidden = (currentDateWeek - firstCellWeek > 1) || (lastCellWeek - currentDateWeek > 1);
 }
 
 @end
