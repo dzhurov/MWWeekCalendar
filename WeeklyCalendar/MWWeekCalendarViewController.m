@@ -18,6 +18,7 @@
 #import <QuartzCore/QuartzCore.h>
 #import "MWWeekEvent.h"
 #import "MWWeekCalendarConsts.h"
+#import "MWWeekCalendarLayout.h"
 
 struct TouchInfo {
     CGPoint point;
@@ -25,7 +26,7 @@ struct TouchInfo {
     CGVector velocity;
 };
 
-@interface MWWeekCalendarViewController () <UICollectionViewDataSource, UICollectionViewDelegate, UIGestureRecognizerDelegate>{
+@interface MWWeekCalendarViewController () <UICollectionViewDataSource, UICollectionViewDelegate, UIGestureRecognizerDelegate, MWWeekCalendarLayoutDelegate>{
     NSUInteger _numberOfDays;
     NSUInteger _todaysDayIndex;
     BOOL _initializationInProgress;
@@ -41,6 +42,7 @@ struct TouchInfo {
 @property (weak, nonatomic) IBOutlet UICollectionView *headerCollectionView;
 @property (weak, nonatomic) IBOutlet UIScrollView *contentScrollView;
 @property (weak, nonatomic) IBOutlet UICollectionView *bodyCollectionView;
+@property (weak, nonatomic) IBOutlet MWWeekCalendarLayout *bodyCollectionViewLayout;
 @property (weak, nonatomic) IBOutlet MWHourAxisView *hourAxisView;
 @property (strong, nonatomic) IBOutlet UILongPressGestureRecognizer *longPressGestureRecognizer;
 @property (weak, nonatomic) IBOutlet UIView *redCircle;
@@ -48,6 +50,7 @@ struct TouchInfo {
 @property (weak, nonatomic) IBOutlet UIView *redLine;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *redLineYPositionConstraint;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *redCircleXPositionConstraint;
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *headerCollectionLeadingSpaceConstraint;
 @property (weak, nonatomic) NSTimer *redLineTimer;
 
 @end
@@ -69,6 +72,7 @@ struct TouchInfo {
     NSString *headerDayCellId = NSStringFromClass([HeaderDayCell class]);
     NSString *bodyDayCellId = NSStringFromClass([DayBodyCell class]);
     
+    self.bodyCollectionViewLayout.delegate = self;
     [self.headerCollectionView registerNib:[UINib nibWithNibName:headerDayCellId bundle:nil] forCellWithReuseIdentifier:headerDayCellId];
     [self.bodyCollectionView registerNib:[UINib nibWithNibName:bodyDayCellId bundle:nil] forCellWithReuseIdentifier:bodyDayCellId];
 
@@ -241,8 +245,9 @@ struct TouchInfo {
 
 - (void)didRotateFromInterfaceOrientation:(UIInterfaceOrientation)fromInterfaceOrientation
 {
-    [self.bodyCollectionView performBatchUpdates:nil completion:nil];
     [self setupRedCirclePosition];
+    [self.bodyCollectionView.collectionViewLayout invalidateLayout];
+    [self.headerCollectionView.collectionViewLayout invalidateLayout];
 }
 
 - (UIInterfaceOrientation)preferredInterfaceOrientationForPresentation
@@ -369,6 +374,10 @@ struct TouchInfo {
     _currentAddingWeekEventView.alpha = 0.f;
     _currentAddingWeekEventView.selected = YES;
     
+    _currentAddingWeekEventView.layer.shadowRadius = 10.f;
+    _currentAddingWeekEventView.layer.shadowOpacity = 0.3f;
+    _currentAddingWeekEventView.layer.shadowColor = [UIColor blackColor].CGColor;
+    
     [UIView animateWithDuration:0.4
                           delay:0
          usingSpringWithDamping:0.5
@@ -417,6 +426,8 @@ struct TouchInfo {
     _currentAddingWeekEventView.event.startDate = [[NSCalendar currentCalendar] dateFromComponents:dateComponents];
     dateComponents.hour ++;
     _currentAddingWeekEventView.event.endDate = [[NSCalendar currentCalendar] dateFromComponents:dateComponents];
+    _currentAddingWeekEventView.layer.shadowRadius = 0.f;
+    _currentAddingWeekEventView.layer.shadowOpacity = 0.f;
     [_currentAddingWeekEventView removeFromSuperview];
     DayBodyCell *dayBodyCell = (DayBodyCell*)[self.bodyCollectionView cellForItemAtIndexPath:indexPath];
     [dayBodyCell addEventView:_currentAddingWeekEventView];
@@ -441,7 +452,12 @@ struct TouchInfo {
     }];
 }
 
-#pragma mark -
+#pragma mark - MWWeekCalendarLayoutDelegate
+
+- (CGFloat)calendarLayoutCellWidth:(MWWeekCalendarLayout *)calendarLayotu
+{
+    return self.dayColumnWidth;
+}
 
 - (void)redLineTimerMethod:(NSTimer *)timer
 {

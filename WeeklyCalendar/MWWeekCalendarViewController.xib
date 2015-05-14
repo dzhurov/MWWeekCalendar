@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="7702" systemVersion="14B25" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="7702" systemVersion="14D136" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7701"/>
     </dependencies>
@@ -7,7 +7,9 @@
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="MWWeekCalendarViewController">
             <connections>
                 <outlet property="bodyCollectionView" destination="N6Z-Xx-72t" id="7z4-yX-hF4"/>
+                <outlet property="bodyCollectionViewLayout" destination="qrp-jp-CcZ" id="4dQ-Z3-IbD"/>
                 <outlet property="contentScrollView" destination="17i-c2-x7Q" id="0ke-eO-KUQ"/>
+                <outlet property="headerCollectionLeadingSpaceConstraint" destination="nuN-IX-nhf" id="mLm-by-fEZ"/>
                 <outlet property="headerCollectionView" destination="uUv-Ag-P8z" id="Ug3-I3-MeV"/>
                 <outlet property="hourAxisView" destination="u0T-e1-2jm" id="5Fk-0m-xVN"/>
                 <outlet property="longPressGestureRecognizer" destination="HKI-cZ-Y8w" id="ETC-uH-92t"/>
@@ -30,7 +32,7 @@
                     <constraints>
                         <constraint firstAttribute="height" constant="60" id="erB-jb-gsJ"/>
                     </constraints>
-                    <collectionViewFlowLayout key="collectionViewLayout" scrollDirection="horizontal" minimumLineSpacing="0.0" minimumInteritemSpacing="0.0" id="3TH-s0-TV7">
+                    <collectionViewFlowLayout key="collectionViewLayout" scrollDirection="horizontal" minimumLineSpacing="0.0" minimumInteritemSpacing="0.0" id="3TH-s0-TV7" customClass="MWWeekCalendarLayout">
                         <size key="itemSize" width="100" height="60"/>
                         <size key="headerReferenceSize" width="0.0" height="0.0"/>
                         <size key="footerReferenceSize" width="0.0" height="0.0"/>
@@ -66,7 +68,7 @@
                         <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="none" translatesAutoresizingMaskIntoConstraints="NO" id="N6Z-Xx-72t">
                             <rect key="frame" x="64" y="0.0" width="536" height="1760"/>
                             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                            <collectionViewFlowLayout key="collectionViewLayout" scrollDirection="horizontal" minimumLineSpacing="0.0" minimumInteritemSpacing="0.0" id="qrp-jp-CcZ">
+                            <collectionViewFlowLayout key="collectionViewLayout" scrollDirection="horizontal" minimumLineSpacing="0.0" minimumInteritemSpacing="0.0" id="qrp-jp-CcZ" customClass="MWWeekCalendarLayout">
                                 <size key="itemSize" width="100" height="600"/>
                                 <size key="headerReferenceSize" width="0.0" height="0.0"/>
                                 <size key="footerReferenceSize" width="0.0" height="0.0"/>

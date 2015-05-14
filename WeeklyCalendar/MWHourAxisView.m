@@ -62,11 +62,12 @@ IB_DESIGNABLE
     // Adding Hours labels and horizontal lines
     CGFloat horizontalLineXPosition = kHoursAxisInset.top;
     for (int hour = 0; hour <= 24; hour++) {
-        draw1PxStroke(context, CGPointMake( kHoursAxisInset.left + 0.5,
-                                            horizontalLineXPosition + 0.5),
-                                            CGPointMake(CGRectGetMaxX(rect) + 0.5,
-                                            horizontalLineXPosition + 0.5),
-                                            self.axisColor.CGColor);
+        draw1PxStroke(context,
+                      CGPointMake(kHoursAxisInset.left/* + 0.5*/,
+                                  horizontalLineXPosition/* + 0.25*/),
+                      CGPointMake(CGRectGetMaxX(rect)/* + 0.5*/,
+                                  horizontalLineXPosition/* + 0.25*/),
+                      self.axisColor.CGColor);
         
         dateComponents.hour = hour;
         NSDate *date = [[NSCalendar currentCalendar] dateFromComponents:dateComponents];
