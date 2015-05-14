@@ -9,14 +9,21 @@
 #import <UIKit/UIKit.h>
 #import "MWWeekEventView.h"
 
+@protocol DayBodyCellDelegate;
+
 @interface DayBodyCell : UICollectionViewCell
 
 @property (nonatomic, strong) UIColor *axisColor; //Default: lightGrayColor
-/*! [MWWeekEventView]   */
-@property (nonatomic, readonly) NSArray *eventViews;
 /*! [MWWeekEvent]       */
 @property (nonatomic, copy) NSArray *events;
+@property (nonatomic, weak) id <DayBodyCellDelegate> delegate;
 
-- (void)addEventView:(MWWeekEventView*)eventView;
+- (MWWeekEventView *)eventViewForEvent:(MWWeekEvent *)event;
+
+@end
+
+@protocol DayBodyCellDelegate <NSObject>
+
+- (void)dayBodyCell:(DayBodyCell *)cell eventDidTapped:(MWWeekEvent *)event;
 
 @end

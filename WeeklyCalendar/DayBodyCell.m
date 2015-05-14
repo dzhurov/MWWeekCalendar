@@ -12,13 +12,15 @@
 #import <PureLayout.h>
 #import "NSDate+Utilities.h"
 
-@interface DayBodyCell (){
+@interface DayBodyCell () <MWWeekEventViewDelegate>
+{
     NSMutableArray *_events;
 }
 
 @property (weak, nonatomic) IBOutlet UIView *eventViewsContainer;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *eventContainerTopConstraint;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *eventContainerBottomConstraint;
+@property (nonatomic, strong) NSMutableDictionary *eventViewsDictionary;
 
 @end
 
@@ -30,6 +32,7 @@
     _events = [NSMutableArray new];
     self.eventContainerTopConstraint.constant = kHoursAxisInset.top;
     self.eventContainerBottomConstraint.constant = kHoursAxisInset.bottom;
+    self.eventViewsDictionary = [NSMutableDictionary new];
     [self setNeedsDisplay];
 }
 
@@ -61,6 +64,7 @@
 
 - (void)addEventView:(MWWeekEventView *)eventView
 {
+    [self.eventViewsDictionary setObject:eventView forKey:eventView.event];
     NSAssert(eventView.event, @"Event View must contain event");
     
     [self.eventViewsContainer addSubview:eventView];
@@ -82,15 +86,30 @@
     return self.eventViewsContainer.subviews;
 }
 
+- (MWWeekEventView *)eventViewForEvent:(MWWeekEvent *)event
+{
+    return self.eventViewsDictionary[event];
+}
+
 - (void)setEvents:(NSArray *)events
 {
     [self.eventViews makeObjectsPerformSelector:@selector(removeFromSuperview)];
     for (MWWeekEvent *event in events) {
         MWWeekEventView *eventView = [MWWeekEventView new];
+        eventView.delegate = self;
         eventView.event = event;
         [self addEventView:eventView];
     }
     _events = [events mutableCopy];
+}
+
+#pragma mark -MWWeekEventViewDelegate <NSObject>
+
+- (void)weekEventViewDidTap:(MWWeekEventView *)weekEventView
+{
+    if ([self.delegate respondsToSelector:@selector(dayBodyCell:eventDidTapped:)]) {
+        [self.delegate dayBodyCell:self eventDidTapped:weekEventView.event];
+    }
 }
 
 @end
