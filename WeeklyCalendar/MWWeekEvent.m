@@ -54,7 +54,7 @@
 
 - (NSUInteger)hash
 {
-    return [NSStringFromClass([MWWeekEvent class]) hash] | self.startDate.hash | self.endDate.hash | self.eventDescription.hash | self.title.hash | self.calendarColor.hash;
+    return [NSStringFromClass([MWWeekEvent class]) hash] ^ self.startDate.hash ^ self.endDate.hash ^ self.eventDescription.hash ^ self.title.hash ^ self.calendarColor.hash;
 }
 
 @end
