@@ -17,6 +17,7 @@
 #import <POP.h>
 #import <QuartzCore/QuartzCore.h>
 #import "MWWeekEvent.h"
+#import "MWWeekCalendarConsts.h"
 
 struct TouchInfo {
     CGPoint point;
@@ -42,6 +43,12 @@ struct TouchInfo {
 @property (weak, nonatomic) IBOutlet UICollectionView *bodyCollectionView;
 @property (weak, nonatomic) IBOutlet MWHourAxisView *hourAxisView;
 @property (strong, nonatomic) IBOutlet UILongPressGestureRecognizer *longPressGestureRecognizer;
+@property (weak, nonatomic) IBOutlet UIView *redCircle;
+@property (weak, nonatomic) IBOutlet UIView *redCircleSubview;
+@property (weak, nonatomic) IBOutlet UIView *redLine;
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *redLineYPositionConstraint;
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *redCircleXPositionConstraint;
+@property (weak, nonatomic) NSTimer *redLineTimer;
 
 @end
 
@@ -71,11 +78,19 @@ struct TouchInfo {
         _initializationInProgress = NO;
     });
     [self.longPressGestureRecognizer addTarget:self action:@selector(longPressed:)];
+    self.redCircle.layer.cornerRadius = 5;
+    self.redCircleSubview.layer.cornerRadius = 4;
+    self.redLineTimer = [NSTimer scheduledTimerWithTimeInterval:60.0
+                                                         target:self
+                                                       selector:@selector(redLineTimerMethod:)
+                                                       userInfo:nil
+                                                        repeats:YES];
 }
 
 - (void)viewDidLayoutSubviews
 {
     [super viewDidLayoutSubviews];
+    [self setupRedLinePosition];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -162,6 +177,7 @@ struct TouchInfo {
     if (scrollView == self.headerCollectionView || scrollView == self.bodyCollectionView){
         UIScrollView *anotherScrollView = scrollView == self.headerCollectionView ? self.bodyCollectionView : self.headerCollectionView;
         anotherScrollView.contentOffset = scrollView.contentOffset;
+        [self setupRedCirclePosition];
     }
 }
 
@@ -225,6 +241,7 @@ struct TouchInfo {
 - (void)didRotateFromInterfaceOrientation:(UIInterfaceOrientation)fromInterfaceOrientation
 {
     [self.bodyCollectionView performBatchUpdates:nil completion:nil];
+    [self setupRedCirclePosition];
 }
 
 - (UIInterfaceOrientation)preferredInterfaceOrientationForPresentation
@@ -424,5 +441,25 @@ struct TouchInfo {
 }
 
 #pragma mark -
+
+- (void)redLineTimerMethod:(NSTimer *)timer
+{
+    [self setupRedLinePosition];
+}
+
+- (void)setupRedLinePosition
+{
+    NSDateComponents *components = [[NSCalendar currentCalendar] components:(NSCalendarUnitHour | NSCalendarUnitMinute) fromDate:[NSDate date]];
+    CGFloat hours = [components hour] + [components minute] / 60.0;
+    self.redLineYPositionConstraint.constant = ((self.contentScrollView.contentSize.height - kHoursAxisInset.top - kHoursAxisInset.bottom) * hours / 24) + kHoursAxisInset.top;
+}
+
+- (void)setupRedCirclePosition
+{
+    CGFloat cellWidth = roundTo1Px( self.headerCollectionView.bounds.size.width / self.numberOfVisibleDays );
+    CGFloat contentOffset = self.headerCollectionView.contentOffset.x;
+    self.redCircleXPositionConstraint.constant = kHoursAxisInset.left - (self.redCircle.bounds.size.width / 2) - contentOffset + cellWidth *_todaysDayIndex;
+    self.redCircle.hidden = self.redCircleXPositionConstraint.constant < kHoursAxisInset.left;
+}
 
 @end

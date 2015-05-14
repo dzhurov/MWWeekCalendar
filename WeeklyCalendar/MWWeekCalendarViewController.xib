@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="7702" systemVersion="14D136" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="7702" systemVersion="14B25" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7701"/>
     </dependencies>
@@ -11,6 +11,11 @@
                 <outlet property="headerCollectionView" destination="uUv-Ag-P8z" id="Ug3-I3-MeV"/>
                 <outlet property="hourAxisView" destination="u0T-e1-2jm" id="5Fk-0m-xVN"/>
                 <outlet property="longPressGestureRecognizer" destination="HKI-cZ-Y8w" id="ETC-uH-92t"/>
+                <outlet property="redCircle" destination="kpK-sJ-D0a" id="H5d-c0-Edi"/>
+                <outlet property="redCircleSubview" destination="z2G-wr-fyc" id="JH1-XV-6SB"/>
+                <outlet property="redCircleXPositionConstraint" destination="EhZ-Yo-92v" id="ybj-ar-HHp"/>
+                <outlet property="redLine" destination="ca4-QO-obH" id="jwq-cu-Gpg"/>
+                <outlet property="redLineYPositionConstraint" destination="6wJ-Mg-gM3" id="oFI-MK-278"/>
                 <outlet property="view" destination="UGa-2h-u01" id="cTB-3C-G4l"/>
             </connections>
         </placeholder>
@@ -51,6 +56,13 @@
                                 </userDefinedRuntimeAttribute>
                             </userDefinedRuntimeAttributes>
                         </view>
+                        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ca4-QO-obH">
+                            <rect key="frame" x="64" y="136" width="536" height="1"/>
+                            <color key="backgroundColor" red="1" green="0.0" blue="0.11764705926179886" alpha="1" colorSpace="calibratedRGB"/>
+                            <constraints>
+                                <constraint firstAttribute="height" constant="1" id="a5V-T0-vmI"/>
+                            </constraints>
+                        </view>
                         <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="none" translatesAutoresizingMaskIntoConstraints="NO" id="N6Z-Xx-72t">
                             <rect key="frame" x="64" y="0.0" width="536" height="1760"/>
                             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
@@ -65,14 +77,37 @@
                                 <outlet property="delegate" destination="-1" id="E5G-Qg-0Vi"/>
                             </connections>
                         </collectionView>
+                        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="kpK-sJ-D0a">
+                            <rect key="frame" x="138" y="132" width="9" height="9"/>
+                            <subviews>
+                                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="z2G-wr-fyc">
+                                    <rect key="frame" x="1" y="1" width="7" height="7"/>
+                                    <color key="backgroundColor" red="1" green="0.0" blue="0.11764705926179886" alpha="1" colorSpace="calibratedRGB"/>
+                                </view>
+                            </subviews>
+                            <color key="backgroundColor" white="1" alpha="0.80000000000000004" colorSpace="calibratedWhite"/>
+                            <constraints>
+                                <constraint firstItem="z2G-wr-fyc" firstAttribute="top" secondItem="kpK-sJ-D0a" secondAttribute="top" constant="1" id="1Qa-W9-o65"/>
+                                <constraint firstAttribute="width" constant="9" id="CEM-aW-hkO"/>
+                                <constraint firstAttribute="bottom" secondItem="z2G-wr-fyc" secondAttribute="bottom" constant="1" id="ITl-cF-1Nh"/>
+                                <constraint firstItem="z2G-wr-fyc" firstAttribute="leading" secondItem="kpK-sJ-D0a" secondAttribute="leading" constant="1" id="ope-SU-p9I"/>
+                                <constraint firstAttribute="height" constant="9" id="qHp-Ud-xmX"/>
+                                <constraint firstAttribute="trailing" secondItem="z2G-wr-fyc" secondAttribute="trailing" constant="1" id="tJn-yF-X2l"/>
+                            </constraints>
+                        </view>
                     </subviews>
                     <gestureRecognizers/>
                     <constraints>
+                        <constraint firstItem="ca4-QO-obH" firstAttribute="top" secondItem="17i-c2-x7Q" secondAttribute="top" constant="136" id="6wJ-Mg-gM3"/>
+                        <constraint firstAttribute="trailing" secondItem="ca4-QO-obH" secondAttribute="trailing" id="7Tr-8y-FqC"/>
                         <constraint firstItem="u0T-e1-2jm" firstAttribute="top" secondItem="17i-c2-x7Q" secondAttribute="top" id="B6M-zE-GJL"/>
+                        <constraint firstItem="kpK-sJ-D0a" firstAttribute="leading" secondItem="17i-c2-x7Q" secondAttribute="leading" constant="138" id="EhZ-Yo-92v"/>
                         <constraint firstAttribute="bottom" secondItem="u0T-e1-2jm" secondAttribute="bottom" id="Nek-a0-i4R"/>
                         <constraint firstItem="u0T-e1-2jm" firstAttribute="leading" secondItem="17i-c2-x7Q" secondAttribute="leading" id="VhB-hC-OVx"/>
                         <constraint firstItem="N6Z-Xx-72t" firstAttribute="leading" secondItem="17i-c2-x7Q" secondAttribute="leading" id="XzN-Wq-L6E"/>
                         <constraint firstAttribute="trailing" secondItem="N6Z-Xx-72t" secondAttribute="trailing" id="ZYX-wC-09W"/>
+                        <constraint firstItem="ca4-QO-obH" firstAttribute="leading" secondItem="17i-c2-x7Q" secondAttribute="leading" constant="64" id="cDb-0a-Ulj"/>
+                        <constraint firstItem="ca4-QO-obH" firstAttribute="centerY" secondItem="kpK-sJ-D0a" secondAttribute="centerY" id="gl3-hF-B25"/>
                         <constraint firstItem="N6Z-Xx-72t" firstAttribute="top" secondItem="17i-c2-x7Q" secondAttribute="top" id="i1b-RW-2Q4"/>
                         <constraint firstAttribute="trailing" secondItem="u0T-e1-2jm" secondAttribute="trailing" id="pjP-Vc-YVY"/>
                         <constraint firstAttribute="bottom" secondItem="N6Z-Xx-72t" secondAttribute="bottom" id="uQX-tX-XcM"/>
