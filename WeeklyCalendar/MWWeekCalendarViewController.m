@@ -16,7 +16,7 @@
 #import "MWWeekEventView.h"
 #import <POP.h>
 #import <QuartzCore/QuartzCore.h>
-#import "MWWeekEvent.h"
+#import "MWCalendarEvent.h"
 #import "MWWeekCalendarConsts.h"
 #import "MWWeekCalendarLayout.h"
 #import "MWEventsContainer.h"
@@ -384,7 +384,7 @@ struct TouchInfo {
 {
     _currentAddingWeekEventView = [[MWWeekEventView alloc] initWithFrame:(CGRect){position,{self.dayColumnWidth - 1, self.hourAxisView.hourStepHeight - 1}}];
     [self.bodyCollectionView addSubview:_currentAddingWeekEventView];
-    MWWeekEvent *event = [MWWeekEvent new];
+    MWCalendarEvent *event = [MWCalendarEvent new];
     _currentAddingWeekEventView.event = event;
     _currentAddingWeekEventView.layer.affineTransform = CGAffineTransformMakeScale(0.1, 0.1);
     _currentAddingWeekEventView.alpha = 0.f;
@@ -519,7 +519,7 @@ struct TouchInfo {
 
 #pragma mark - DayBodyCellDelegate
 
-- (void)dayBodyCell:(DayBodyCell *)cell eventDidTapped:(MWWeekEvent *)event
+- (void)dayBodyCell:(DayBodyCell *)cell eventDidTapped:(MWCalendarEvent *)event
 {
     [[cell eventViewForEvent:event] setSelected:YES];
     dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{

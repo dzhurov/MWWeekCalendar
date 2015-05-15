@@ -7,11 +7,36 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "MWCalendarEditingControllerProtocol.h"
 
-@interface MWWeekCalendarViewController : UIViewController
+@class MWCalendarEvent;
+@protocol MWCalendarDelegate, MWCalendarDataSource;
 
+@interface MWWeekCalendarViewController : UIViewController <MWCalendarEditingControllerDelegate>
 /*! Number of colums visible at the moment. 
  Default is 7*/
 @property (nonatomic) NSUInteger numberOfVisibleDays;
+@property (nonatomic, weak) id <MWCalendarDelegate> delegate;
+@property (nonatomic, weak) id <MWCalendarDataSource> dataSource;
+- (void)reloadEventsFromDate:(NSDate *)fromDate toDate:(NSDate *)toDate;
+- (void)reloadEvents;
+@end
 
+
+@protocol MWCalendarDelegate <NSObject>
+@optional
+- (void)calendarController:(MWWeekCalendarViewController *)controller didScrollToStartDate:(NSDate *)startDate endDate:(NSDate *)endDate;
+- (BOOL)calendarController:(MWWeekCalendarViewController *)controller shouldAddEventForStartDate:(NSDate *)startDate;
+- (void)calendarController:(MWWeekCalendarViewController *)controller didAddEvent:(MWCalendarEvent *)event;
+- (void)calendarController:(MWWeekCalendarViewController *)controller shouldStartEditingForEvent:(MWCalendarEvent *)event;
+- (void)calendarController:(MWWeekCalendarViewController *)controller eventDidRemove:(MWCalendarEvent *)event;
+- (void)calendarController:(MWWeekCalendarViewController *)controller eventDidChange:(MWCalendarEvent *)event;
+@end
+
+
+@protocol MWCalendarDataSource <NSObject>
+/*! [MWCalendarEvent]   */
+- (NSArray *)calendarController:(MWWeekCalendarViewController *)controller eventsForDate:(NSDate *)date;
+- (UIViewController <MWCalendarEditingControllerProtocol> *)calendarController:(MWWeekCalendarViewController *)controller
+                                                     editingControllerForEvent:(MWCalendarEvent *)event;
 @end

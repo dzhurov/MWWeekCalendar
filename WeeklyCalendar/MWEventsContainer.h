@@ -8,11 +8,11 @@
 
 #import <Foundation/Foundation.h>
 
-@class MWWeekEvent;
+@class MWCalendarEvent;
 
 @interface MWEventsContainer : NSObject
 
-- (void)addEvent:(MWWeekEvent *)event forDate:(NSDate *)date;
+- (void)addEvent:(MWCalendarEvent *)event forDate:(NSDate *)date;
 - (NSArray *)eventsForDay:(NSDate *)day;
 
 @end

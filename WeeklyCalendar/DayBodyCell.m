@@ -20,7 +20,6 @@
 @property (weak, nonatomic) IBOutlet UIView *eventViewsContainer;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *eventContainerTopConstraint;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *eventContainerBottomConstraint;
-@property (nonatomic, strong) NSMutableDictionary *eventViewsDictionary;
 
 @end
 
@@ -32,7 +31,6 @@
     _events = [NSMutableArray new];
     self.eventContainerTopConstraint.constant = kHoursAxisInset.top;
     self.eventContainerBottomConstraint.constant = kHoursAxisInset.bottom;
-    self.eventViewsDictionary = [NSMutableDictionary new];
     [self setNeedsDisplay];
 }
 
@@ -64,7 +62,6 @@
 
 - (void)addEventView:(MWWeekEventView *)eventView
 {
-    [self.eventViewsDictionary setObject:eventView forKey:eventView.event];
     NSAssert(eventView.event, @"Event View must contain event");
     
     [self.eventViewsContainer addSubview:eventView];
@@ -86,15 +83,20 @@
     return self.eventViewsContainer.subviews;
 }
 
-- (MWWeekEventView *)eventViewForEvent:(MWWeekEvent *)event
+- (MWWeekEventView *)eventViewForEvent:(MWCalendarEvent *)event
 {
-    return self.eventViewsDictionary[event];
+    for (MWWeekEventView *eventView in self.eventViews) {
+        if (eventView.event == event) {
+            return eventView;
+        }
+    }
+    return nil;
 }
 
 - (void)setEvents:(NSArray *)events
 {
     [self.eventViews makeObjectsPerformSelector:@selector(removeFromSuperview)];
-    for (MWWeekEvent *event in events) {
+    for (MWCalendarEvent *event in events) {
         MWWeekEventView *eventView = [MWWeekEventView new];
         eventView.delegate = self;
         eventView.event = event;

@@ -12,6 +12,14 @@
 
 static const float kNotSelectedAlpha = 0.2;
 
+@interface MWWeekEventView ()
+
+@property (nonatomic, strong) UIView *verticalLineView;
+@property (nonatomic, strong) UILabel *titleLabel;
+@property (nonatomic, strong) UILabel *detailsLabel;
+
+@end
+
 @implementation MWWeekEventView
 
 - (instancetype)initWithFrame:(CGRect)frame
@@ -70,7 +78,7 @@ static const float kNotSelectedAlpha = 0.2;
 
 #pragma mark - Getters/Setters
 
-- (void)setEvent:(MWWeekEvent *)event
+- (void)setEvent:(MWCalendarEvent *)event
 {
     _event = event;
     self.titleLabel.text = event.title;

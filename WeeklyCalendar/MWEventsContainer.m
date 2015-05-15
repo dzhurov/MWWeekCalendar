@@ -25,7 +25,7 @@
     return self;
 }
 
-- (void)addEvent:(MWWeekEvent *)event forDate:(NSDate *)date
+- (void)addEvent:(MWCalendarEvent *)event forDate:(NSDate *)date
 {
     NSNumber *dayOfYear = [self dayOfYearForDate:date];
     NSMutableArray *mutableArray = self.dictionaty[dayOfYear];

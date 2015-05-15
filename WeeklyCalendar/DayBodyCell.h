@@ -18,12 +18,12 @@
 @property (nonatomic, copy) NSArray *events;
 @property (nonatomic, weak) id <DayBodyCellDelegate> delegate;
 
-- (MWWeekEventView *)eventViewForEvent:(MWWeekEvent *)event;
+- (MWWeekEventView *)eventViewForEvent:(MWCalendarEvent *)event;
 
 @end
 
 @protocol DayBodyCellDelegate <NSObject>
 
-- (void)dayBodyCell:(DayBodyCell *)cell eventDidTapped:(MWWeekEvent *)event;
+- (void)dayBodyCell:(DayBodyCell *)cell eventDidTapped:(MWCalendarEvent *)event;
 
 @end
