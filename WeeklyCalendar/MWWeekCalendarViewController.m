@@ -46,6 +46,7 @@ struct TouchInfo {
 @property (weak, nonatomic) IBOutlet UIScrollView *contentScrollView;
 @property (weak, nonatomic) IBOutlet UICollectionView *bodyCollectionView;
 @property (weak, nonatomic) IBOutlet MWWeekCalendarLayout *bodyCollectionViewLayout;
+@property (weak, nonatomic) IBOutlet MWWeekCalendarLayout *headerCollectionViewLayout;
 @property (weak, nonatomic) IBOutlet MWHourAxisView *hourAxisView;
 @property (strong, nonatomic) IBOutlet UILongPressGestureRecognizer *longPressGestureRecognizer;
 @property (weak, nonatomic) IBOutlet UIView *redCircle;
@@ -81,6 +82,7 @@ struct TouchInfo {
     
     self.bodyCollectionViewLayout.delegate = self;
     self.bodyCollectionViewLayout.numberOfVisibleDays = self.numberOfVisibleDays;
+    self.headerCollectionViewLayout.numberOfVisibleDays = self.numberOfVisibleDays;
     
     [self.headerCollectionView registerNib:[UINib nibWithNibName:headerDayCellId bundle:nil] forCellWithReuseIdentifier:headerDayCellId];
     [self.bodyCollectionView registerNib:[UINib nibWithNibName:bodyDayCellId bundle:nil] forCellWithReuseIdentifier:bodyDayCellId];
@@ -142,8 +144,8 @@ struct TouchInfo {
     }
     else{
         DayBodyCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:NSStringFromClass([DayBodyCell class]) forIndexPath:indexPath];
-        
-        cell.contentView.backgroundColor = [UIColor colorWithHue: indexPath.item % 6 / 6.0 + 0.1 saturation:0.7 brightness:1.0 alpha:5.0];
+// For debug:
+//        cell.contentView.backgroundColor = [UIColor colorWithHue: indexPath.item % 6 / 6.0 + 0.1 saturation:0.7 brightness:1.0 alpha:5.0];
         
         cell.events = [self.eventsContainer eventsForDay:date];
         cell.delegate = self;
@@ -267,8 +269,8 @@ struct TouchInfo {
 - (void)didRotateFromInterfaceOrientation:(UIInterfaceOrientation)fromInterfaceOrientation
 {
     [self setupRedCirclePosition];
-    [self.bodyCollectionView.collectionViewLayout invalidateLayout];
-    [self.headerCollectionView.collectionViewLayout invalidateLayout];
+//    [self.bodyCollectionView.collectionViewLayout invalidateLayout];
+//    [self.headerCollectionView.collectionViewLayout invalidateLayout];
 }
 
 - (UIInterfaceOrientation)preferredInterfaceOrientationForPresentation

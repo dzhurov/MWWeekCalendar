@@ -11,6 +11,7 @@
                 <outlet property="contentScrollView" destination="17i-c2-x7Q" id="0ke-eO-KUQ"/>
                 <outlet property="headerCollectionLeadingSpaceConstraint" destination="nuN-IX-nhf" id="mLm-by-fEZ"/>
                 <outlet property="headerCollectionView" destination="uUv-Ag-P8z" id="Ug3-I3-MeV"/>
+                <outlet property="headerCollectionViewLayout" destination="3TH-s0-TV7" id="xof-Sw-kgj"/>
                 <outlet property="hourAxisView" destination="u0T-e1-2jm" id="5Fk-0m-xVN"/>
                 <outlet property="longPressGestureRecognizer" destination="HKI-cZ-Y8w" id="ETC-uH-92t"/>
                 <outlet property="redCircle" destination="kpK-sJ-D0a" id="H5d-c0-Edi"/>
@@ -32,7 +33,7 @@
                     <constraints>
                         <constraint firstAttribute="height" constant="60" id="erB-jb-gsJ"/>
                     </constraints>
-                    <collectionViewFlowLayout key="collectionViewLayout" scrollDirection="horizontal" minimumLineSpacing="0.0" minimumInteritemSpacing="0.0" id="3TH-s0-TV7">
+                    <collectionViewFlowLayout key="collectionViewLayout" scrollDirection="horizontal" minimumLineSpacing="0.0" minimumInteritemSpacing="0.0" id="3TH-s0-TV7" customClass="MWWeekCalendarLayout">
                         <size key="itemSize" width="100" height="60"/>
                         <size key="headerReferenceSize" width="0.0" height="0.0"/>
                         <size key="footerReferenceSize" width="0.0" height="0.0"/>
