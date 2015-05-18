@@ -68,7 +68,7 @@ struct TouchInfo {
         self.numberOfVisibleDays = 7;
         _numberOfDays = 60;
         _todaysDayIndex = self.numberOfVisibleDays * 4 + [[NSDate date] dateComponents].weekday - 1;
-        _initializationInProgress = YES;
+//        _initializationInProgress = YES;
         _eventsContainer = [MWEventsContainer new];
     }
     return self;
@@ -80,14 +80,16 @@ struct TouchInfo {
     NSString *bodyDayCellId = NSStringFromClass([DayBodyCell class]);
     
     self.bodyCollectionViewLayout.delegate = self;
+    self.bodyCollectionViewLayout.numberOfVisibleDays = self.numberOfVisibleDays;
+    
     [self.headerCollectionView registerNib:[UINib nibWithNibName:headerDayCellId bundle:nil] forCellWithReuseIdentifier:headerDayCellId];
     [self.bodyCollectionView registerNib:[UINib nibWithNibName:bodyDayCellId bundle:nil] forCellWithReuseIdentifier:bodyDayCellId];
 
-    dispatch_async(dispatch_get_main_queue(), ^{
-        NSIndexPath *initialIndexPath = [self indexPathForFirstDayOfWeek:[NSDate date]];
-        [self.bodyCollectionView scrollToItemAtIndexPath:initialIndexPath atScrollPosition:UICollectionViewScrollPositionLeft animated:NO];
-        _initializationInProgress = NO;
-    });
+//    dispatch_async(dispatch_get_main_queue(), ^{
+//        NSIndexPath *initialIndexPath = [self indexPathForFirstDayOfWeek:[NSDate date]];
+//        [self.bodyCollectionView scrollToItemAtIndexPath:initialIndexPath atScrollPosition:UICollectionViewScrollPositionLeft animated:NO];
+//        _initializationInProgress = NO;
+//    });
     [self.longPressGestureRecognizer addTarget:self action:@selector(longPressed:)];
     self.redCircle.layer.cornerRadius = 5;
     self.redCircleSubview.layer.cornerRadius = 4;
@@ -140,6 +142,9 @@ struct TouchInfo {
     }
     else{
         DayBodyCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:NSStringFromClass([DayBodyCell class]) forIndexPath:indexPath];
+        
+        cell.contentView.backgroundColor = [UIColor colorWithHue: indexPath.item % 6 / 6.0 + 0.1 saturation:0.7 brightness:1.0 alpha:5.0];
+        
         cell.events = [self.eventsContainer eventsForDay:date];
         cell.delegate = self;
         return cell;
