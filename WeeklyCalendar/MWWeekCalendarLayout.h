@@ -10,7 +10,9 @@
 
 @interface MWWeekCalendarLayout : UICollectionViewFlowLayout
 
+@property (nonatomic) NSUInteger numberOfVisibleDays;
 @property (nonatomic, weak) id delegate;
+
 
 @end
 
