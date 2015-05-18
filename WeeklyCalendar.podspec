@@ -4,7 +4,7 @@ Pod::Spec.new do |s|
   s.license  = 'MIT'
   s.summary  = 'WeeklyCalendar for iOS'
   s.description = <<-DESC
-  					WeeklyCalendar
+  					WeeklyCalendar, calendar control
   					DESC
   s.homepage = 'https://github.com/dzhurov/MWWeekCalendar'
   s.authors  =  {'Dmitry Zhurov' => 'zim01001@gmail.com',
