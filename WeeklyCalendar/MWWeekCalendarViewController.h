@@ -28,7 +28,7 @@
 - (void)calendarController:(MWWeekCalendarViewController *)controller didScrollToStartDate:(NSDate *)startDate endDate:(NSDate *)endDate;
 - (BOOL)calendarController:(MWWeekCalendarViewController *)controller shouldAddEventForStartDate:(NSDate *)startDate;
 - (void)calendarController:(MWWeekCalendarViewController *)controller didAddEvent:(MWCalendarEvent *)event;
-- (void)calendarController:(MWWeekCalendarViewController *)controller shouldStartEditingForEvent:(MWCalendarEvent *)event;
+- (BOOL)calendarController:(MWWeekCalendarViewController *)controller shouldStartEditingForEvent:(MWCalendarEvent *)event;
 - (void)calendarController:(MWWeekCalendarViewController *)controller eventDidRemove:(MWCalendarEvent *)event;
 - (void)calendarController:(MWWeekCalendarViewController *)controller eventDidChange:(MWCalendarEvent *)event;
 @end

@@ -19,7 +19,6 @@
 #import "MWCalendarEvent.h"
 #import "MWWeekCalendarConsts.h"
 #import "MWWeekCalendarLayout.h"
-#import "MWEventsContainer.h"
 
 struct TouchInfo {
     CGPoint point;
@@ -56,7 +55,6 @@ struct TouchInfo {
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *redCircleXPositionConstraint;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *headerCollectionLeadingSpaceConstraint;
 @property (strong, nonatomic) NSTimer *redLineTimer;
-@property (nonatomic, strong) MWEventsContainer *eventsContainer;
 
 @end
 
@@ -69,8 +67,7 @@ struct TouchInfo {
         self.numberOfVisibleDays = 7;
         _numberOfDays = 60;
         _todaysDayIndex = self.numberOfVisibleDays * 4 + [[NSDate date] dateComponents].weekday - 1;
-//        _initializationInProgress = YES;
-        _eventsContainer = [MWEventsContainer new];
+        _initializationInProgress = YES;
     }
     return self;
 }
@@ -121,6 +118,24 @@ struct TouchInfo {
     }
 }
 
+#pragma mark - public
+
+- (void)reloadEventsFromDate:(NSDate *)fromDate toDate:(NSDate *)toDate
+{
+    NSInteger firstItem = [self indexPathForDate:fromDate].item;
+    NSInteger lastItem = [self indexPathForDate:toDate].item;
+    NSMutableArray *indexPaths = [NSMutableArray new];
+    for (NSInteger item = firstItem; item <= lastItem; ++item) {
+        [indexPaths addObject:[NSIndexPath indexPathForItem:item inSection:0]];
+    }
+    [self.bodyCollectionView reloadItemsAtIndexPaths:indexPaths];
+}
+
+- (void)reloadEvents
+{
+    [self.bodyCollectionView reloadData];
+}
+
 #pragma mark - UICollectionViewDataSource
 
 - (NSInteger)numberOfSectionsInCollectionView:(UICollectionView *)collectionView
@@ -146,8 +161,7 @@ struct TouchInfo {
         DayBodyCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:NSStringFromClass([DayBodyCell class]) forIndexPath:indexPath];
 // For debug:
 //        cell.contentView.backgroundColor = [UIColor colorWithHue: indexPath.item % 6 / 6.0 + 0.1 saturation:0.7 brightness:1.0 alpha:5.0];
-        
-        cell.events = [self.eventsContainer eventsForDay:date];
+        cell.events = [self.dataSource calendarController:self eventsForDate:date];
         cell.delegate = self;
         return cell;
     }
@@ -206,6 +220,21 @@ struct TouchInfo {
         UIScrollView *anotherScrollView = scrollView == self.headerCollectionView ? self.bodyCollectionView : self.headerCollectionView;
         anotherScrollView.contentOffset = scrollView.contentOffset;
         [self setupRedCirclePosition];
+    }
+}
+
+- (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView
+{
+    if (scrollView == self.headerCollectionView || scrollView == self.bodyCollectionView) {
+        CGFloat cellWidth = roundTo1Px( self.headerCollectionView.bounds.size.width / self.numberOfVisibleDays );
+        CGFloat contentOffset = self.headerCollectionView.contentOffset.x;
+        NSInteger firstVisibleCellIndex = roundf(contentOffset / cellWidth);
+        NSInteger lastVisibleCellIndex = firstVisibleCellIndex + self.numberOfVisibleDays - 1;
+        NSDate *fromDate = [self dateForItem:firstVisibleCellIndex];
+        NSDate *toDate = [self dateForItem:lastVisibleCellIndex];
+        if ([self.delegate respondsToSelector:@selector(calendarController:didScrollToStartDate:endDate:)]) {
+            [self.delegate calendarController:self didScrollToStartDate:fromDate endDate:toDate];
+        }
     }
 }
 
@@ -359,7 +388,15 @@ struct TouchInfo {
     NSDate *hoursMinutesDate = [self.hourAxisView showEventTimeForTouch:positionOnHourAxisView];
     
     if (recognizer.state == UIGestureRecognizerStateBegan){
-        [self addEventViewWithPosition:position];
+        if ([self.delegate respondsToSelector:@selector(calendarController:shouldAddEventForStartDate:)]) {
+            NSDate *currentDate = [self dateForItem:_currentAddingEventColumn];
+            if ([self.delegate calendarController:self shouldAddEventForStartDate:currentDate]) {
+                [self addEventViewWithPosition:position];
+            }
+        }
+        else {
+            [self addEventViewWithPosition:position];
+        }
     }
     
     if (recognizer.state == UIGestureRecognizerStateChanged){
@@ -392,6 +429,7 @@ struct TouchInfo {
     _currentAddingWeekEventView = [[MWWeekEventView alloc] initWithFrame:(CGRect){position,{self.dayColumnWidth - 1, self.hourAxisView.hourStepHeight - 1}}];
     [self.bodyCollectionView addSubview:_currentAddingWeekEventView];
     MWCalendarEvent *event = [MWCalendarEvent new];
+    
     _currentAddingWeekEventView.event = event;
     _currentAddingWeekEventView.layer.affineTransform = CGAffineTransformMakeScale(0.1, 0.1);
     _currentAddingWeekEventView.alpha = 0.f;
@@ -409,7 +447,11 @@ struct TouchInfo {
                      animations:^{
                          _currentAddingWeekEventView.layer.affineTransform = CGAffineTransformIdentity;
                      }
-                     completion:nil];
+                     completion:^(BOOL finished) {
+                         if ( [self.delegate respondsToSelector:@selector(calendarController:didAddEvent:)]) {
+                             [self.delegate calendarController:self didAddEvent:event];
+                         }
+                     }];
     
     POPBasicAnimation *alphaAnimation = [POPBasicAnimation easeOutAnimation];
     alphaAnimation.property = [POPAnimatableProperty propertyWithName: kPOPViewAlpha];
@@ -452,12 +494,14 @@ struct TouchInfo {
     _currentAddingWeekEventView.layer.shadowRadius = 0.f;
     _currentAddingWeekEventView.layer.shadowOpacity = 0.f;
     [_currentAddingWeekEventView removeFromSuperview];
-    
-    [self.eventsContainer addEvent:_currentAddingWeekEventView.event forDate:_currentAddingWeekEventView.event.startDate];
-    [self.bodyCollectionView reloadItemsAtIndexPaths:@[indexPath]];
 
+    if ([self.delegate respondsToSelector:@selector(calendarController:didAddEvent:)]) {
+        [self.delegate calendarController:self didAddEvent:_currentAddingWeekEventView.event];
+    }
+    
     _currentAddingWeekEventView.selected = NO;
     _currentAddingWeekEventView = nil;
+    [self.bodyCollectionView reloadItemsAtIndexPaths:@[indexPath]];
 }
 
 - (void)removeCurerntEventFromPoint:(CGPoint)point withVelocity:(CGVector)velocity
@@ -532,6 +576,29 @@ struct TouchInfo {
     dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
         [[cell eventViewForEvent:event] setSelected:NO];
     });
+}
+
+#pragma mark - MWCalendarEditingControllerDelegate <NSObject>
+
+- (void)saveEvent:(MWCalendarEvent *)event
+{
+#warning not implemented
+    if ([self.delegate respondsToSelector:@selector(calendarController:eventDidChange:)]) {
+        [self.delegate calendarController:self eventDidChange:event];
+    }
+}
+
+- (void)deleteEvent:(MWCalendarEvent *)event
+{
+#warning not implemented
+    if ([self.delegate respondsToSelector:@selector(calendarController:eventDidRemove:)]) {
+        [self.delegate calendarController:self eventDidRemove:event];
+    }
+}
+
+- (void)cancelEditingForEvent:(MWCalendarEvent *)event
+{
+#warning not implemented
 }
 
 @end

@@ -8,20 +8,24 @@
 
 #import "AppDelegate.h"
 #import "MWWeekCalendarViewController.h"
+#import "CalendarDelegate.h"
 
 @interface AppDelegate ()
 
 @property (nonatomic, strong) MWWeekCalendarViewController *calendarVC;
+@property (nonatomic, strong) CalendarDelegate *calendarDelegate;
 
 @end
 
 @implementation AppDelegate
 
-
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]] ;
     self.calendarVC = [MWWeekCalendarViewController new];
+    self.calendarDelegate = [CalendarDelegate new];
+    self.calendarVC.delegate = self.calendarDelegate;
+    self.calendarVC.dataSource = self.calendarDelegate;
     self.window.rootViewController = self.calendarVC;
     
     return YES;
