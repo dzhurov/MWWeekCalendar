@@ -13,6 +13,7 @@
 @interface MWEventsContainer : NSObject
 
 - (void)addEvent:(MWCalendarEvent *)event forDate:(NSDate *)date;
+- (void)removeEvent:(MWCalendarEvent *)event withDate:(NSDate *)date;
 - (NSArray *)eventsForDay:(NSDate *)day;
 
 @end

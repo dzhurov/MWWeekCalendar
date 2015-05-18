@@ -34,6 +34,8 @@
 		7EF1BA001AEE77A10086763A /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7EF1B9FE1AEE77A10086763A /* LaunchScreen.xib */; };
 		7EF1BA0C1AEE77A10086763A /* WeeklyCalendarTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 7EF1BA0B1AEE77A10086763A /* WeeklyCalendarTests.m */; };
 		7EF1BA161AEE77D50086763A /* Calendar.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7EF1BA151AEE77D50086763A /* Calendar.xib */; };
+		BDED089C1B0A3E8300143F12 /* MWCalendarEditingVC.m in Sources */ = {isa = PBXBuildFile; fileRef = BDED089A1B0A3E8300143F12 /* MWCalendarEditingVC.m */; };
+		BDED089D1B0A3E8300143F12 /* MWCalendarEditingVC.xib in Resources */ = {isa = PBXBuildFile; fileRef = BDED089B1B0A3E8300143F12 /* MWCalendarEditingVC.xib */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -99,6 +101,9 @@
 		7EF1BA0A1AEE77A10086763A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		7EF1BA0B1AEE77A10086763A /* WeeklyCalendarTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = WeeklyCalendarTests.m; sourceTree = "<group>"; };
 		7EF1BA151AEE77D50086763A /* Calendar.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = Calendar.xib; sourceTree = "<group>"; };
+		BDED08991B0A3E8300143F12 /* MWCalendarEditingVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MWCalendarEditingVC.h; sourceTree = "<group>"; };
+		BDED089A1B0A3E8300143F12 /* MWCalendarEditingVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MWCalendarEditingVC.m; sourceTree = "<group>"; };
+		BDED089B1B0A3E8300143F12 /* MWCalendarEditingVC.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MWCalendarEditingVC.xib; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -155,6 +160,9 @@
 				6116E1001B0A30C200F48255 /* MWWeekCalendarViewController.h */,
 				6116E1011B0A30C200F48255 /* MWWeekCalendarViewController.m */,
 				6116E1021B0A30C200F48255 /* MWWeekCalendarViewController.xib */,
+				BDED08991B0A3E8300143F12 /* MWCalendarEditingVC.h */,
+				BDED089A1B0A3E8300143F12 /* MWCalendarEditingVC.m */,
+				BDED089B1B0A3E8300143F12 /* MWCalendarEditingVC.xib */,
 				6116E1031B0A30C200F48255 /* MWWeekEventView.h */,
 				6116E1041B0A30C200F48255 /* MWWeekEventView.m */,
 				6116E1051B0A30C200F48255 /* RZCollectionViewAnimationAssistant.h */,
@@ -334,6 +342,7 @@
 				7EF1B9FB1AEE77A10086763A /* Main.storyboard in Resources */,
 				6116E10C1B0A30C200F48255 /* HeaderDayCell.xib in Resources */,
 				6116E1091B0A30C200F48255 /* DayBodyCell.xib in Resources */,
+				BDED089D1B0A3E8300143F12 /* MWCalendarEditingVC.xib in Resources */,
 				7EF1BA001AEE77A10086763A /* LaunchScreen.xib in Resources */,
 				7EF1B9FD1AEE77A10086763A /* Images.xcassets in Resources */,
 				7EF1BA161AEE77D50086763A /* Calendar.xib in Resources */,
@@ -404,6 +413,7 @@
 				6116E1081B0A30C200F48255 /* DayBodyCell.m in Sources */,
 				6116E11F1B0A30F100F48255 /* NSDate+MWWeeklyCalendar.m in Sources */,
 				6116E1201B0A30F100F48255 /* NSDate+Utilities.m in Sources */,
+				BDED089C1B0A3E8300143F12 /* MWCalendarEditingVC.m in Sources */,
 				6116E1071B0A30C200F48255 /* CalendarDelegate.m in Sources */,
 				7EF1B9F21AEE77A10086763A /* main.m in Sources */,
 			);

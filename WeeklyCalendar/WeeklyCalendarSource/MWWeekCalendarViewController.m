@@ -27,7 +27,7 @@ struct TouchInfo {
 };
 
 
-@interface MWWeekCalendarViewController () <UICollectionViewDataSource, UICollectionViewDelegate, UIGestureRecognizerDelegate, DayBodyCellDelegate, MWWeekCalendarLayoutDelegate>
+@interface MWWeekCalendarViewController () <UICollectionViewDataSource, UICollectionViewDelegate, UIGestureRecognizerDelegate, DayBodyCellDelegate, MWWeekCalendarLayoutDelegate, UIPopoverControllerDelegate>
 {
     NSUInteger _numberOfDays;
     NSUInteger _todaysDayIndex;
@@ -35,6 +35,7 @@ struct TouchInfo {
     
     MWWeekEventView *_currentAddingWeekEventView;
     NSUInteger _currentAddingEventColumn;
+    MWWeekEventView *_editingEventView;
     
     struct TouchInfo _addingEventTouchInfo;
 //    CGPoint         _currentAddintEventPreviousPoint;
@@ -55,6 +56,7 @@ struct TouchInfo {
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *redCircleXPositionConstraint;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *headerCollectionLeadingSpaceConstraint;
 @property (strong, nonatomic) NSTimer *redLineTimer;
+@property (strong, nonatomic) UIPopoverController *editingControllerPopover;
 
 @end
 
@@ -386,16 +388,17 @@ struct TouchInfo {
     
     CGPoint positionOnHourAxisView = [self.bodyCollectionView convertPoint:position toView:self.hourAxisView];
     NSDate *hoursMinutesDate = [self.hourAxisView showEventTimeForTouch:positionOnHourAxisView];
-    
+    NSIndexPath *indexPath = [NSIndexPath indexPathForItem:_currentAddingEventColumn inSection:0];
+
     if (recognizer.state == UIGestureRecognizerStateBegan){
         if ([self.delegate respondsToSelector:@selector(calendarController:shouldAddEventForStartDate:)]) {
             NSDate *currentDate = [self dateForItem:_currentAddingEventColumn];
             if ([self.delegate calendarController:self shouldAddEventForStartDate:currentDate]) {
-                [self addEventViewWithPosition:position];
+                [self addEventViewWithPosition:position forCellAtIndexPath:indexPath];
             }
         }
         else {
-            [self addEventViewWithPosition:position];
+            [self addEventViewWithPosition:position forCellAtIndexPath:indexPath];
         }
     }
     
@@ -414,7 +417,6 @@ struct TouchInfo {
         }
         else{
             NSLog(@"UIGestureRecognizerStateEnded ||");
-            NSIndexPath *indexPath = [NSIndexPath indexPathForItem:_currentAddingEventColumn inSection:0];
             [self addCurrentEventToCellAtIndexPath:indexPath timeDate:hoursMinutesDate];
             [self.hourAxisView hideEventTouch];
         }
@@ -424,7 +426,7 @@ struct TouchInfo {
 #pragma mark - MWWeekEvent Movements
 
 
-- (void)addEventViewWithPosition:(CGPoint)position
+- (void)addEventViewWithPosition:(CGPoint)position forCellAtIndexPath:(NSIndexPath *)indexPath
 {
     _currentAddingWeekEventView = [[MWWeekEventView alloc] initWithFrame:(CGRect){position,{self.dayColumnWidth - 1, self.hourAxisView.hourStepHeight - 1}}];
     [self.bodyCollectionView addSubview:_currentAddingWeekEventView];
@@ -451,6 +453,8 @@ struct TouchInfo {
                          if ( [self.delegate respondsToSelector:@selector(calendarController:didAddEvent:)]) {
                              [self.delegate calendarController:self didAddEvent:event];
                          }
+                         DayBodyCell *cell = (DayBodyCell *)[self.bodyCollectionView cellForItemAtIndexPath:indexPath];
+                         [self editEvent:event inCell:cell];
                      }];
     
     POPBasicAnimation *alphaAnimation = [POPBasicAnimation easeOutAnimation];
@@ -572,33 +576,63 @@ struct TouchInfo {
 
 - (void)dayBodyCell:(DayBodyCell *)cell eventDidTapped:(MWCalendarEvent *)event
 {
-    [[cell eventViewForEvent:event] setSelected:YES];
-    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-        [[cell eventViewForEvent:event] setSelected:NO];
-    });
+    [self editEvent:event inCell:cell];
 }
 
 #pragma mark - MWCalendarEditingControllerDelegate <NSObject>
 
 - (void)saveEvent:(MWCalendarEvent *)event
 {
-#warning not implemented
-    if ([self.delegate respondsToSelector:@selector(calendarController:eventDidChange:)]) {
-        [self.delegate calendarController:self eventDidChange:event];
+    if ([self.delegate respondsToSelector:@selector(calendarController:saveEvent:)]) {
+        [self.delegate calendarController:self saveEvent:event];
     }
+    [self cancelEditing];
+    [self.bodyCollectionView reloadItemsAtIndexPaths:@[[self indexPathForDate:event.startDate]]];
 }
 
 - (void)deleteEvent:(MWCalendarEvent *)event
 {
-#warning not implemented
-    if ([self.delegate respondsToSelector:@selector(calendarController:eventDidRemove:)]) {
-        [self.delegate calendarController:self eventDidRemove:event];
+    if ([self.delegate respondsToSelector:@selector(calendarController:removeEvent:)]) {
+        [self.delegate calendarController:self removeEvent:event];
     }
+    [self cancelEditing];
+    [self.bodyCollectionView reloadItemsAtIndexPaths:@[[self indexPathForDate:event.startDate]]];
 }
 
 - (void)cancelEditingForEvent:(MWCalendarEvent *)event
 {
-#warning not implemented
+    [self cancelEditing];
+}
+
+#pragma mark -
+
+- (void)editEvent:(MWCalendarEvent *)event inCell:(DayBodyCell *)cell
+{
+    UIViewController *editingController = [self.dataSource calendarController:self editingControllerForEvent:event];
+    self.editingControllerPopover = [[UIPopoverController alloc] initWithContentViewController:editingController];
+    self.editingControllerPopover.delegate = self;
+    [self.editingControllerPopover presentPopoverFromRect:[cell eventViewForEvent:event].frame
+                                                   inView:[cell eventViewForEvent:event].superview
+                                 permittedArrowDirections:UIPopoverArrowDirectionAny animated:YES];
+    _editingEventView = [cell eventViewForEvent:event];
+    [_editingEventView setSelected:YES];
+}
+
+- (void)cancelEditing
+{
+    if ([self.editingControllerPopover isPopoverVisible]) {
+        [self.editingControllerPopover dismissPopoverAnimated:YES];
+    }
+    self.editingControllerPopover = nil;
+    [_editingEventView setSelected:NO];
+    _editingEventView = nil;
+}
+
+#pragma mark - UIPopoverControllerDelegate <NSObject>
+
+- (void)popoverControllerDidDismissPopover:(UIPopoverController *)popoverController
+{
+    [self cancelEditing];
 }
 
 @end

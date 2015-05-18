@@ -37,6 +37,12 @@
     [mutableArray sortUsingDescriptors:@[[[NSSortDescriptor alloc] initWithKey:@"startDate" ascending:YES]]];
 }
 
+- (void)removeEvent:(MWCalendarEvent *)event withDate:(NSDate *)date
+{
+    NSMutableArray *events = self.dictionaty[[self dayOfYearForDate:date]];
+    [events removeObject:event];
+}
+
 - (NSArray *)eventsForDay:(NSDate *)day
 {
     NSMutableArray *events = self.dictionaty[[self dayOfYearForDate:day]];

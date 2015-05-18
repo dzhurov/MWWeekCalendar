@@ -9,6 +9,7 @@
 #import "CalendarDelegate.h"
 #import "MWEventsContainer.h"
 #import "MWCalendarEvent.h"
+#import "MWCalendarEditingVC.h"
 
 @interface CalendarDelegate ()
 
@@ -31,7 +32,7 @@
 
 - (void)calendarController:(MWWeekCalendarViewController *)controller didScrollToStartDate:(NSDate *)startDate endDate:(NSDate *)endDate
 {
-
+    
 }
 
 - (BOOL)calendarController:(MWWeekCalendarViewController *)controller shouldAddEventForStartDate:(NSDate *)startDate
@@ -49,12 +50,12 @@
     return YES;
 }
 
-- (void)calendarController:(MWWeekCalendarViewController *)controller eventDidRemove:(MWCalendarEvent *)event
+- (void)calendarController:(MWWeekCalendarViewController *)controller removeEvent:(MWCalendarEvent *)event
 {
-    
+    [self.eventsContainer removeEvent:event withDate:event.startDate];
 }
 
-- (void)calendarController:(MWWeekCalendarViewController *)controller eventDidChange:(MWCalendarEvent *)event
+- (void)calendarController:(MWWeekCalendarViewController *)controller saveEvent:(MWCalendarEvent *)event
 {
     
 }
@@ -70,7 +71,10 @@
 - (UIViewController <MWCalendarEditingControllerProtocol> *)calendarController:(MWWeekCalendarViewController *)controller
                                                      editingControllerForEvent:(MWCalendarEvent *)event
 {
-    return nil;
+    MWCalendarEditingVC *editingVC = [MWCalendarEditingVC new];
+    editingVC.event = event;
+    editingVC.calendarVC = controller;
+    return editingVC;
 }
 
 @end
