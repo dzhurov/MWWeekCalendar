@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
-@interface HeaderDayCell : UICollectionViewCell
+@interface MWHeaderDayCell : UICollectionViewCell
 
 @property (weak, nonatomic) IBOutlet UILabel *dayOfWeekLabel;
 @property (weak, nonatomic) IBOutlet UILabel *dayOfMonthLabel;

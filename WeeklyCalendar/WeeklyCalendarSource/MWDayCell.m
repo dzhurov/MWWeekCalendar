@@ -6,8 +6,8 @@
 //
 //
 
-#import "DayCell.h"
+#import "MWDayCell.h"
 
-@implementation DayCell
+@implementation MWDayCell
 
 @end

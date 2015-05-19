@@ -7,8 +7,8 @@
 //
 
 #import "MWWeekCalendarViewController.h"
-#import "HeaderDayCell.h"
-#import "DayBodyCell.h"
+#import "MWHeaderDayCell.h"
+#import "MWDayBodyCell.h"
 #import "MWHourAxisView.h"
 #import "CGHelper.h"
 #import "NSDate+Utilities.h"
@@ -27,7 +27,7 @@ struct TouchInfo {
 };
 
 
-@interface MWWeekCalendarViewController () <UICollectionViewDataSource, UICollectionViewDelegate, UIGestureRecognizerDelegate, DayBodyCellDelegate, MWWeekCalendarLayoutDelegate, UIPopoverControllerDelegate>
+@interface MWWeekCalendarViewController () <UICollectionViewDataSource, UICollectionViewDelegate, UIGestureRecognizerDelegate, MWDayBodyCellDelegate, MWWeekCalendarLayoutDelegate, UIPopoverControllerDelegate>
 {
     NSUInteger _numberOfDays;
     NSUInteger _todaysDayIndex;
@@ -76,8 +76,8 @@ struct TouchInfo {
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    NSString *headerDayCellId = NSStringFromClass([HeaderDayCell class]);
-    NSString *bodyDayCellId = NSStringFromClass([DayBodyCell class]);
+    NSString *headerDayCellId = NSStringFromClass([MWHeaderDayCell class]);
+    NSString *bodyDayCellId = NSStringFromClass([MWDayBodyCell class]);
     
     self.bodyCollectionViewLayout.delegate = self;
     self.bodyCollectionViewLayout.numberOfVisibleDays = self.numberOfVisibleDays;
@@ -154,13 +154,13 @@ struct TouchInfo {
 {
     NSDate *date = [self dateForItem:indexPath.item];
     if (collectionView == _headerCollectionView){
-        HeaderDayCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:NSStringFromClass([HeaderDayCell class]) forIndexPath:indexPath];
+        MWHeaderDayCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:NSStringFromClass([MWHeaderDayCell class]) forIndexPath:indexPath];
         [cell setDate:date selected:[date isToday] weekend:[date isTypicallyWeekend]];
         
         return cell;
     }
     else{
-        DayBodyCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:NSStringFromClass([DayBodyCell class]) forIndexPath:indexPath];
+        MWDayBodyCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:NSStringFromClass([MWDayBodyCell class]) forIndexPath:indexPath];
 // For debug:
 //        cell.contentView.backgroundColor = [UIColor colorWithHue: indexPath.item % 6 / 6.0 + 0.1 saturation:0.7 brightness:1.0 alpha:5.0];
         cell.events = [self.dataSource calendarController:self eventsForDate:date];
@@ -434,7 +434,7 @@ struct TouchInfo {
 
 - (MWWeekEventView *)eventViewForPosition:(CGPoint)position atIndexPath:(NSIndexPath *)indexPath
 {
-    DayBodyCell *cell = (DayBodyCell *)[self.bodyCollectionView cellForItemAtIndexPath:indexPath];
+    MWDayBodyCell *cell = (MWDayBodyCell *)[self.bodyCollectionView cellForItemAtIndexPath:indexPath];
     return [cell eventViewForPosition:position];
 }
 
@@ -465,7 +465,7 @@ struct TouchInfo {
                          if ( [self.delegate respondsToSelector:@selector(calendarController:didAddEvent:)]) {
                              [self.delegate calendarController:self didAddEvent:event];
                          }
-                         DayBodyCell *cell = (DayBodyCell *)[self.bodyCollectionView cellForItemAtIndexPath:indexPath];
+                         MWDayBodyCell *cell = (MWDayBodyCell *)[self.bodyCollectionView cellForItemAtIndexPath:indexPath];
                          [self editEvent:event inCell:cell];
                      }];
     
@@ -584,9 +584,9 @@ struct TouchInfo {
     self.hourAxisView.showCurrentDate = !self.redLine.hidden;
 }
 
-#pragma mark - DayBodyCellDelegate
+#pragma mark - MWDayBodyCellDelegate
 
-- (void)dayBodyCell:(DayBodyCell *)cell eventDidTapped:(MWCalendarEvent *)event
+- (void)dayBodyCell:(MWDayBodyCell *)cell eventDidTapped:(MWCalendarEvent *)event
 {
     [self editEvent:event inCell:cell];
 }
@@ -618,7 +618,7 @@ struct TouchInfo {
 
 #pragma mark -
 
-- (void)editEvent:(MWCalendarEvent *)event inCell:(DayBodyCell *)cell
+- (void)editEvent:(MWCalendarEvent *)event inCell:(MWDayBodyCell *)cell
 {
     UIViewController *editingController = [self.dataSource calendarController:self editingControllerForEvent:event];
     self.editingControllerPopover = [[UIPopoverController alloc] initWithContentViewController:editingController];

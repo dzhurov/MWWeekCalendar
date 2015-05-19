@@ -6,11 +6,11 @@
 //
 //
 
-#import "HeaderDayCell.h"
+#import "MWHeaderDayCell.h"
 #import "NSDate+MWWeeklyCalendar.h"
 #import "UIColor+MWWeeklyCalendar.h"
 
-@implementation HeaderDayCell
+@implementation MWHeaderDayCell
 
 - (void)awakeFromNib
 {

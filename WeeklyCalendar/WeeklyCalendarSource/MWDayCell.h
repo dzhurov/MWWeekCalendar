@@ -8,6 +8,6 @@
 
 #import <UIKit/UIKit.h>
 
-@interface DayCell : UICollectionViewCell
+@interface MWDayCell : UICollectionViewCell
 
 @end

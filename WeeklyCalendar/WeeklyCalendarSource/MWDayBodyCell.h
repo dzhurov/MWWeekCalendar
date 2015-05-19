@@ -1,5 +1,5 @@
 //
-//  DayBodyCell.h
+//  MWDayBodyCell.h
 //  WeeklyCalendar
 //
 //  Created by DZhurov on 4/27/15.
@@ -9,22 +9,22 @@
 #import <UIKit/UIKit.h>
 #import "MWWeekEventView.h"
 
-@protocol DayBodyCellDelegate;
+@protocol MWDayBodyCellDelegate;
 
-@interface DayBodyCell : UICollectionViewCell
+@interface MWDayBodyCell : UICollectionViewCell
 
 @property (nonatomic, strong) UIColor *axisColor; //Default: lightGrayColor
 /*! [MWWeekEvent]       */
 @property (nonatomic, copy) NSArray *events;
-@property (nonatomic, weak) id <DayBodyCellDelegate> delegate;
+@property (nonatomic, weak) id <MWDayBodyCellDelegate> delegate;
 
 - (MWWeekEventView *)eventViewForEvent:(MWCalendarEvent *)event;
 - (MWWeekEventView *)eventViewForPosition:(CGPoint)position;
 
 @end
 
-@protocol DayBodyCellDelegate <NSObject>
+@protocol MWDayBodyCellDelegate <NSObject>
 
-- (void)dayBodyCell:(DayBodyCell *)cell eventDidTapped:(MWCalendarEvent *)event;
+- (void)dayBodyCell:(MWDayBodyCell *)cell eventDidTapped:(MWCalendarEvent *)event;
 
 @end

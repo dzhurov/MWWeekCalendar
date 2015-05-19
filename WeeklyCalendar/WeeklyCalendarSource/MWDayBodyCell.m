@@ -1,18 +1,18 @@
 //
-//  DayBodyCell.m
+//  MWDayBodyCell.m
 //  WeeklyCalendar
 //
 //  Created by DZhurov on 4/27/15.
 //
 //
 
-#import "DayBodyCell.h"
+#import "MWDayBodyCell.h"
 #import "CGHelper.h"
 #import "MWWeekCalendarConsts.h"
 #import <PureLayout.h>
 #import "NSDate+Utilities.h"
 
-@interface DayBodyCell () <MWWeekEventViewDelegate>
+@interface MWDayBodyCell () <MWWeekEventViewDelegate>
 {
     NSMutableArray *_events;
 }
@@ -25,7 +25,7 @@
 
 @end
 
-@implementation DayBodyCell
+@implementation MWDayBodyCell
 
 - (void)awakeFromNib
 {
