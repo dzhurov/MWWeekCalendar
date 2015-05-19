@@ -12,24 +12,46 @@
             <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
                 <rect key="frame" x="0.0" y="0.0" width="100" height="960"/>
                 <subviews>
+                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="yXz-kX-ZPO">
+                        <rect key="frame" x="99" y="10" width="1" height="940"/>
+                        <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstAttribute="width" constant="1" id="cBr-Hg-PWQ"/>
+                        </constraints>
+                    </view>
                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="oxY-0e-K2E">
-                        <rect key="frame" x="0.0" y="10" width="100" height="940"/>
+                        <rect key="frame" x="0.0" y="10" width="99" height="940"/>
                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                     </view>
                 </subviews>
                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
             </view>
             <constraints>
+                <constraint firstItem="yXz-kX-ZPO" firstAttribute="top" secondItem="gTV-IL-0wX" secondAttribute="top" id="0B3-q1-AN7"/>
+                <constraint firstAttribute="trailing" secondItem="yXz-kX-ZPO" secondAttribute="trailing" id="14Q-TY-kJS"/>
+                <constraint firstItem="oxY-0e-K2E" firstAttribute="top" secondItem="yXz-kX-ZPO" secondAttribute="top" id="1En-Rb-4Qk"/>
                 <constraint firstItem="oxY-0e-K2E" firstAttribute="leading" secondItem="gTV-IL-0wX" secondAttribute="leading" id="PQI-YQ-y4r"/>
                 <constraint firstAttribute="trailing" secondItem="oxY-0e-K2E" secondAttribute="trailing" id="YVG-NE-iJt"/>
                 <constraint firstItem="oxY-0e-K2E" firstAttribute="top" secondItem="gTV-IL-0wX" secondAttribute="top" constant="10" id="bAZ-91-p6H"/>
+                <constraint firstAttribute="bottom" secondItem="yXz-kX-ZPO" secondAttribute="bottom" id="deX-JT-aUI"/>
+                <constraint firstItem="oxY-0e-K2E" firstAttribute="bottom" secondItem="yXz-kX-ZPO" secondAttribute="bottom" id="jLe-LN-Heg"/>
                 <constraint firstAttribute="bottom" secondItem="oxY-0e-K2E" secondAttribute="bottom" constant="10" id="m0Q-Kx-57G"/>
+                <constraint firstItem="yXz-kX-ZPO" firstAttribute="leading" secondItem="oxY-0e-K2E" secondAttribute="trailing" id="sni-O5-V5V"/>
             </constraints>
             <size key="customSize" width="100" height="960"/>
+            <variation key="default">
+                <mask key="constraints">
+                    <exclude reference="YVG-NE-iJt"/>
+                    <exclude reference="0B3-q1-AN7"/>
+                    <exclude reference="deX-JT-aUI"/>
+                </mask>
+            </variation>
             <connections>
                 <outlet property="eventContainerBottomConstraint" destination="m0Q-Kx-57G" id="s3s-my-EUl"/>
                 <outlet property="eventContainerTopConstraint" destination="bAZ-91-p6H" id="iBA-P6-U9d"/>
                 <outlet property="eventViewsContainer" destination="oxY-0e-K2E" id="5cp-LG-HIi"/>
+                <outlet property="separatorView" destination="yXz-kX-ZPO" id="Yq3-Ia-Mjo"/>
+                <outlet property="separatorWidthConstraint" destination="cBr-Hg-PWQ" id="hTa-cK-Gx1"/>
             </connections>
             <point key="canvasLocation" x="-15" y="406"/>
         </collectionViewCell>

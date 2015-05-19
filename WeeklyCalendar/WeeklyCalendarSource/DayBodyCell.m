@@ -20,6 +20,8 @@
 @property (weak, nonatomic) IBOutlet UIView *eventViewsContainer;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *eventContainerTopConstraint;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *eventContainerBottomConstraint;
+@property (weak, nonatomic) IBOutlet UIView *separatorView;
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *separatorWidthConstraint;
 
 @end
 
@@ -32,26 +34,13 @@
     self.eventContainerTopConstraint.constant = kHoursAxisInset.top;
     self.eventContainerBottomConstraint.constant = kHoursAxisInset.bottom;
     [self setNeedsDisplay];
+    self.separatorWidthConstraint.constant = onePx();
 }
 
 - (void)didMoveToSuperview
 {
     [super didMoveToSuperview];
     [self setNeedsDisplay];
-}
-
-- (void)drawRect:(CGRect)rect
-{
-    [super drawRect:rect];
-
-    CGContextRef context = UIGraphicsGetCurrentContext();
-
-    draw1PxStroke(context,
-                  CGPointMake(CGRectGetMaxX(rect) - 0.5,
-                              kHoursAxisInset.top + 0.5),
-                  CGPointMake(CGRectGetMaxX(rect) - 0.5,
-                              CGRectGetMaxY(rect) - kHoursAxisInset.bottom),
-                  self.axisColor.CGColor);
 }
 
 - (void)setBounds:(CGRect)bounds

@@ -7,6 +7,11 @@
 //
 #import "CGHelper.h"
 
+CGFloat onePx()
+{
+    return 1.f / [UIScreen mainScreen].scale;
+}
+
 void draw1PxStroke(CGContextRef context, CGPoint startPoint, CGPoint endPoint, CGColorRef color)
 {
     CGContextSaveGState(context);

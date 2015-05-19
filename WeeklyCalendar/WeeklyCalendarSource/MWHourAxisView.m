@@ -62,11 +62,12 @@ IB_DESIGNABLE
     // Adding Hours labels and horizontal lines
     CGFloat horizontalLineXPosition = kHoursAxisInset.top;
     for (int hour = 0; hour <= 24; hour++) {
+        CGFloat halfPx = onePx() / 2.f;
         draw1PxStroke(context,
                       CGPointMake(kHoursAxisInset.left/* + 0.5*/,
-                                  horizontalLineXPosition/* + 0.25*/),
+                                  horizontalLineXPosition + halfPx),
                       CGPointMake(CGRectGetMaxX(rect)/* + 0.5*/,
-                                  horizontalLineXPosition/* + 0.25*/),
+                                  horizontalLineXPosition + halfPx),
                       self.axisColor.CGColor);
         
         dateComponents.hour = hour;
