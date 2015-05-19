@@ -185,7 +185,7 @@ struct TouchInfo {
     }
 
     // Adjust cell size for orientation
-    if (UIDeviceOrientationIsLandscape([[UIApplication sharedApplication] statusBarOrientation])) {
+    if (UIInterfaceOrientationIsLandscape([[UIApplication sharedApplication] statusBarOrientation])) {
 //        return CGSizeMake(170.f, 170.f);
     }
     return size;
