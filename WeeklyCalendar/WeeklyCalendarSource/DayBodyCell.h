@@ -19,6 +19,7 @@
 @property (nonatomic, weak) id <DayBodyCellDelegate> delegate;
 
 - (MWWeekEventView *)eventViewForEvent:(MWCalendarEvent *)event;
+- (MWWeekEventView *)eventViewForPosition:(CGPoint)position;
 
 @end
 

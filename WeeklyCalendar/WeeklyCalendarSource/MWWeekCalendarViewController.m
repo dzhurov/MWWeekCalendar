@@ -391,14 +391,21 @@ struct TouchInfo {
     NSIndexPath *indexPath = [NSIndexPath indexPathForItem:_currentAddingEventColumn inSection:0];
 
     if (recognizer.state == UIGestureRecognizerStateBegan){
-        if ([self.delegate respondsToSelector:@selector(calendarController:shouldAddEventForStartDate:)]) {
-            NSDate *currentDate = [self dateForItem:_currentAddingEventColumn];
-            if ([self.delegate calendarController:self shouldAddEventForStartDate:currentDate]) {
+        MWWeekEventView *eventView = [self eventViewForPosition:position atIndexPath:indexPath];
+        if (eventView != nil) { // move
+            _currentAddingWeekEventView = eventView;
+            _currentAddingWeekEventView.selected = YES;
+        }
+        else { // add
+            if ([self.delegate respondsToSelector:@selector(calendarController:shouldAddEventForStartDate:)]) {
+                NSDate *currentDate = [self dateForItem:_currentAddingEventColumn];
+                if ([self.delegate calendarController:self shouldAddEventForStartDate:currentDate]) {
+                    [self addEventViewWithPosition:position forCellAtIndexPath:indexPath];
+                }
+            }
+            else {
                 [self addEventViewWithPosition:position forCellAtIndexPath:indexPath];
             }
-        }
-        else {
-            [self addEventViewWithPosition:position forCellAtIndexPath:indexPath];
         }
     }
     
@@ -425,6 +432,11 @@ struct TouchInfo {
 
 #pragma mark - MWWeekEvent Movements
 
+- (MWWeekEventView *)eventViewForPosition:(CGPoint)position atIndexPath:(NSIndexPath *)indexPath
+{
+    DayBodyCell *cell = (DayBodyCell *)[self.bodyCollectionView cellForItemAtIndexPath:indexPath];
+    return [cell eventViewForPosition:position];
+}
 
 - (void)addEventViewWithPosition:(CGPoint)position forCellAtIndexPath:(NSIndexPath *)indexPath
 {

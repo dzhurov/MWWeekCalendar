@@ -82,6 +82,11 @@
     return nil;
 }
 
+- (MWWeekEventView *)eventViewForPosition:(CGPoint)position
+{
+    return nil;
+}
+
 - (void)setEvents:(NSArray *)events
 {
     [self.eventViews makeObjectsPerformSelector:@selector(removeFromSuperview)];
