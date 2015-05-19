@@ -55,9 +55,10 @@
     [self.eventsContainer removeEvent:event withDate:event.startDate];
 }
 
-- (void)calendarController:(MWWeekCalendarViewController *)controller saveEvent:(MWCalendarEvent *)event
+- (void)calendarController:(MWWeekCalendarViewController *)controller saveEvent:(MWCalendarEvent *)event withNew:(MWCalendarEvent *)newEvent
 {
-    
+    [self.eventsContainer removeEvent:event withDate:event.startDate];
+    [self.eventsContainer addEvent:newEvent forDate:newEvent.startDate];
 }
 
 #pragma mark - MWCalendarDataSource <NSObject>

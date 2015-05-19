@@ -11,7 +11,7 @@
 @class MWCalendarEvent, MWWeekCalendarViewController;
 
 @protocol MWCalendarEditingControllerDelegate <NSObject>
-- (void)saveEvent:(MWCalendarEvent *)event;
+- (void)saveEvent:(MWCalendarEvent *)event withNew:(MWCalendarEvent *)newEvent;
 - (void)deleteEvent:(MWCalendarEvent *)event;
 - (void)cancelEditingForEvent:(MWCalendarEvent *)event;
 @end

@@ -38,9 +38,10 @@
 
 - (IBAction)savePressed:(id)sender
 {
-    self.event.eventDescription = self.textView.text;
-    self.event.title = self.textField.text;
-    [self.calendarVC saveEvent:self.event];
+    MWCalendarEvent *event = [self.event copy];
+    event.eventDescription = self.textView.text;
+    event.title = self.textField.text;
+    [self.calendarVC saveEvent:self.event withNew:event];
 }
 
 - (IBAction)deletePressed:(id)sender

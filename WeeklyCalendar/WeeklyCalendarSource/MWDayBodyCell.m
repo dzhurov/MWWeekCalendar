@@ -84,6 +84,11 @@
 
 - (MWWeekEventView *)eventViewForPosition:(CGPoint)position
 {
+    for (MWWeekEventView *eventView in self.eventViews) {
+        if (CGRectContainsPoint(CGRectMake(0, eventView.frame.origin.y, 2, eventView.frame.size.height), CGPointMake(1, position.y))) {
+            return eventView;
+        }
+    }
     return nil;
 }
 
@@ -94,6 +99,7 @@
         MWWeekEventView *eventView = [MWWeekEventView new];
         eventView.delegate = self;
         eventView.event = event;
+        eventView.alpha = 1;
         [self addEventView:eventView];
     }
     _events = [events mutableCopy];

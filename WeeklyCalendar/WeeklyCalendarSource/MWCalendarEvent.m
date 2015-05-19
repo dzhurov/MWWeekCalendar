@@ -34,4 +34,17 @@
     return [self.endDate timeIntervalSinceDate:self.startDate];
 }
 
+- (id)copyWithZone:(NSZone *)zone
+{
+    MWCalendarEvent *copyEvent = [MWCalendarEvent new];
+    if (copyEvent) {
+        copyEvent.startDate = self.startDate;
+        copyEvent.endDate = self.endDate;
+        copyEvent.title = self.title;
+        copyEvent.eventDescription = self.eventDescription;
+        copyEvent.calendarColor = self.calendarColor;
+    }
+    return copyEvent;
+}
+
 @end

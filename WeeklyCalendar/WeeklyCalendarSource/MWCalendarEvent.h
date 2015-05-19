@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
-@interface MWCalendarEvent : NSObject
+@interface MWCalendarEvent : NSObject <NSCopying>
 
 @property (nonatomic, strong) NSDate *startDate;
 @property (nonatomic, strong) NSDate *endDate;
