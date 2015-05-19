@@ -16,7 +16,7 @@ DerivedData
 *.hmap
 *.ipa
 *.xcuserstate
-.DS_Store
+*.DS_Store
 
 # CocoaPods
 #
@@ -25,4 +25,3 @@ DerivedData
 # http://guides.cocoapods.org/using/using-cocoapods.html#should-i-check-the-pods-directory-into-source-control
 #
 #Pods/
-.D
