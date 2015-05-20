@@ -79,6 +79,8 @@ struct TouchInfo {
     self.bodyCollectionViewLayout.delegate = self;
     self.bodyCollectionViewLayout.numberOfVisibleDays = self.numberOfVisibleDays;
     self.headerCollectionViewLayout.numberOfVisibleDays = self.numberOfVisibleDays;
+    self.bodyCollectionView.decelerationRate = UIScrollViewDecelerationRateFast;
+    self.headerCollectionView.decelerationRate = self.bodyCollectionView.decelerationRate;
     
     [self.headerCollectionView registerNib:[UINib nibWithNibName:headerDayCellId bundle:nil] forCellWithReuseIdentifier:headerDayCellId];
     [self.bodyCollectionView registerNib:[UINib nibWithNibName:bodyDayCellId bundle:nil] forCellWithReuseIdentifier:bodyDayCellId];
@@ -159,7 +161,7 @@ struct TouchInfo {
     else{
         MWDayBodyCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:NSStringFromClass([MWDayBodyCell class]) forIndexPath:indexPath];
 // For debug:
-        cell.contentView.backgroundColor = [UIColor colorWithHue: indexPath.item % 6 / 6.0 + 0.1 saturation:0.7 brightness:1.0 alpha:0.3];
+//        cell.contentView.backgroundColor = [UIColor colorWithHue: indexPath.item % 6 / 6.0 + 0.1 saturation:0.7 brightness:1.0 alpha:0.3];
         cell.events = [self.dataSource calendarController:self eventsForDate:date];
         cell.delegate = self;
         return cell;
