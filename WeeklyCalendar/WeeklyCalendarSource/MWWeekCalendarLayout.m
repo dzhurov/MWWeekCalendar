@@ -54,11 +54,14 @@
 
 - (void)prepareForAnimatedBoundsChange:(CGRect)oldBounds
 {
-    [super prepareForAnimatedBoundsChange:oldBounds];
-    CGFloat contentOffsetCoefficient = self.collectionView.frame.size.width / oldBounds.size.width;
+//    [super prepareForAnimatedBoundsChange:oldBounds];
+    
+    CGFloat contentOffsetCoefficient = self.dayColumnWidth / [self dayColumnWidthForWidth: oldBounds.size.width];
     CGPoint offset = self.collectionView.contentOffset;
-    offset.x *= contentOffsetCoefficient;
-    self.collectionView.contentOffset = offset;
+    offset.x = oldBounds.origin.x * contentOffsetCoefficient;
+    [self.collectionView setContentOffset:offset];
+
+    
     
     self.oldBounds = oldBounds;
     CGFloat width = [self.delegate calendarLayoutCellWidth:self];
@@ -69,12 +72,6 @@
 {
     [super finalizeAnimatedBoundsChange];
     self.oldBounds = CGRectZero;
-//    for (UICollectionViewCell *cell in self.collectionView.visibleCells) {
-//        CGRect frame = cell.frame;
-//        CGFloat width = [self.delegate calendarLayoutCellWidth:self];
-//        frame.size.width = width;
-//        cell.frame = frame;
-//    }
 }
 
 - (void)prepareForCollectionViewUpdates:(NSArray *)updateItems
@@ -161,14 +158,13 @@
 
 - (UICollectionViewLayoutAttributes*)initialLayoutAttributesForAppearingItemAtIndexPath:(NSIndexPath *)itemIndexPath
 {
-    UICollectionViewLayoutAttributes *attributes = [[self layoutAttributesForItemAtIndexPath: itemIndexPath] copy];
+    UICollectionViewLayoutAttributes *attributes = [self layoutAttributesForItemAtIndexPath: itemIndexPath] ;
     if (!CGRectEqualToRect(self.oldBounds, CGRectZero)){
         CGFloat width = [self dayColumnWidthForWidth:self.oldBounds.size.width];
         CGRect frame = CGRectMake(itemIndexPath.item * width, 0, width, self.collectionView.frame.size.height);
         attributes.frame = frame;
     }
     
-//    attributes.transform = CGAffineTransformRotate(CGAffineTransformMakeScale(0.2, 0.2), M_PI);
     return attributes;
 }
 
@@ -176,9 +172,6 @@
 {
     UICollectionViewLayoutAttributes *attributes = [self layoutAttributesForItemAtIndexPath: itemIndexPath];
     NSLog(@"%s indexPath.item = %d attributes: %@", __PRETTY_FUNCTION__, itemIndexPath.item, attributes);
-//    CGSize size = attributes.size;
-//    size.width = [self dayColumnWidth];
-//    attributes.size = size;
     
     return attributes;
 }

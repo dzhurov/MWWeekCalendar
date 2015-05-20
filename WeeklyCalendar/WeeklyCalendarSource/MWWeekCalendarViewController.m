@@ -37,9 +37,6 @@ struct TouchInfo {
     MWWeekEventView *_editingEventView;
     
     struct TouchInfo _addingEventTouchInfo;
-//    CGPoint         _currentAddintEventPreviousPoint;
-//    CFAbsoluteTime  _currentAddingEventPreviousPointTime;
-//    CGVector        _
 }
 @property (weak, nonatomic) IBOutlet UICollectionView *headerCollectionView;
 @property (weak, nonatomic) IBOutlet UIScrollView *contentScrollView;
@@ -162,7 +159,7 @@ struct TouchInfo {
     else{
         MWDayBodyCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:NSStringFromClass([MWDayBodyCell class]) forIndexPath:indexPath];
 // For debug:
-//        cell.contentView.backgroundColor = [UIColor colorWithHue: indexPath.item % 6 / 6.0 + 0.1 saturation:0.7 brightness:1.0 alpha:5.0];
+        cell.contentView.backgroundColor = [UIColor colorWithHue: indexPath.item % 6 / 6.0 + 0.1 saturation:0.7 brightness:1.0 alpha:0.3];
         cell.events = [self.dataSource calendarController:self eventsForDate:date];
         cell.delegate = self;
         return cell;
