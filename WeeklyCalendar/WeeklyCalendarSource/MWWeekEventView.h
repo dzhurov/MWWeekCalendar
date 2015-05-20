@@ -17,6 +17,7 @@
 @property (nonatomic) BOOL selected;
 
 @property (nonatomic, weak) id <MWWeekEventViewDelegate> delegate;
+@property (nonatomic, weak) NSLayoutConstraint *trailing;
 
 @end
 

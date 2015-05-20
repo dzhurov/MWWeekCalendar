@@ -391,7 +391,8 @@ struct TouchInfo {
     NSIndexPath *indexPath = [NSIndexPath indexPathForItem:_currentAddingEventColumn inSection:0];
 
     if (recognizer.state == UIGestureRecognizerStateBegan){
-        MWWeekEventView *eventView = [self eventViewForPosition:position atIndexPath:indexPath];
+        MWDayBodyCell *cell = (MWDayBodyCell *)[self.bodyCollectionView cellForItemAtIndexPath:indexPath];
+        MWWeekEventView *eventView = [cell eventViewForPosition:[recognizer locationInView:cell]];
         MWCalendarEvent *event = eventView.event;
         
         if (event != nil) { // move
@@ -443,12 +444,6 @@ struct TouchInfo {
 }
 
 #pragma mark - MWWeekEvent Movements
-
-- (MWWeekEventView *)eventViewForPosition:(CGPoint)position atIndexPath:(NSIndexPath *)indexPath
-{
-    MWDayBodyCell *cell = (MWDayBodyCell *)[self.bodyCollectionView cellForItemAtIndexPath:indexPath];
-    return [cell eventViewForPosition:position];
-}
 
 - (void)addEventViewWithPosition:(CGPoint)position event:(MWCalendarEvent *)event forCellAtIndexPath:(NSIndexPath *)indexPath
 {

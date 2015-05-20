@@ -53,18 +53,40 @@
 {
     NSAssert(eventView.event, @"Event View must contain event");
     
+    MWWeekEventView *theMostRightEventView = [self theMostRightEventViewIntersectedWithStartTime:eventView.event.startDate];
     [self.eventViewsContainer addSubview:eventView];
     
     CGFloat relatedHeight = eventView.event.duration / (60. * 60. * 24.);
     CGFloat relatedYPosition = [eventView.event.startDate timeIntervalSinceDate:[eventView.event.startDate dateAtStartOfDay]] / (60. * 60. * 24.);
-    if (relatedYPosition == 0)
+    if (relatedYPosition == 0) {
         relatedYPosition = 0.0001;
+    }
     
     [eventView autoMatchDimension:ALDimensionHeight toDimension:ALDimensionHeight ofView:self.eventViewsContainer withMultiplier:relatedHeight];
-    [eventView autoPinEdgeToSuperviewEdge:ALEdgeLeading];
-    [eventView autoPinEdgeToSuperviewEdge:ALEdgeTrailing];
     [eventView autoConstrainAttribute:ALAttributeTop toAttribute:ALAttributeBottom ofView:self.eventViewsContainer withMultiplier:relatedYPosition];
+    
+    if (theMostRightEventView == nil) {
+        [eventView autoPinEdgeToSuperviewEdge:ALEdgeLeading];
+    }
+    else {
+        theMostRightEventView.trailing = [theMostRightEventView autoPinEdge:ALEdgeRight toEdge:ALEdgeLeft ofView:eventView];
+        [eventView autoMatchDimension:ALDimensionWidth toDimension:ALDimensionWidth ofView:theMostRightEventView];
+    }
+    
     [_events addObject:eventView.event];
+}
+
+- (MWWeekEventView *)theMostRightEventViewIntersectedWithStartTime:(NSDate *)time
+{
+    NSArray *eventViews = [self eventViews];
+    if (eventViews.count == 0) {
+        return nil;
+    }
+    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"event.startDate <= %@ && event.endDate > %@", time, time];
+    NSArray *filteredArray = [eventViews filteredArrayUsingPredicate:predicate];
+    NSSortDescriptor *sortDescriptor = [NSSortDescriptor sortDescriptorWithKey:@"event.startDate" ascending:YES];
+    NSArray *sortedArray = [filteredArray sortedArrayUsingDescriptors:@[sortDescriptor]];
+    return [sortedArray lastObject];
 }
 
 - (NSArray *)eventViews
@@ -85,7 +107,7 @@
 - (MWWeekEventView *)eventViewForPosition:(CGPoint)position
 {
     for (MWWeekEventView *eventView in self.eventViews) {
-        if (CGRectContainsPoint(CGRectMake(0, eventView.frame.origin.y, 2, eventView.frame.size.height), CGPointMake(1, position.y))) {
+        if (CGRectContainsPoint(eventView.frame, position)) {
             return eventView;
         }
     }
@@ -95,13 +117,20 @@
 - (void)setEvents:(NSArray *)events
 {
     [self.eventViews makeObjectsPerformSelector:@selector(removeFromSuperview)];
-    for (MWCalendarEvent *event in events) {
+    for (MWCalendarEvent *event in [events sortedArrayUsingDescriptors:@[[NSSortDescriptor sortDescriptorWithKey:@"startDate" ascending:YES]]]) {
         MWWeekEventView *eventView = [MWWeekEventView new];
         eventView.delegate = self;
         eventView.event = event;
         eventView.alpha = 1;
         [self addEventView:eventView];
     }
+    
+    for (MWWeekEventView *eventView in [self eventViews]) {
+        if (eventView.trailing == nil) {
+            eventView.trailing  = [eventView autoPinEdgeToSuperviewEdge:ALEdgeTrailing];
+        }
+    }
+    
     _events = [events mutableCopy];
 }
 
