@@ -547,9 +547,6 @@ struct TouchInfo {
         }
         
         [self.bodyCollectionView reloadItemsAtIndexPaths:@[indexPath]];
-        
-        MWDayBodyCell *cell = (MWDayBodyCell *)[self.bodyCollectionView cellForItemAtIndexPath:indexPath];
-        [self editEvent:_currentAddingWeekEventView.event inCell:cell];
     }
     
     self.eventBeforeEditing = nil;
@@ -635,8 +632,8 @@ struct TouchInfo {
     if ([self.delegate respondsToSelector:@selector(calendarController:saveEvent:withNew:)]) {
         [self.delegate calendarController:self saveEvent:event withNew:newEvent];
     }
-    [self endEditingEvent:event];
     [self.bodyCollectionView reloadItemsAtIndexPaths:@[[self indexPathForDate:event.startDate]]];
+    [self endEditingEvent:event];
 }
 
 - (void)deleteEvent:(MWCalendarEvent *)event
@@ -644,8 +641,8 @@ struct TouchInfo {
     if ([self.delegate respondsToSelector:@selector(calendarController:removeEvent:)]) {
         [self.delegate calendarController:self removeEvent:event];
     }
-    [self endEditingEvent:event];
     [self.bodyCollectionView reloadItemsAtIndexPaths:@[[self indexPathForDate:event.startDate]]];
+    [self endEditingEvent:event];
 }
 
 - (void)cancelEditingForEvent:(MWCalendarEvent *)event
@@ -657,26 +654,26 @@ struct TouchInfo {
 
 - (void)editEvent:(MWCalendarEvent *)event inCell:(MWDayBodyCell *)cell
 {
+    [_editingEventView setSelected:NO];
+    _editingEventView = nil;
+    
     UIViewController *editingController = [self.dataSource calendarController:self editingControllerForEvent:event];
     [self.calendarViewController showEditingController:editingController
                                               fromRect:[cell eventViewForEvent:event].frame
                                                 inView:[cell eventViewForEvent:event].superview
-                                            completion:^{
-                                                
-                                                _editingEventView = [cell eventViewForEvent:event];
-                                                [_editingEventView setSelected:YES];
-                                                
-                                                }];
+                                            completion:nil];
+    
+    _editingEventView = [cell eventViewForEvent:event];
+    [_editingEventView setSelected:YES];
 }
 
 - (void)endEditingEvent:(MWCalendarEvent *)event
 {
     [self.calendarViewController hideEditingController:[self.dataSource calendarController:self editingControllerForEvent:event] completion:^{
         
-        [_editingEventView setSelected:NO];
-        _editingEventView = nil;
-        
     }];
+    [_editingEventView setSelected:NO];
+    _editingEventView = nil;
 }
 
 #pragma mark - MWCalendarViewControllerProtocol

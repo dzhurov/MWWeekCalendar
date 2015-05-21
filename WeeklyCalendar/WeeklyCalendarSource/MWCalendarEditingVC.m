@@ -26,6 +26,23 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    
+}
+
+-(void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
+    [self updateContent];
+}
+
+-(void)setEvent:(MWCalendarEvent *)event
+{
+    _event = event;
+    [self updateContent];
+}
+
+-(void)updateContent
+{
     self.theNavigationItem.title = self.event.title;
     self.textField.text = self.event.title;
     self.textView.text = self.event.eventDescription;

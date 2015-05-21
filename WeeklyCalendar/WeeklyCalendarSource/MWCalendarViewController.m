@@ -23,7 +23,7 @@
 
 @end
 
-#define MW_CALENDAR_ANIMATION_DURATION 0.25
+#define MW_CALENDAR_ANIMATION_DURATION 0.15
 
 @implementation MWCalendarViewController
 

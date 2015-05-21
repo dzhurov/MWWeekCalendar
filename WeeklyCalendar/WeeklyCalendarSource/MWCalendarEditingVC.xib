@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="7702" systemVersion="14B25" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="7706" systemVersion="14D136" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7701"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7703"/>
     </dependencies>
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="MWCalendarEditingVC">
@@ -57,6 +57,13 @@
                         <action selector="deletePressed:" destination="-1" eventType="touchUpInside" id="7Es-Z5-tgd"/>
                     </connections>
                 </button>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="P4b-70-BA2">
+                    <rect key="frame" x="0.0" y="0.0" width="1" height="425"/>
+                    <color key="backgroundColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
+                    <constraints>
+                        <constraint firstAttribute="width" constant="1" id="tAb-2a-34a"/>
+                    </constraints>
+                </view>
             </subviews>
             <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
             <constraints>
@@ -65,16 +72,25 @@
                 <constraint firstItem="y4i-kK-YOm" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" id="5cg-8b-uME"/>
                 <constraint firstAttribute="trailing" secondItem="qd1-9X-HVP" secondAttribute="trailing" constant="8" id="6z7-mr-Cux"/>
                 <constraint firstItem="4MU-or-Xav" firstAttribute="top" secondItem="qd1-9X-HVP" secondAttribute="bottom" constant="8" id="AQv-vv-xhE"/>
+                <constraint firstAttribute="trailing" secondItem="P4b-70-BA2" secondAttribute="trailing" constant="296" id="FYC-fL-Qou"/>
                 <constraint firstAttribute="centerX" secondItem="hXZ-j3-O4W" secondAttribute="centerX" constant="0.5" id="Gg2-qX-4Kv"/>
+                <constraint firstItem="P4b-70-BA2" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" id="JWf-nK-9L2"/>
                 <constraint firstItem="qd1-9X-HVP" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" constant="52" id="UCr-3U-lnR"/>
+                <constraint firstAttribute="bottom" secondItem="P4b-70-BA2" secondAttribute="bottom" id="ULB-RI-Ta8"/>
                 <constraint firstAttribute="bottom" secondItem="hXZ-j3-O4W" secondAttribute="bottom" constant="8" id="UnQ-w3-kMy"/>
                 <constraint firstAttribute="trailing" secondItem="y4i-kK-YOm" secondAttribute="trailing" id="dGc-Nv-iU8"/>
+                <constraint firstItem="P4b-70-BA2" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="g8l-uu-RDy"/>
                 <constraint firstItem="4MU-or-Xav" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" constant="8" id="gnk-Kt-tba"/>
                 <constraint firstItem="y4i-kK-YOm" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="oZt-Pf-vSf"/>
                 <constraint firstAttribute="trailing" secondItem="4MU-or-Xav" secondAttribute="trailing" constant="8" id="qR7-u9-23J"/>
             </constraints>
             <nil key="simulatedStatusBarMetrics"/>
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
+            <variation key="default">
+                <mask key="constraints">
+                    <exclude reference="FYC-fL-Qou"/>
+                </mask>
+            </variation>
             <point key="canvasLocation" x="553.5" y="209.5"/>
         </view>
     </objects>
