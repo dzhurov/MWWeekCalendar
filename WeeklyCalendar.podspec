@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name     = 'WeeklyCalendar'
-  s.version  = '0.0.1'
+  s.version  = '0.0.2'
   s.license  = 'MIT'
   s.summary  = 'WeeklyCalendar for iOS'
   s.description = <<-DESC
@@ -15,6 +15,5 @@ Pod::Spec.new do |s|
   s.ios.deployment_target = '8.0'  
   s.source_files = "WeeklyCalendar/WeeklyCalendarSource/**/*.{h,m}"
   s.resource = "WeeklyCalendar/WeeklyCalendarSource/**/*.{xib}"
-  s.dependency 'pop' 
   s.dependency 'PureLayout'
 end
