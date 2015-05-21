@@ -14,6 +14,7 @@
 + (NSString *)timeStringFromDate:(NSDate *)date;
 + (NSString *)dayOfWeekOfDate:(NSDate *)date;
 + (NSString *)dayOfMonthOfDate:(NSDate *)date;
++ (NSString *)monthOfDate:(NSDate *)date;
 - (BOOL)isToday;
 
 @end

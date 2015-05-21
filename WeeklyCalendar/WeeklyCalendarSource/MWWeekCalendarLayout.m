@@ -106,6 +106,9 @@
 
 - (NSArray *)layoutAttributesForElementsInRect:(CGRect)rect
 {
+    if (rect.size.width < 0 || rect.size.height < 0 )
+        return @[];
+    
     CGFloat width = self.dayColumnWidth;
     CGRect itemFrame = CGRectMake(0, 0, width, self.collectionView.frame.size.height);
     NSInteger itemNo = floorf(rect.origin.x / width);

@@ -53,6 +53,12 @@
     return [formatter stringFromDate:date];
 }
 
++ (NSString *)monthOfDate:(NSDate *)date
+{
+    NSDateFormatter *formatter = [self dateFormatterWithFormat:@"MMM"];
+    return [formatter stringFromDate:date];
+}
+
 - (BOOL)isToday
 {
     NSCalendar *cal = [NSCalendar currentCalendar];

@@ -21,7 +21,7 @@
 - (void)setDate:(NSDate *)date selected:(BOOL)selected weekend:(BOOL)weekend
 {
     self.dayOfMonthLabel.text = [NSDate dayOfMonthOfDate:date];
-    self.dayOfWeekLabel.text = [NSDate dayOfWeekOfDate:date];
+    self.dayOfWeekLabel.text = [NSDate monthOfDate:date];
     
     if (weekend){
         self.dayOfWeekLabel.textColor = [UIColor lightGrayColor];

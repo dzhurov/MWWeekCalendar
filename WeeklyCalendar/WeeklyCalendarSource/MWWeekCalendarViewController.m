@@ -20,6 +20,9 @@
 #import "MWWeekCalendarLayout.h"
 #import "MWCalendarViewController.h"
 
+#define kNumberOfRealPages      3
+#define kNumberOfVirtualPages   (kNumberOfRealPages + 2)
+
 struct TouchInfo {
     CGPoint point;
     CFAbsoluteTime time;
@@ -29,8 +32,7 @@ struct TouchInfo {
 
 @interface MWWeekCalendarViewController () <UICollectionViewDataSource, UICollectionViewDelegate, UIGestureRecognizerDelegate, MWDayBodyCellDelegate, MWWeekCalendarLayoutDelegate, UIPopoverControllerDelegate>
 {
-    NSUInteger _numberOfDays;
-    NSUInteger _todaysDayIndex;
+    NSInteger _todaysDayIndex;
     BOOL _initializationInProgress;
     
     MWWeekEventView *_currentAddingWeekEventView;
@@ -65,8 +67,7 @@ struct TouchInfo {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
         self.numberOfVisibleDays = 7;
-        _numberOfDays = 60;
-        _todaysDayIndex = self.numberOfVisibleDays * 4 + [[NSDate date] dateComponents].weekday - 1;
+        _todaysDayIndex = (kNumberOfVirtualPages / 2) * self.numberOfVisibleDays  + [[NSDate date] dateComponents].weekday - 1;
         _initializationInProgress = YES;
     }
     return self;
@@ -86,11 +87,15 @@ struct TouchInfo {
     [self.headerCollectionView registerNib:[UINib nibWithNibName:headerDayCellId bundle:nil] forCellWithReuseIdentifier:headerDayCellId];
     [self.bodyCollectionView registerNib:[UINib nibWithNibName:bodyDayCellId bundle:nil] forCellWithReuseIdentifier:bodyDayCellId];
 
-//    dispatch_async(dispatch_get_main_queue(), ^{
+    dispatch_async(dispatch_get_main_queue(), ^{
 //        NSIndexPath *initialIndexPath = [self indexPathForFirstDayOfWeek:[NSDate date]];
 //        [self.bodyCollectionView scrollToItemAtIndexPath:initialIndexPath atScrollPosition:UICollectionViewScrollPositionLeft animated:NO];
-//        _initializationInProgress = NO;
-//    });
+        [self.bodyCollectionView  setContentOffset:CGPointMake( (_todaysDayIndex / _numberOfVisibleDays) * [self pageWidth], 0) animated:YES];
+        _initializationInProgress = NO;
+    });
+    
+    
+    
     [self.longPressGestureRecognizer addTarget:self action:@selector(longPressed:)];
     self.redCircle.layer.cornerRadius = 5;
     self.redCircleSubview.layer.cornerRadius = 4;
@@ -101,6 +106,11 @@ struct TouchInfo {
                                                         repeats:YES];
     self.hourAxisView.startWorkingDay = self.startWorkingDay;
     self.hourAxisView.endWorkingDay = self.endWorkingDay;
+}
+
+- (void)viewDidAppear:(BOOL)animated
+{
+    [super viewDidAppear:animated];
 }
 
 - (void)viewDidLayoutSubviews
@@ -149,7 +159,7 @@ struct TouchInfo {
 
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section
 {
-    return _numberOfDays;
+    return _numberOfVisibleDays * kNumberOfVirtualPages;
 }
 
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath
@@ -194,26 +204,9 @@ struct TouchInfo {
 }
 
 - (void)collectionView:(UICollectionView *)collectionView willDisplayCell:(UICollectionViewCell *)cell forItemAtIndexPath:(NSIndexPath *)indexPath
-//- (void)collectionView:(UICollectionView *)collectionView didEndDisplayingCell:(UICollectionViewCell *)cell forItemAtIndexPath:(NSIndexPath *)indexPath
 {
     if (_initializationInProgress)
         return;
-    
-    NSUInteger kIncrementationStep = self.numberOfVisibleDays * 2;
-    
-    if (indexPath.item < kIncrementationStep){
-//        _todaysDayIndex -= kIncrementationStep;
-//        _numberOfDays += kIncrementationStep;
-//        
-//        //TODO: move contentOffset somehow
-//        [self.bodyCollectionView reloadData];
-//        [self.headerCollectionView reloadData];
-    }
-    else if (indexPath.item > _numberOfDays + kIncrementationStep){
-        _numberOfDays += kIncrementationStep;
-        [self.bodyCollectionView reloadData];
-        [self.headerCollectionView reloadData];
-    }
 }
 
 #pragma mark - UIScrollViewDelegate
@@ -221,6 +214,32 @@ struct TouchInfo {
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView
 {
     if (scrollView == self.headerCollectionView || scrollView == self.bodyCollectionView){
+        static CGFloat lastContentOffsetX = FLT_MIN;
+        if (FLT_MIN == lastContentOffsetX) {
+            lastContentOffsetX = scrollView.contentOffset.x;
+            return;
+        }
+        CGFloat currentOffsetX = scrollView.contentOffset.x;
+        CGFloat currentOffsetY = scrollView.contentOffset.y;
+        CGFloat oneDayPageWidth = self.dayColumnWidth;
+        CGFloat pageWidth = oneDayPageWidth * self.numberOfVisibleDays;
+        CGFloat offset = pageWidth * kNumberOfRealPages;
+        
+        // the first page(showing the last item) is visible and user is still scrolling to the left
+        if (currentOffsetX < pageWidth && lastContentOffsetX > currentOffsetX) {
+            lastContentOffsetX = currentOffsetX + offset;
+            scrollView.contentOffset = (CGPoint){lastContentOffsetX, currentOffsetY};
+            _todaysDayIndex += kNumberOfRealPages * self.numberOfVisibleDays;
+        }
+        // the last page (showing the first item) is visible and the user is still scrolling to the right
+        else if (currentOffsetX > offset && lastContentOffsetX < currentOffsetX) {
+            lastContentOffsetX = currentOffsetX - offset;
+            scrollView.contentOffset = (CGPoint){lastContentOffsetX, currentOffsetY};
+            _todaysDayIndex -= kNumberOfRealPages * self.numberOfVisibleDays;
+        } else {
+            lastContentOffsetX = currentOffsetX;
+        }
+    
         UIScrollView *anotherScrollView = scrollView == self.headerCollectionView ? self.bodyCollectionView : self.headerCollectionView;
         anotherScrollView.contentOffset = scrollView.contentOffset;
         [self setupRedCirclePosition];
@@ -343,6 +362,11 @@ struct TouchInfo {
 {
     NSUInteger index = [[NSDate date] distanceInDaysToDate:date] + _todaysDayIndex - (date.dateComponents.weekday - 1);
     return [NSIndexPath indexPathForItem:index inSection:0];
+}
+
+- (CGFloat)pageWidth
+{
+    return self.dayColumnWidth * self.numberOfVisibleDays;
 }
 
 - (CGFloat)dayColumnWidth
