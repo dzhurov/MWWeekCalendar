@@ -38,6 +38,7 @@
 		7EF1BA001AEE77A10086763A /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7EF1B9FE1AEE77A10086763A /* LaunchScreen.xib */; };
 		7EF1BA0C1AEE77A10086763A /* WeeklyCalendarTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 7EF1BA0B1AEE77A10086763A /* WeeklyCalendarTests.m */; };
 		7EF1BA161AEE77D50086763A /* Calendar.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7EF1BA151AEE77D50086763A /* Calendar.xib */; };
+		BDBF90401B0CA2D6001E2D21 /* View.xib in Resources */ = {isa = PBXBuildFile; fileRef = BDBF903F1B0CA2D6001E2D21 /* View.xib */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -110,6 +111,7 @@
 		7EF1BA0A1AEE77A10086763A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		7EF1BA0B1AEE77A10086763A /* WeeklyCalendarTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = WeeklyCalendarTests.m; sourceTree = "<group>"; };
 		7EF1BA151AEE77D50086763A /* Calendar.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = Calendar.xib; sourceTree = "<group>"; };
+		BDBF903F1B0CA2D6001E2D21 /* View.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = View.xib; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -224,6 +226,10 @@
 				7EF1B9F71AEE77A10086763A /* ViewController.m */,
 				6189E9C61B0B47B0002D6971 /* CalendarDelegate.h */,
 				6189E9C71B0B47B0002D6971 /* CalendarDelegate.m */,
+				6189E9C81B0B47B0002D6971 /* MWCalendarEditingVC.h */,
+				6189E9C91B0B47B0002D6971 /* MWCalendarEditingVC.m */,
+				BDBF903F1B0CA2D6001E2D21 /* View.xib */,
+				6189E9CA1B0B47B0002D6971 /* MWCalendarEditingVC.xib */,
 				7EF1BA151AEE77D50086763A /* Calendar.xib */,
 				7EF1B9F91AEE77A10086763A /* Main.storyboard */,
 				7EF1B9FC1AEE77A10086763A /* Images.xcassets */,
@@ -354,6 +360,8 @@
 				7EF1B9FB1AEE77A10086763A /* Main.storyboard in Resources */,
 				6116E10C1B0A30C200F48255 /* MWHeaderDayCell.xib in Resources */,
 				6116E1091B0A30C200F48255 /* MWDayBodyCell.xib in Resources */,
+				6189E9CD1B0B47B0002D6971 /* MWCalendarEditingVC.xib in Resources */,
+				BDBF90401B0CA2D6001E2D21 /* View.xib in Resources */,
 				7EF1BA001AEE77A10086763A /* LaunchScreen.xib in Resources */,
 				7EF1B9FD1AEE77A10086763A /* Images.xcassets in Resources */,
 				7EF1BA161AEE77D50086763A /* Calendar.xib in Resources */,

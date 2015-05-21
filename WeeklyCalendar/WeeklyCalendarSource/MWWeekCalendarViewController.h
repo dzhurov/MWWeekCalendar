@@ -24,6 +24,9 @@ typedef NS_ENUM(NSUInteger, MWCalendarEditingPresentationMode) {
 @property (nonatomic) NSUInteger numberOfVisibleDays;
 @property (nonatomic, weak) id <MWCalendarDelegate> delegate;
 @property (nonatomic, weak) id <MWCalendarDataSource> dataSource;
+@property (nonatomic, strong) NSDateComponents *startWorkingDay; // hours and minutes
+@property (nonatomic, strong) NSDateComponents *endWorkingDay; // hours and minutes
+
 - (void)reloadEventsFromDate:(NSDate *)fromDate toDate:(NSDate *)toDate;
 - (void)reloadEvents;
 @end

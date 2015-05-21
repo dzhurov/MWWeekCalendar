@@ -99,6 +99,8 @@ struct TouchInfo {
                                                        selector:@selector(redLineTimerMethod:)
                                                        userInfo:nil
                                                         repeats:YES];
+    self.hourAxisView.startWorkingDay = self.startWorkingDay;
+    self.hourAxisView.endWorkingDay = self.endWorkingDay;
 }
 
 - (void)viewDidLayoutSubviews

@@ -26,6 +26,44 @@ IB_DESIGNABLE
     //// Date Component
     NSDateComponents *dateComponents = [[NSDateComponents alloc] init];
     
+    CGContextRef context = UIGraphicsGetCurrentContext();
+
+    //// Background
+    CGRect insetRect = CGRectMake(kHoursAxisInset.left,
+                              kHoursAxisInset.top,
+                              self.bounds.size.width - kHoursAxisInset.left - kHoursAxisInset.right,
+                              self.bounds.size.height - kHoursAxisInset.top - kHoursAxisInset.bottom);
+    CGContextSetFillColorWithColor(context, [UIColor colorWithWhite:0.5 alpha:0.05].CGColor);
+
+    CGFloat startWorkingHours = MAXFLOAT;
+    CGFloat endWorkingHours = MAXFLOAT;
+    
+    if (self.startWorkingDay && self.endWorkingDay) {
+        NSDate *startDate = [[NSCalendar currentCalendar] dateFromComponents:self.startWorkingDay];
+        NSDate *endDate = [[NSCalendar currentCalendar] dateFromComponents:self.endWorkingDay];
+        if ([endDate timeIntervalSinceDate:startDate] > 0) {
+            startWorkingHours = [self.startWorkingDay hour] + [self.startWorkingDay minute] / 60.0;
+            endWorkingHours = [self.endWorkingDay hour] + [self.endWorkingDay minute] / 60.0;
+        }
+    }
+    
+    if (startWorkingHours == MAXFLOAT || endWorkingHours == MAXFLOAT) {
+        startWorkingHours = 9;
+        endWorkingHours = 19;
+    }
+    
+    CGFloat startWorkingXPosition = self.hourStepHeight * startWorkingHours;
+    CGRect beforeRect = insetRect;
+    beforeRect.size.height = startWorkingXPosition;
+    
+    CGFloat endWorkingXPosition = self.hourStepHeight * endWorkingHours;
+    CGRect afterRect = insetRect;
+    afterRect.origin.y = kHoursAxisInset.top + endWorkingXPosition;
+    afterRect.size.height -= endWorkingXPosition;
+    
+    CGContextFillRect(context, beforeRect);
+    CGContextFillRect(context, afterRect);
+
     //// Label
     UIFont *font = [UIFont preferredFontForTextStyle:UIFontTextStyleFootnote];
     NSMutableParagraphStyle *paragraphStyle = [[NSParagraphStyle defaultParagraphStyle] mutableCopy];
@@ -39,8 +77,6 @@ IB_DESIGNABLE
         const CGFloat hourStringHeight = font.pointSize;
         return CGRectMake(0, roundTo1Px(horizontalLineXPosition - hourStringHeight / 2), kHoursAxisInset.left - 8, hourStringHeight);
     };
-    
-    CGContextRef context = UIGraphicsGetCurrentContext();
     
     CGRect currentDateRect = CGRectZero;
     if (self.showCurrentDate) {

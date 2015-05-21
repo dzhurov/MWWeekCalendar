@@ -44,7 +44,18 @@
     weekCalendarVC.delegate = self.delegate;
     weekCalendarVC.dataSource = self.dataSource;
     weekCalendarVC.view.frame = self.mainContentView.bounds;
+    weekCalendarVC.startWorkingDay = [self dateComponentsWithHours:9 minutes:30];
+    weekCalendarVC.endWorkingDay = [self dateComponentsWithHours:19 minutes:30];
+
     [self.mainContentView addSubview:weekCalendarVC.view];
+}
+
+- (NSDateComponents *)dateComponentsWithHours:(NSInteger)hours minutes:(NSInteger)minutes
+{
+    NSDateComponents *components = [NSDateComponents new];
+    components.hour = hours;
+    components.minute = minutes;
+    return components;
 }
 
 #pragma mark - Live cycle

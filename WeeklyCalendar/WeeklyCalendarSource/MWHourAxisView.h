@@ -14,6 +14,8 @@ IB_DESIGNABLE
 @property (nonatomic) IBInspectable CGFloat hourStepHeight;
 @property (nonatomic) IBInspectable UIColor* axisColor;
 @property (nonatomic) BOOL showCurrentDate;
+@property (nonatomic, strong) NSDateComponents *startWorkingDay; // hours and minutes
+@property (nonatomic, strong) NSDateComponents *endWorkingDay; // hours and minutes
 
 /*! @return time date for current touch NOTE: use only time (hours and minutes) from returned value */
 - (NSDate*)showEventTimeForTouch:(CGPoint)touchPoint;
