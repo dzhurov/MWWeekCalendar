@@ -25,9 +25,11 @@
 		6116E11F1B0A30F100F48255 /* NSDate+MWWeeklyCalendar.m in Sources */ = {isa = PBXBuildFile; fileRef = 6116E1191B0A30F100F48255 /* NSDate+MWWeeklyCalendar.m */; };
 		6116E1201B0A30F100F48255 /* NSDate+Utilities.m in Sources */ = {isa = PBXBuildFile; fileRef = 6116E11B1B0A30F100F48255 /* NSDate+Utilities.m */; };
 		6116E1211B0A30F100F48255 /* UIColor+MWWeeklyCalendar.m in Sources */ = {isa = PBXBuildFile; fileRef = 6116E11D1B0A30F100F48255 /* UIColor+MWWeeklyCalendar.m */; };
+		6168D6D31B0DE991007BC28D /* MWCalendarEditingVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 6168D6D11B0DE991007BC28D /* MWCalendarEditingVC.m */; };
+		6168D6D41B0DE991007BC28D /* MWCalendarEditingVC.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6168D6D21B0DE991007BC28D /* MWCalendarEditingVC.xib */; };
 		6189E9CB1B0B47B0002D6971 /* CalendarDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 6189E9C71B0B47B0002D6971 /* CalendarDelegate.m */; };
-		6189E9CC1B0B47B0002D6971 /* MWCalendarEditingVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 6189E9C91B0B47B0002D6971 /* MWCalendarEditingVC.m */; };
-		6189E9CD1B0B47B0002D6971 /* MWCalendarEditingVC.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6189E9CA1B0B47B0002D6971 /* MWCalendarEditingVC.xib */; };
+		6189E9D11B0B655F002D6971 /* MWCalendarViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6189E9CF1B0B655F002D6971 /* MWCalendarViewController.m */; };
+		6189E9D21B0B655F002D6971 /* MWCalendarViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6189E9D01B0B655F002D6971 /* MWCalendarViewController.xib */; };
 		7EF1B9F21AEE77A10086763A /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 7EF1B9F11AEE77A10086763A /* main.m */; };
 		7EF1B9F51AEE77A10086763A /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 7EF1B9F41AEE77A10086763A /* AppDelegate.m */; };
 		7EF1B9F81AEE77A10086763A /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7EF1B9F71AEE77A10086763A /* ViewController.m */; };
@@ -85,11 +87,15 @@
 		6116E11B1B0A30F100F48255 /* NSDate+Utilities.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSDate+Utilities.m"; sourceTree = "<group>"; };
 		6116E11C1B0A30F100F48255 /* UIColor+MWWeeklyCalendar.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIColor+MWWeeklyCalendar.h"; sourceTree = "<group>"; };
 		6116E11D1B0A30F100F48255 /* UIColor+MWWeeklyCalendar.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIColor+MWWeeklyCalendar.m"; sourceTree = "<group>"; };
+		6168D6D01B0DE991007BC28D /* MWCalendarEditingVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MWCalendarEditingVC.h; sourceTree = "<group>"; };
+		6168D6D11B0DE991007BC28D /* MWCalendarEditingVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MWCalendarEditingVC.m; sourceTree = "<group>"; };
+		6168D6D21B0DE991007BC28D /* MWCalendarEditingVC.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MWCalendarEditingVC.xib; sourceTree = "<group>"; };
 		6189E9C61B0B47B0002D6971 /* CalendarDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CalendarDelegate.h; sourceTree = "<group>"; };
 		6189E9C71B0B47B0002D6971 /* CalendarDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CalendarDelegate.m; sourceTree = "<group>"; };
-		6189E9C81B0B47B0002D6971 /* MWCalendarEditingVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MWCalendarEditingVC.h; sourceTree = "<group>"; };
-		6189E9C91B0B47B0002D6971 /* MWCalendarEditingVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MWCalendarEditingVC.m; sourceTree = "<group>"; };
-		6189E9CA1B0B47B0002D6971 /* MWCalendarEditingVC.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MWCalendarEditingVC.xib; sourceTree = "<group>"; };
+		6189E9CE1B0B655F002D6971 /* MWCalendarViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MWCalendarViewController.h; sourceTree = "<group>"; };
+		6189E9CF1B0B655F002D6971 /* MWCalendarViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MWCalendarViewController.m; sourceTree = "<group>"; };
+		6189E9D01B0B655F002D6971 /* MWCalendarViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MWCalendarViewController.xib; sourceTree = "<group>"; };
+		6189E9D31B0B84B5002D6971 /* MWCalendarViewControllerProtocols.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MWCalendarViewControllerProtocols.h; sourceTree = "<group>"; };
 		7EF1B9EC1AEE77A10086763A /* WeeklyCalendar.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = WeeklyCalendar.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		7EF1B9F01AEE77A10086763A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		7EF1B9F11AEE77A10086763A /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
@@ -162,6 +168,13 @@
 				6116E1041B0A30C200F48255 /* MWWeekEventView.m */,
 				6116E1051B0A30C200F48255 /* RZCollectionViewAnimationAssistant.h */,
 				6116E1061B0A30C200F48255 /* RZCollectionViewAnimationAssistant.m */,
+				6189E9D31B0B84B5002D6971 /* MWCalendarViewControllerProtocols.h */,
+				6189E9CE1B0B655F002D6971 /* MWCalendarViewController.h */,
+				6189E9CF1B0B655F002D6971 /* MWCalendarViewController.m */,
+				6189E9D01B0B655F002D6971 /* MWCalendarViewController.xib */,
+				6168D6D01B0DE991007BC28D /* MWCalendarEditingVC.h */,
+				6168D6D11B0DE991007BC28D /* MWCalendarEditingVC.m */,
+				6168D6D21B0DE991007BC28D /* MWCalendarEditingVC.xib */,
 			);
 			path = WeeklyCalendarSource;
 			sourceTree = "<group>";
@@ -211,9 +224,6 @@
 				7EF1B9F71AEE77A10086763A /* ViewController.m */,
 				6189E9C61B0B47B0002D6971 /* CalendarDelegate.h */,
 				6189E9C71B0B47B0002D6971 /* CalendarDelegate.m */,
-				6189E9C81B0B47B0002D6971 /* MWCalendarEditingVC.h */,
-				6189E9C91B0B47B0002D6971 /* MWCalendarEditingVC.m */,
-				6189E9CA1B0B47B0002D6971 /* MWCalendarEditingVC.xib */,
 				7EF1BA151AEE77D50086763A /* Calendar.xib */,
 				7EF1B9F91AEE77A10086763A /* Main.storyboard */,
 				7EF1B9FC1AEE77A10086763A /* Images.xcassets */,
@@ -340,13 +350,14 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				6168D6D41B0DE991007BC28D /* MWCalendarEditingVC.xib in Resources */,
 				7EF1B9FB1AEE77A10086763A /* Main.storyboard in Resources */,
 				6116E10C1B0A30C200F48255 /* MWHeaderDayCell.xib in Resources */,
 				6116E1091B0A30C200F48255 /* MWDayBodyCell.xib in Resources */,
-				6189E9CD1B0B47B0002D6971 /* MWCalendarEditingVC.xib in Resources */,
 				7EF1BA001AEE77A10086763A /* LaunchScreen.xib in Resources */,
 				7EF1B9FD1AEE77A10086763A /* Images.xcassets in Resources */,
 				7EF1BA161AEE77D50086763A /* Calendar.xib in Resources */,
+				6189E9D21B0B655F002D6971 /* MWCalendarViewController.xib in Resources */,
 				6116E1121B0A30C200F48255 /* MWWeekCalendarViewController.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -400,10 +411,12 @@
 			files = (
 				6116E1211B0A30F100F48255 /* UIColor+MWWeeklyCalendar.m in Sources */,
 				6116E10B1B0A30C200F48255 /* MWHeaderDayCell.m in Sources */,
+				6189E9D11B0B655F002D6971 /* MWCalendarViewController.m in Sources */,
 				7EF1B9F81AEE77A10086763A /* ViewController.m in Sources */,
 				6116E1141B0A30C200F48255 /* RZCollectionViewAnimationAssistant.m in Sources */,
 				6116E1131B0A30C200F48255 /* MWWeekEventView.m in Sources */,
 				7EF1B9F51AEE77A10086763A /* AppDelegate.m in Sources */,
+				6168D6D31B0DE991007BC28D /* MWCalendarEditingVC.m in Sources */,
 				6116E10E1B0A30C200F48255 /* MWEventsContainer.m in Sources */,
 				6116E1101B0A30C200F48255 /* MWWeekCalendarLayout.m in Sources */,
 				6189E9CB1B0B47B0002D6971 /* CalendarDelegate.m in Sources */,
@@ -414,7 +427,6 @@
 				6116E10D1B0A30C200F48255 /* MWCalendarEvent.m in Sources */,
 				6116E1081B0A30C200F48255 /* MWDayBodyCell.m in Sources */,
 				6116E11F1B0A30F100F48255 /* NSDate+MWWeeklyCalendar.m in Sources */,
-				6189E9CC1B0B47B0002D6971 /* MWCalendarEditingVC.m in Sources */,
 				6116E1201B0A30F100F48255 /* NSDate+Utilities.m in Sources */,
 				7EF1B9F21AEE77A10086763A /* main.m in Sources */,
 			);
@@ -547,6 +559,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				TARGETED_DEVICE_FAMILY = 2;
 			};
 			name = Debug;
 		};
@@ -559,6 +572,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				TARGETED_DEVICE_FAMILY = 2;
 			};
 			name = Release;
 		};

@@ -18,6 +18,7 @@
 #import "MWCalendarEvent.h"
 #import "MWWeekCalendarConsts.h"
 #import "MWWeekCalendarLayout.h"
+#import "MWCalendarViewController.h"
 
 struct TouchInfo {
     CGPoint point;
@@ -52,8 +53,8 @@ struct TouchInfo {
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *redCircleXPositionConstraint;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *headerCollectionLeadingSpaceConstraint;
 @property (strong, nonatomic) NSTimer *redLineTimer;
-@property (strong, nonatomic) UIPopoverController *editingControllerPopover;
 @property (strong, nonatomic) MWCalendarEvent *eventBeforeEditing;
+@property (nonatomic, readonly) MWCalendarViewController* calendarViewController;
 
 @end
 
@@ -608,7 +609,7 @@ struct TouchInfo {
     if ([self.delegate respondsToSelector:@selector(calendarController:saveEvent:withNew:)]) {
         [self.delegate calendarController:self saveEvent:event withNew:newEvent];
     }
-    [self cancelEditing];
+    [self endEditingEvent:event];
     [self.bodyCollectionView reloadItemsAtIndexPaths:@[[self indexPathForDate:event.startDate]]];
 }
 
@@ -617,13 +618,13 @@ struct TouchInfo {
     if ([self.delegate respondsToSelector:@selector(calendarController:removeEvent:)]) {
         [self.delegate calendarController:self removeEvent:event];
     }
-    [self cancelEditing];
+    [self endEditingEvent:event];
     [self.bodyCollectionView reloadItemsAtIndexPaths:@[[self indexPathForDate:event.startDate]]];
 }
 
 - (void)cancelEditingForEvent:(MWCalendarEvent *)event
 {
-    [self cancelEditing];
+    [self endEditingEvent:event];
 }
 
 #pragma mark -
@@ -631,30 +632,32 @@ struct TouchInfo {
 - (void)editEvent:(MWCalendarEvent *)event inCell:(MWDayBodyCell *)cell
 {
     UIViewController *editingController = [self.dataSource calendarController:self editingControllerForEvent:event];
-    self.editingControllerPopover = [[UIPopoverController alloc] initWithContentViewController:editingController];
-    self.editingControllerPopover.delegate = self;
-    [self.editingControllerPopover presentPopoverFromRect:[cell eventViewForEvent:event].frame
-                                                   inView:[cell eventViewForEvent:event].superview
-                                 permittedArrowDirections:UIPopoverArrowDirectionAny animated:YES];
-    _editingEventView = [cell eventViewForEvent:event];
-    [_editingEventView setSelected:YES];
+    [self.calendarViewController showEditingController:editingController
+                                              fromRect:[cell eventViewForEvent:event].frame
+                                                inView:[cell eventViewForEvent:event].superview
+                                            completion:^{
+                                                
+                                                _editingEventView = [cell eventViewForEvent:event];
+                                                [_editingEventView setSelected:YES];
+                                                
+                                                }];
 }
 
-- (void)cancelEditing
+- (void)endEditingEvent:(MWCalendarEvent *)event
 {
-    if ([self.editingControllerPopover isPopoverVisible]) {
-        [self.editingControllerPopover dismissPopoverAnimated:YES];
-    }
-    self.editingControllerPopover = nil;
-    [_editingEventView setSelected:NO];
-    _editingEventView = nil;
+    [self.calendarViewController hideEditingController:[self.dataSource calendarController:self editingControllerForEvent:event] completion:^{
+        
+        [_editingEventView setSelected:NO];
+        _editingEventView = nil;
+        
+    }];
 }
 
-#pragma mark - UIPopoverControllerDelegate <NSObject>
+#pragma mark - MWCalendarViewControllerProtocol
 
-- (void)popoverControllerDidDismissPopover:(UIPopoverController *)popoverController
+-(MWCalendarViewController*)calendarViewController
 {
-    [self cancelEditing];
+    return [self.parentViewController isKindOfClass:[MWCalendarViewController class]]?((MWCalendarViewController*)self.parentViewController):nil;
 }
 
 @end

@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="7702" systemVersion="14D136" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7702"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="MWCalendarViewController">
+            <connections>
+                <outlet property="mainContentView" destination="mVY-mk-XVo" id="VsD-By-8gs"/>
+                <outlet property="mainContentViewRightConstraint" destination="PZV-gf-DSg" id="bOG-w7-cZ2"/>
+                <outlet property="sideMenuBaseView" destination="0kX-FM-eYc" id="2Qd-Qb-7KQ"/>
+                <outlet property="sideMenuBaseViewWidthConstraint" destination="sPC-ZT-h5D" id="jAa-cx-EwV"/>
+                <outlet property="view" destination="2do-ff-DOs" id="N5x-Pn-1BO"/>
+            </connections>
+        </placeholder>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view contentMode="scaleToFill" id="2do-ff-DOs">
+            <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+            <subviews>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="mVY-mk-XVo" userLabel="MainContentView">
+                    <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                    <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    <constraints>
+                        <constraint firstAttribute="width" constant="550" id="SrK-cu-Ojj"/>
+                    </constraints>
+                    <variation key="default">
+                        <mask key="constraints">
+                            <exclude reference="SrK-cu-Ojj"/>
+                        </mask>
+                    </variation>
+                </view>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="0kX-FM-eYc" userLabel="SideMenuView">
+                    <rect key="frame" x="600" y="0.0" width="50" height="600"/>
+                    <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    <constraints>
+                        <constraint firstAttribute="width" constant="50" id="sPC-ZT-h5D"/>
+                    </constraints>
+                </view>
+            </subviews>
+            <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+            <constraints>
+                <constraint firstAttribute="trailing" secondItem="0kX-FM-eYc" secondAttribute="trailing" id="3k5-s0-9Rs"/>
+                <constraint firstAttribute="bottom" secondItem="0kX-FM-eYc" secondAttribute="bottom" id="8cn-50-ITl"/>
+                <constraint firstItem="0kX-FM-eYc" firstAttribute="leading" secondItem="2do-ff-DOs" secondAttribute="leading" constant="550" id="LqU-Yi-N1t"/>
+                <constraint firstAttribute="trailing" secondItem="mVY-mk-XVo" secondAttribute="trailing" id="PZV-gf-DSg"/>
+                <constraint firstItem="0kX-FM-eYc" firstAttribute="top" secondItem="2do-ff-DOs" secondAttribute="top" id="YfA-aZ-Ye2"/>
+                <constraint firstAttribute="trailing" secondItem="mVY-mk-XVo" secondAttribute="trailing" id="ZQJ-TF-FFg"/>
+                <constraint firstItem="0kX-FM-eYc" firstAttribute="leading" secondItem="2do-ff-DOs" secondAttribute="leading" constant="550" id="bVi-oM-Kcp"/>
+                <constraint firstItem="mVY-mk-XVo" firstAttribute="leading" secondItem="2do-ff-DOs" secondAttribute="leading" id="gmZ-af-6hH"/>
+                <constraint firstItem="0kX-FM-eYc" firstAttribute="leading" secondItem="mVY-mk-XVo" secondAttribute="trailing" id="jYZ-Rq-l3g"/>
+                <constraint firstItem="mVY-mk-XVo" firstAttribute="top" secondItem="2do-ff-DOs" secondAttribute="top" id="qkD-o2-QmS"/>
+                <constraint firstAttribute="bottom" secondItem="mVY-mk-XVo" secondAttribute="bottom" id="vWl-jV-X9Q"/>
+            </constraints>
+            <variation key="default">
+                <mask key="constraints">
+                    <exclude reference="ZQJ-TF-FFg"/>
+                    <exclude reference="3k5-s0-9Rs"/>
+                    <exclude reference="LqU-Yi-N1t"/>
+                    <exclude reference="bVi-oM-Kcp"/>
+                </mask>
+            </variation>
+        </view>
+    </objects>
+</document>

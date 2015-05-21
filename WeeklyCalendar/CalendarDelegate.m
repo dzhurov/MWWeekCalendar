@@ -14,6 +14,7 @@
 @interface CalendarDelegate ()
 
 @property (nonatomic, strong) MWEventsContainer *eventsContainer;
+@property (nonatomic, strong) MWCalendarEditingVC *editingVC;
 
 @end
 
@@ -72,10 +73,17 @@
 - (UIViewController <MWCalendarEditingControllerProtocol> *)calendarController:(MWWeekCalendarViewController *)controller
                                                      editingControllerForEvent:(MWCalendarEvent *)event
 {
-    MWCalendarEditingVC *editingVC = [MWCalendarEditingVC new];
-    editingVC.event = event;
-    editingVC.calendarVC = controller;
-    return editingVC;
+    if (!self.editingVC) {
+        self.editingVC = [MWCalendarEditingVC new];
+    }
+    self.editingVC.event = event;
+    self.editingVC.calendarVC = controller;
+    return self.editingVC;
+}
+
+-(MWCalendarEditingPresentationMode)calendarEditingPresentationMode
+{    
+    return MWCalendarEditingPresentationModeSideMenu;
 }
 
 @end

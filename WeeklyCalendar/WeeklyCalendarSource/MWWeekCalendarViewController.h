@@ -9,6 +9,12 @@
 #import <UIKit/UIKit.h>
 #import "MWCalendarEditingControllerProtocol.h"
 
+typedef NS_ENUM(NSUInteger, MWCalendarEditingPresentationMode) {
+    MWCalendarEditingPresentationModeSideMenu = 0,
+    MWCalendarEditingPresentationModePopover,
+    MWCalendarEditingPresentationModeModal
+};
+
 @class MWCalendarEvent;
 @protocol MWCalendarDelegate, MWCalendarDataSource;
 
@@ -39,4 +45,5 @@
 - (NSArray *)calendarController:(MWWeekCalendarViewController *)controller eventsForDate:(NSDate *)date;
 - (UIViewController <MWCalendarEditingControllerProtocol> *)calendarController:(MWWeekCalendarViewController *)controller
                                                      editingControllerForEvent:(MWCalendarEvent *)event;
+- (MWCalendarEditingPresentationMode)calendarEditingPresentationMode;
 @end
