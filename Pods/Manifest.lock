@@ -1,10 +1,18 @@
 PODS:
   - PureLayout (2.0.6)
+  - WeeklyCalendar (0.0.2):
+    - PureLayout
 
 DEPENDENCIES:
   - PureLayout
+  - WeeklyCalendar (from `WeeklyCalendar.podspec`)
+
+EXTERNAL SOURCES:
+  WeeklyCalendar:
+    :path: WeeklyCalendar.podspec
 
 SPEC CHECKSUMS:
   PureLayout: f25f0bb904d5ccfe6e31da3cb869185259f02e0d
+  WeeklyCalendar: 1edcbbc4e07f6df3a32fc2499e94a6167055229d
 
-COCOAPODS: 0.35.0
+COCOAPODS: 0.37.1

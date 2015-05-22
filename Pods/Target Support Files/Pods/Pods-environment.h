@@ -12,3 +12,9 @@
 #define COCOAPODS_VERSION_MINOR_PureLayout 0
 #define COCOAPODS_VERSION_PATCH_PureLayout 6
 
+// WeeklyCalendar
+#define COCOAPODS_POD_AVAILABLE_WeeklyCalendar
+#define COCOAPODS_VERSION_MAJOR_WeeklyCalendar 0
+#define COCOAPODS_VERSION_MINOR_WeeklyCalendar 0
+#define COCOAPODS_VERSION_PATCH_WeeklyCalendar 2
+

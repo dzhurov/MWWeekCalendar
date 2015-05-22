@@ -13,7 +13,7 @@ Pod::Spec.new do |s|
   s.source   = { :git => 'https://github.com/dzhurov/MWWeekCalendar.git', :tag => s.version, :submodules => true }
   s.requires_arc = true
   s.ios.deployment_target = '8.0'  
-  s.source_files = "WeeklyCalendar/WeeklyCalendarSource/**/*.{h,m}"
-  s.resource = "WeeklyCalendar/WeeklyCalendarSource/**/*.{xib}"
+  s.source_files = 'WeeklyCalendarSource/**/*.{h,m}'
+  s.resource = 'WeeklyCalendarSource/**/*.{xib}'
   s.dependency 'PureLayout'
 end
