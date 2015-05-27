@@ -26,6 +26,7 @@
 #define MW_CALENDAR_ANIMATION_DURATION 0.15
 
 @implementation MWCalendarViewController
+@synthesize weekCalendarVC = _weekCalendarVC;
 
 -(instancetype)initWithDelegate:(NSObject<MWCalendarDelegate> *)delegate andDataSource:(NSObject<MWCalendarDataSource> *)dataSource
 {
@@ -46,7 +47,7 @@
     weekCalendarVC.view.frame = self.mainContentView.bounds;
     weekCalendarVC.startWorkingDay = [self dateComponentsWithHours:9 minutes:30];
     weekCalendarVC.endWorkingDay = [self dateComponentsWithHours:19 minutes:30];
-
+    _weekCalendarVC = weekCalendarVC;
     [self.mainContentView addSubview:weekCalendarVC.view];
 }
 
@@ -56,6 +57,11 @@
     components.hour = hours;
     components.minute = minutes;
     return components;
+}
+
+- (MWWeekCalendarViewController *)weekCalendarVC
+{
+    return _weekCalendarVC;
 }
 
 #pragma mark - Live cycle
