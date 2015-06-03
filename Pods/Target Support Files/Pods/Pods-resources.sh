@@ -62,14 +62,20 @@ if [[ "$CONFIGURATION" == "Debug" ]]; then
   install_resource "../WeeklyCalendarSource/MWCalendarViewController.xib"
   install_resource "../WeeklyCalendarSource/MWDayBodyCell.xib"
   install_resource "../WeeklyCalendarSource/MWHeaderDayCell.xib"
+  install_resource "../WeeklyCalendarSource/MWMonthCalendarCollectionViewCell.xib"
+  install_resource "../WeeklyCalendarSource/MWMonthCalendarViewController.xib"
   install_resource "../WeeklyCalendarSource/MWWeekCalendarViewController.xib"
+  install_resource "../WeeklyCalendarSource/MWWeekdayTitleCollectionViewCell.xib"
 fi
 if [[ "$CONFIGURATION" == "Release" ]]; then
   install_resource "../WeeklyCalendarSource/MWCalendarEditingVC.xib"
   install_resource "../WeeklyCalendarSource/MWCalendarViewController.xib"
   install_resource "../WeeklyCalendarSource/MWDayBodyCell.xib"
   install_resource "../WeeklyCalendarSource/MWHeaderDayCell.xib"
+  install_resource "../WeeklyCalendarSource/MWMonthCalendarCollectionViewCell.xib"
+  install_resource "../WeeklyCalendarSource/MWMonthCalendarViewController.xib"
   install_resource "../WeeklyCalendarSource/MWWeekCalendarViewController.xib"
+  install_resource "../WeeklyCalendarSource/MWWeekdayTitleCollectionViewCell.xib"
 fi
 
 rsync -avr --copy-links --no-relative --exclude '*/.svn/*' --files-from="$RESOURCES_TO_COPY" / "${CONFIGURATION_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}"

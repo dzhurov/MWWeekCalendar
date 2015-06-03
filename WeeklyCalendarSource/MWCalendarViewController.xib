@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="7702" systemVersion="14D136" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="7706" systemVersion="14D136" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7702"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7703"/>
     </dependencies>
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="MWCalendarViewController">
@@ -19,7 +19,7 @@
             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
             <subviews>
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="mVY-mk-XVo" userLabel="MainContentView">
-                    <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                    <rect key="frame" x="0.0" y="38" width="600" height="562"/>
                     <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     <constraints>
                         <constraint firstAttribute="width" constant="550" id="SrK-cu-Ojj"/>
@@ -37,29 +37,45 @@
                         <constraint firstAttribute="width" constant="50" id="sPC-ZT-h5D"/>
                     </constraints>
                 </view>
+                <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="fSh-ve-uGv">
+                    <rect key="frame" x="247" y="5" width="107" height="29"/>
+                    <segments>
+                        <segment title="Month"/>
+                        <segment title="Day"/>
+                    </segments>
+                    <color key="tintColor" red="1" green="0.12066677520000001" blue="0.13766976859999999" alpha="1" colorSpace="calibratedRGB"/>
+                    <connections>
+                        <action selector="segmentControlValueChanged:" destination="-1" eventType="valueChanged" id="I3f-cb-Nre"/>
+                    </connections>
+                </segmentedControl>
             </subviews>
             <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
             <constraints>
                 <constraint firstAttribute="trailing" secondItem="0kX-FM-eYc" secondAttribute="trailing" id="3k5-s0-9Rs"/>
                 <constraint firstAttribute="bottom" secondItem="0kX-FM-eYc" secondAttribute="bottom" id="8cn-50-ITl"/>
+                <constraint firstAttribute="centerX" secondItem="fSh-ve-uGv" secondAttribute="centerX" id="BPN-oP-cgE"/>
                 <constraint firstItem="0kX-FM-eYc" firstAttribute="leading" secondItem="2do-ff-DOs" secondAttribute="leading" constant="550" id="LqU-Yi-N1t"/>
                 <constraint firstAttribute="trailing" secondItem="mVY-mk-XVo" secondAttribute="trailing" id="PZV-gf-DSg"/>
                 <constraint firstItem="0kX-FM-eYc" firstAttribute="top" secondItem="2do-ff-DOs" secondAttribute="top" id="YfA-aZ-Ye2"/>
                 <constraint firstAttribute="trailing" secondItem="mVY-mk-XVo" secondAttribute="trailing" id="ZQJ-TF-FFg"/>
                 <constraint firstItem="0kX-FM-eYc" firstAttribute="leading" secondItem="2do-ff-DOs" secondAttribute="leading" constant="550" id="bVi-oM-Kcp"/>
                 <constraint firstItem="mVY-mk-XVo" firstAttribute="leading" secondItem="2do-ff-DOs" secondAttribute="leading" id="gmZ-af-6hH"/>
+                <constraint firstItem="fSh-ve-uGv" firstAttribute="top" secondItem="2do-ff-DOs" secondAttribute="top" constant="5" id="hg6-Db-hI5"/>
                 <constraint firstItem="0kX-FM-eYc" firstAttribute="leading" secondItem="mVY-mk-XVo" secondAttribute="trailing" id="jYZ-Rq-l3g"/>
+                <constraint firstItem="mVY-mk-XVo" firstAttribute="top" secondItem="fSh-ve-uGv" secondAttribute="bottom" constant="5" id="nj6-4q-bVc"/>
                 <constraint firstItem="mVY-mk-XVo" firstAttribute="top" secondItem="2do-ff-DOs" secondAttribute="top" id="qkD-o2-QmS"/>
                 <constraint firstAttribute="bottom" secondItem="mVY-mk-XVo" secondAttribute="bottom" id="vWl-jV-X9Q"/>
             </constraints>
             <variation key="default">
                 <mask key="constraints">
                     <exclude reference="ZQJ-TF-FFg"/>
+                    <exclude reference="qkD-o2-QmS"/>
                     <exclude reference="3k5-s0-9Rs"/>
                     <exclude reference="LqU-Yi-N1t"/>
                     <exclude reference="bVi-oM-Kcp"/>
                 </mask>
             </variation>
+            <point key="canvasLocation" x="436" y="302"/>
         </view>
     </objects>
 </document>

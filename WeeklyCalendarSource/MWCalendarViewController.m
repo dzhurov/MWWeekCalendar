@@ -8,6 +8,8 @@
 
 #import "MWCalendarViewController.h"
 #import "MWWeekCalendarViewController.h"
+#import "MWMonthCalendarViewController.h"
+#import "PureLayout.h"
 
 @interface MWCalendarViewController ()
 
@@ -20,6 +22,8 @@
 @property (nonatomic, weak) id <MWCalendarDataSource> dataSource;
 
 @property (strong, nonatomic) UIPopoverController *editingControllerPopover;
+
+@property (nonatomic, strong) MWMonthCalendarViewController *monthCalendarVC;
 
 @end
 
@@ -45,10 +49,23 @@
     weekCalendarVC.delegate = self.delegate;
     weekCalendarVC.dataSource = self.dataSource;
     weekCalendarVC.view.frame = self.mainContentView.bounds;
+    weekCalendarVC.view.hidden = YES;
     weekCalendarVC.startWorkingDay = [self dateComponentsWithHours:9 minutes:30];
     weekCalendarVC.endWorkingDay = [self dateComponentsWithHours:19 minutes:30];
     _weekCalendarVC = weekCalendarVC;
     [self.mainContentView addSubview:weekCalendarVC.view];
+    
+    self.monthCalendarVC = [MWMonthCalendarViewController new];
+    [self addChildViewController:self.monthCalendarVC];
+    self.monthCalendarVC = self.monthCalendarVC;
+    [self.mainContentView addSubview:self.monthCalendarVC.view];
+    
+    [self.monthCalendarVC.view autoPinEdgeToSuperviewEdge:ALEdgeTop];
+    [self.monthCalendarVC.view autoPinEdgeToSuperviewEdge:ALEdgeLeading];
+    [self.monthCalendarVC.view autoPinEdgeToSuperviewEdge:ALEdgeBottom];
+    [self.monthCalendarVC.view autoPinEdgeToSuperviewEdge:ALEdgeTrailing];
+    
+    [self.view layoutSubviews];
 }
 
 - (NSDateComponents *)dateComponentsWithHours:(NSInteger)hours minutes:(NSInteger)minutes
@@ -71,6 +88,13 @@
     [super viewDidLoad];    
     [self baseConfiguration];
 }
+
+- (IBAction)segmentControlValueChanged:(UISegmentedControl *)sender
+{
+    self.monthCalendarVC.view.hidden = sender.selectedSegmentIndex!=0;
+    self.weekCalendarVC.view.hidden = sender.selectedSegmentIndex==0;
+}
+
 
 #pragma mark --- MWCalendarViewControllerProtocol
 

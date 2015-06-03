@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.iPad.XIB" version="3.0" toolsVersion="7706" systemVersion="14D136" targetRuntime="iOS.CocoaTouch.iPad" propertyAccessControl="none" useAutolayout="YES">
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7703"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="MWMonthCalendarViewController">
+            <connections>
+                <outlet property="calendarCollectionView" destination="7uL-l2-cSW" id="ATv-GW-ETJ"/>
+                <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
+                <outlet property="weekdayTitleCollectionView" destination="EW0-3F-oPC" id="BQQ-Qx-XbO"/>
+            </connections>
+        </placeholder>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view clearsContextBeforeDrawing="NO" contentMode="scaleToFill" id="i5M-Pr-FkT">
+            <rect key="frame" x="0.0" y="0.0" width="768" height="1024"/>
+            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+            <subviews>
+                <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="none" translatesAutoresizingMaskIntoConstraints="NO" id="7uL-l2-cSW">
+                    <rect key="frame" x="0.0" y="30" width="768" height="994"/>
+                    <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="10" minimumInteritemSpacing="10" id="gJH-tK-sG8">
+                        <size key="itemSize" width="50" height="50"/>
+                        <size key="headerReferenceSize" width="0.0" height="0.0"/>
+                        <size key="footerReferenceSize" width="0.0" height="0.0"/>
+                        <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
+                    </collectionViewFlowLayout>
+                    <connections>
+                        <outlet property="dataSource" destination="-1" id="Sa9-mU-Io8"/>
+                        <outlet property="delegate" destination="-1" id="1wn-IQ-332"/>
+                    </connections>
+                </collectionView>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Pce-xz-akS">
+                    <rect key="frame" x="0.0" y="0.0" width="768" height="30"/>
+                    <subviews>
+                        <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="none" translatesAutoresizingMaskIntoConstraints="NO" id="EW0-3F-oPC">
+                            <rect key="frame" x="0.0" y="0.0" width="768" height="30"/>
+                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                            <constraints>
+                                <constraint firstAttribute="height" constant="30" id="oh8-N6-RGb"/>
+                            </constraints>
+                            <collectionViewFlowLayout key="collectionViewLayout" scrollDirection="horizontal" minimumLineSpacing="10" minimumInteritemSpacing="10" id="JR4-kM-B5F">
+                                <size key="itemSize" width="50" height="50"/>
+                                <size key="headerReferenceSize" width="0.0" height="0.0"/>
+                                <size key="footerReferenceSize" width="0.0" height="0.0"/>
+                                <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
+                            </collectionViewFlowLayout>
+                            <connections>
+                                <outlet property="dataSource" destination="-1" id="FaM-r7-tJc"/>
+                                <outlet property="delegate" destination="-1" id="774-1M-9RC"/>
+                            </connections>
+                        </collectionView>
+                    </subviews>
+                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                    <constraints>
+                        <constraint firstAttribute="bottom" secondItem="EW0-3F-oPC" secondAttribute="bottom" id="6qH-DH-lL4"/>
+                        <constraint firstAttribute="trailing" secondItem="EW0-3F-oPC" secondAttribute="trailing" id="dO1-4Q-hvp"/>
+                        <constraint firstItem="EW0-3F-oPC" firstAttribute="leading" secondItem="Pce-xz-akS" secondAttribute="leading" id="vUE-Up-y3R"/>
+                        <constraint firstAttribute="height" constant="30" id="yfD-dc-J0E"/>
+                    </constraints>
+                </view>
+            </subviews>
+            <color key="backgroundColor" red="1" green="0.82842273845533432" blue="0.22971913510046504" alpha="0.57999999999999996" colorSpace="calibratedRGB"/>
+            <constraints>
+                <constraint firstItem="7uL-l2-cSW" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="3Ac-lL-YB1"/>
+                <constraint firstAttribute="trailing" secondItem="Pce-xz-akS" secondAttribute="trailing" id="5gW-1K-OBO"/>
+                <constraint firstAttribute="bottom" secondItem="7uL-l2-cSW" secondAttribute="bottom" id="AK5-Mn-u0c"/>
+                <constraint firstAttribute="trailing" secondItem="7uL-l2-cSW" secondAttribute="trailing" id="bGz-b4-qoo"/>
+                <constraint firstItem="7uL-l2-cSW" firstAttribute="top" secondItem="Pce-xz-akS" secondAttribute="bottom" id="cJR-w1-woV"/>
+                <constraint firstItem="Pce-xz-akS" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="in6-9g-K1X"/>
+                <constraint firstItem="Pce-xz-akS" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" id="rtT-FO-s53"/>
+            </constraints>
+            <point key="canvasLocation" x="419" y="303"/>
+        </view>
+    </objects>
+    <simulatedMetricsContainer key="defaultSimulatedMetrics">
+        <simulatedStatusBarMetrics key="statusBar"/>
+        <simulatedOrientationMetrics key="orientation"/>
+        <simulatedScreenMetrics key="destination"/>
+    </simulatedMetricsContainer>
+</document>
