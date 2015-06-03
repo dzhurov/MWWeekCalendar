@@ -153,11 +153,9 @@ IB_DESIGNABLE
 - (NSDate *)showEventTimeForTouch:(CGPoint)touchPoint
 {
     float hours = (touchPoint.y - kCurrentEventMinutesStep / 2) /  self.hourStepHeight;
-//    float fullHours = floor(hours);
     float minutes = roundWithStep(hours * 60, kCurrentEventMinutesStep); // Step = 15 minutes
     
     NSDateComponents *dateComponents = [[NSDateComponents alloc] init];
-//    dateComponents.hour = fullHours;
     dateComponents.minute = minutes;
     
     self.currentEventDate = [[NSCalendar currentCalendar] dateFromComponents:dateComponents];

@@ -20,5 +20,6 @@ IB_DESIGNABLE
 /*! @return time date for current touch NOTE: use only time (hours and minutes) from returned value */
 - (NSDate*)showEventTimeForTouch:(CGPoint)touchPoint;
 - (void)hideEventTouch;
+- (NSDate *)currentEventDate;
 
 @end

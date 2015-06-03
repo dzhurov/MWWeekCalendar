@@ -94,12 +94,20 @@ static const float kNotSelectedAlpha = 0.2;
         self.backgroundColor = _event.calendarColor;
         self.titleLabel.textColor = [UIColor whiteColor];
         self.detailsLabel.textColor = [UIColor whiteColor];
+        
+        self.layer.shadowRadius = 10.f;
+        self.layer.shadowOpacity = 0.3f;
+        self.layer.shadowColor = [UIColor blackColor].CGColor;
+
     }
     else{
         self.backgroundColor = [_event.calendarColor colorWithAlphaComponent:kNotSelectedAlpha];
         UIColor *textColor = [_event.calendarColor colorWithBrightnessMultiplier:0.5];
         self.titleLabel.textColor = textColor;
         self.detailsLabel.textColor = textColor;
+        
+        self.layer.shadowRadius = 0.f;
+        self.layer.shadowOpacity = 0.f;
     }
 }
 

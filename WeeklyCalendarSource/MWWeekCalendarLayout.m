@@ -65,7 +65,7 @@
     
     self.oldBounds = oldBounds;
     CGFloat width = [self.delegate calendarLayoutCellWidth:self];
-    NSLog(@"oldBounds: %@ newBounds: %@ width: %f", NSStringFromCGRect(oldBounds), NSStringFromCGRect(self.collectionView.bounds), width);
+//    NSLog(@"oldBounds: %@ newBounds: %@ width: %f", NSStringFromCGRect(oldBounds), NSStringFromCGRect(self.collectionView.bounds), width);
 }
 
 - (void)finalizeAnimatedBoundsChange
@@ -174,7 +174,7 @@
 - (UICollectionViewLayoutAttributes *)finalLayoutAttributesForDisappearingItemAtIndexPath:(NSIndexPath *)itemIndexPath
 {
     UICollectionViewLayoutAttributes *attributes = [self layoutAttributesForItemAtIndexPath: itemIndexPath];
-    NSLog(@"%s indexPath.item = %d attributes: %@", __PRETTY_FUNCTION__, itemIndexPath.item, attributes);
+//    NSLog(@"%s indexPath.item = %d attributes: %@", __PRETTY_FUNCTION__, itemIndexPath.item, attributes);
     
     return attributes;
 }

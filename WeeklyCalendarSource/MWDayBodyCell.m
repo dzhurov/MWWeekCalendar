@@ -49,6 +49,22 @@
     [self setNeedsDisplay];
 }
 
+- (void)addTemporaryEventView:(MWWeekEventView *)eventView
+{
+    [eventView removeFromSuperview];
+    eventView.frame = eventView.bounds;
+    [self.eventViewsContainer addSubview:eventView];
+    CGFloat relatedHeight = eventView.event.duration / (60. * 60. * 24.);
+    CGFloat relatedYPosition = [eventView.event.startDate timeIntervalSinceDate:[eventView.event.startDate dateAtStartOfDay]] / (60. * 60. * 24.);
+    if (relatedYPosition == 0) {
+        relatedYPosition = 0.0001;
+    }
+    [eventView autoMatchDimension:ALDimensionHeight toDimension:ALDimensionHeight ofView:self.eventViewsContainer withMultiplier:relatedHeight];
+    [eventView autoConstrainAttribute:ALAttributeTop toAttribute:ALAttributeBottom ofView:self.eventViewsContainer withMultiplier:relatedYPosition];
+    [eventView autoPinEdgeToSuperviewEdge:ALEdgeLeading];
+    eventView.trailing  = [eventView autoPinEdgeToSuperviewEdge:ALEdgeTrailing];
+}
+
 - (void)addEventView:(MWWeekEventView *)eventView
 {
     NSAssert(eventView.event, @"Event View must contain event");
@@ -72,8 +88,6 @@
         theMostRightEventView.trailing = [theMostRightEventView autoPinEdge:ALEdgeRight toEdge:ALEdgeLeft ofView:eventView];
         [eventView autoMatchDimension:ALDimensionWidth toDimension:ALDimensionWidth ofView:theMostRightEventView];
     }
-    
-    [_events addObject:eventView.event];
 }
 
 - (MWWeekEventView *)theMostRightEventViewIntersectedWithStartTime:(NSDate *)time
@@ -107,7 +121,7 @@
 - (MWWeekEventView *)eventViewForPosition:(CGPoint)position
 {
     for (MWWeekEventView *eventView in self.eventViews) {
-        if (CGRectContainsPoint(eventView.frame, position)) {
+        if (CGRectContainsPoint(eventView.frame, [self.eventViewsContainer convertPoint:position fromView:self])) {
             return eventView;
         }
     }

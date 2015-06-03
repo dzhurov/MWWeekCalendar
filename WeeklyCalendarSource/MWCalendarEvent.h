@@ -18,5 +18,6 @@
 
 + (instancetype)eventWithStartDate:(NSDate*)startDate endDate:(NSDate*)endDate;
 - (NSTimeInterval)duration;
+- (void)moveStartDateTo:(NSDate *)startDate;
 
 @end

@@ -27,7 +27,7 @@
 
 - (void)addEvent:(MWCalendarEvent *)event forDate:(NSDate *)date
 {
-    NSNumber *dayOfYear = [self dayOfYearForDate:date];
+    NSNumber *dayOfYear = [self dayNumberForDate:date];
     NSMutableArray *mutableArray = self.dictionaty[dayOfYear];
     if (!mutableArray) {
         mutableArray = [NSMutableArray new];
@@ -39,13 +39,13 @@
 
 - (void)removeEvent:(MWCalendarEvent *)event withDate:(NSDate *)date
 {
-    NSMutableArray *events = self.dictionaty[[self dayOfYearForDate:date]];
+    NSMutableArray *events = self.dictionaty[[self dayNumberForDate:date]];
     [events removeObject:event];
 }
 
 - (NSArray *)eventsForDay:(NSDate *)day
 {
-    NSMutableArray *events = self.dictionaty[[self dayOfYearForDate:day]];
+    NSMutableArray *events = self.dictionaty[[self dayNumberForDate:day]];
     if (events.count) {
         return events;
     }
@@ -54,10 +54,10 @@
 
 #pragma mark - private
 
-- (NSNumber *)dayOfYearForDate:(NSDate *)date
+- (NSNumber *)dayNumberForDate:(NSDate *)date
 {
-    NSDateComponents *components = [[NSCalendar currentCalendar] components:(NSCalendarUnitWeekday | NSCalendarUnitWeekOfYear) fromDate:date];
-    NSInteger day = components.weekday + (components.weekOfYear * 7);
+    NSDateComponents *components = [[NSCalendar currentCalendar] components:(NSCalendarUnitWeekday | NSCalendarUnitWeekOfYear | NSCalendarUnitYear) fromDate:date];
+    NSInteger day = components.weekday + (components.weekOfYear * 7) + ((components.year - 2000) * 366);
     return @(day);
 }
 

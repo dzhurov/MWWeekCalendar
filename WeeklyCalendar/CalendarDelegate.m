@@ -44,6 +44,7 @@
 - (void)calendarController:(MWWeekCalendarViewController *)controller didAddEvent:(MWCalendarEvent *)event
 {
     [self.eventsContainer addEvent:event forDate:event.startDate];
+    [controller reloadEvents];
 }
 
 - (BOOL)calendarController:(MWWeekCalendarViewController *)controller shouldStartEditingForEvent:(MWCalendarEvent *)event
@@ -54,12 +55,24 @@
 - (void)calendarController:(MWWeekCalendarViewController *)controller removeEvent:(MWCalendarEvent *)event
 {
     [self.eventsContainer removeEvent:event withDate:event.startDate];
+    [controller reloadEvents];
 }
 
-- (void)calendarController:(MWWeekCalendarViewController *)controller saveEvent:(MWCalendarEvent *)event withNew:(MWCalendarEvent *)newEvent
+- (void)calendarController:(MWWeekCalendarViewController *)controller saveEvent:(MWCalendarEvent *)event withNew:(MWCalendarEvent *)newEvent isMoving:(BOOL)isMoving
 {
     [self.eventsContainer removeEvent:event withDate:event.startDate];
     [self.eventsContainer addEvent:newEvent forDate:newEvent.startDate];
+    [controller reloadEvents];
+}
+
+- (MWCalendarEvent *)calendarController:(MWWeekCalendarViewController *)controller newEventForStartDate:(NSDate *)startDate
+{
+    MWCalendarEvent *event = [MWCalendarEvent new];
+    event.startDate = startDate;
+    event.endDate = [startDate dateByAddingTimeInterval:(30 * 60)];
+    event.title = @"New Event";
+    event.eventDescription = @"";
+    return event;
 }
 
 #pragma mark - MWCalendarDataSource <NSObject>

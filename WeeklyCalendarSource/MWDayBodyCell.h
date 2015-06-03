@@ -20,6 +20,7 @@
 
 - (MWWeekEventView *)eventViewForEvent:(MWCalendarEvent *)event;
 - (MWWeekEventView *)eventViewForPosition:(CGPoint)position;
+- (void)addTemporaryEventView:(MWWeekEventView *)eventView;
 
 @end
 

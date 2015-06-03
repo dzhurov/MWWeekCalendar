@@ -10,6 +10,8 @@
 
 @implementation MWCalendarEvent
 
+#pragma mark - init
+
 + (instancetype)eventWithStartDate:(NSDate *)startDate endDate:(NSDate *)endDate
 {
     MWCalendarEvent *event = [[self alloc] init];
@@ -29,14 +31,25 @@
     return self;
 }
 
+#pragma mark - accessors and public methods
+
 - (NSTimeInterval)duration
 {
     return [self.endDate timeIntervalSinceDate:self.startDate];
 }
 
+- (void)moveStartDateTo:(NSDate *)startDate
+{
+    NSTimeInterval duration = [self.endDate timeIntervalSinceDate:self.startDate];
+    self.startDate = startDate;
+    self.endDate = [self.startDate dateByAddingTimeInterval:duration];
+}
+
+#pragma mark - <NSCopying>
+
 - (id)copyWithZone:(NSZone *)zone
 {
-    MWCalendarEvent *copyEvent = [MWCalendarEvent new];
+    MWCalendarEvent *copyEvent = [[[self class] allocWithZone:zone] init];
     if (copyEvent) {
         copyEvent.startDate = self.startDate;
         copyEvent.endDate = self.endDate;

@@ -81,6 +81,17 @@ static const unsigned componentFlags = (NSCalendarUnitYear | NSCalendarUnitMonth
 	return newDate;		
 }
 
++ (NSDate *)startOfDay:(NSDate *)date
+{
+    NSCalendar *calendar = [NSCalendar currentCalendar];
+    NSDateComponents *components = [calendar components:(NSYearCalendarUnit | NSMonthCalendarUnit | NSDayCalendarUnit | NSHourCalendarUnit | NSMinuteCalendarUnit | NSSecondCalendarUnit) fromDate:date];
+    [components setHour:0];
+    [components setMinute:0];
+    [components setSecond:0];
+    NSDate *morningStart = [calendar dateFromComponents:components];
+    return morningStart;
+}
+
 #pragma mark - String Properties
 - (NSString *) stringWithFormat: (NSString *) format
 {
@@ -388,6 +399,16 @@ static const unsigned componentFlags = (NSCalendarUnitYear | NSCalendarUnitMonth
 	return [[NSDate currentCalendar] dateFromComponents:components];
 }
 
+- (NSDate *)dateWithTimeFromDate:(NSDate *)time
+{
+    NSDateComponents *components = [[NSDate currentCalendar] components:componentFlags fromDate:self];
+    NSDateComponents *timeComponents = [[NSDate currentCalendar] components:componentFlags fromDate:time];
+    components.hour = timeComponents.hour;
+    components.minute = timeComponents.minute;
+    components.second = timeComponents.second;
+    return [[NSDate currentCalendar] dateFromComponents:components];
+}
+
 #pragma mark - Retrieving Intervals
 
 - (NSInteger) minutesAfterDate: (NSDate *) aDate
@@ -431,8 +452,9 @@ static const unsigned componentFlags = (NSCalendarUnitYear | NSCalendarUnitMonth
 - (NSInteger)distanceInDaysToDate:(NSDate *)anotherDate
 {
     NSCalendar *gregorianCalendar = [[NSCalendar alloc] initWithCalendarIdentifier:NSCalendarIdentifierGregorian];
-    NSDateComponents *components = [gregorianCalendar components:NSCalendarUnitDay fromDate:self toDate:anotherDate options:0];
-    return components.day;
+    NSDateComponents *components = [gregorianCalendar components:NSCalendarUnitDay fromDate:[NSDate startOfDay:self] toDate:[NSDate startOfDay:anotherDate] options:0];
+    NSInteger day = components.day;
+    return day;
 }
 
 #pragma mark - Decomposing Dates
