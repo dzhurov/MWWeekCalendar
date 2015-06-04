@@ -32,8 +32,7 @@
 
 - (NSDateComponents *)dateComponents
 {
-    return [[NSCalendar currentCalendar] components:NSCalendarUnitDay | NSCalendarUnitMonth | NSCalendarUnitYear | NSCalendarUnitWeekday | NSCalendarUnitWeekOfMonth| NSCalendarUnitHour |
-            NSCalendarUnitMinute fromDate:self];
+    return [[NSCalendar currentCalendar] components:NSCalendarUnitDay | NSCalendarUnitMonth | NSCalendarUnitYear | NSCalendarUnitWeekday | NSCalendarUnitWeekOfMonth| NSCalendarUnitWeekOfYear | NSCalendarUnitHour | NSCalendarUnitMinute fromDate:self];
 }
 
 + (NSString *)timeStringFromDate:(NSDate *)date

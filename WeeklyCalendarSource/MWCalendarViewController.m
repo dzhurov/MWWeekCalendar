@@ -57,7 +57,6 @@
     
     self.monthCalendarVC = [MWMonthCalendarViewController new];
     [self addChildViewController:self.monthCalendarVC];
-    self.monthCalendarVC = self.monthCalendarVC;
     [self.mainContentView addSubview:self.monthCalendarVC.view];
     
     [self.monthCalendarVC.view autoPinEdgeToSuperviewEdge:ALEdgeTop];
@@ -85,7 +84,7 @@
 
 - (void)viewDidLoad
 {
-    [super viewDidLoad];    
+    [super viewDidLoad];
     [self baseConfiguration];
 }
 
@@ -93,6 +92,9 @@
 {
     self.monthCalendarVC.view.hidden = sender.selectedSegmentIndex!=0;
     self.weekCalendarVC.view.hidden = sender.selectedSegmentIndex==0;
+    
+    [self.monthCalendarVC.view layoutSubviews];
+    [self.weekCalendarVC.view layoutSubviews];
 }
 
 
@@ -227,5 +229,13 @@
 {
     [editingController dismissViewControllerAnimated:YES completion:completion];
 }
+
+#pragma mark - IBActions
+
+- (IBAction)todayButtonPressed:(id)sender
+{
+    [self.monthCalendarVC showToday];
+}
+
 
 @end

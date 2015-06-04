@@ -10,4 +10,6 @@
 
 @interface MWMonthCalendarViewController : UIViewController
 
+-(void)showToday;
+
 @end

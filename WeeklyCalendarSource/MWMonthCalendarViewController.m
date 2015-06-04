@@ -10,12 +10,20 @@
 #import "MWMonthCalendarCollectionViewCell.h"
 #import "MWWeekdayTitleCollectionViewCell.h"
 
+#import "NSDate+Utilities.h"
+#import "NSDate+MWWeeklyCalendar.h"
+
 @interface MWMonthCalendarViewController () <UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout>
 
 @property (weak, nonatomic) IBOutlet UICollectionView *calendarCollectionView;
 @property (weak, nonatomic) IBOutlet UICollectionView *weekdayTitleCollectionView;
+@property (weak, nonatomic) IBOutlet UILabel *monthAndYearLabel;
+@property (nonatomic, strong) NSDateFormatter *dateFormatter;
 
-@property (nonatomic, strong) NSMutableArray *dataSource;
+@property (nonatomic) NSUInteger numberOfVisibleWeeks;
+@property (nonatomic) NSUInteger numberOfRealPages;
+@property (nonatomic) NSUInteger numberOfVirtualPages;
+@property (nonatomic) NSInteger currentWeekIndex;
 
 @end
 
@@ -29,21 +37,26 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    
-    self.edgesForExtendedLayout = UIRectEdgeNone;
-    
-    self.dataSource = [[NSMutableArray alloc] init];
-    
-    [self setupDataSource];
-    
     [self configurateCollectionViews];
 }
 
--(void)viewDidAppear:(BOOL)animated
+-(void)viewWillAppear:(BOOL)animated
 {
-    [super viewDidAppear:animated];
+    [super viewWillAppear:animated];
     
-    //[self.calendarCollectionView scrollToItemAtIndexPath:[self indexPathForTodayDate] atScrollPosition:UICollectionViewScrollPositionTop animated:NO];
+    [self configurate];
+    [self.calendarCollectionView.collectionViewLayout invalidateLayout];
+}
+
+-(void)configurate
+{
+    self.numberOfVisibleWeeks = CGRectGetHeight(self.calendarCollectionView.frame)*DAYS_IN_WEEK/CGRectGetWidth(self.calendarCollectionView.frame);
+    self.numberOfRealPages = 5;
+    self.numberOfVirtualPages = self.numberOfRealPages + 2;
+    self.currentWeekIndex = (self.numberOfVirtualPages / 2) * self.numberOfVisibleWeeks;
+    
+    [self.calendarCollectionView reloadData];
+    [self updateMonthAndYearLabel];
 }
 
 - (void)configurateCollectionViews
@@ -60,79 +73,55 @@
     [self.weekdayTitleCollectionView.collectionViewLayout invalidateLayout];
 }
 
--(void)setupDataSource
+-(void)updateMonthAndYearLabel
 {
-    [self.dataSource removeAllObjects];
-    
-    NSCalendar *calendar = [NSCalendar currentCalendar];
-    
-    NSDateComponents *components = [calendar components:(NSCalendarUnitWeekday | NSCalendarUnitDay | NSCalendarUnitYear) fromDate:[NSDate date]];
-    
-    for (NSInteger month = 1; month <= MONTH_IN_YEAR; month++) {
-        
-        NSMutableArray *monthArray = [[NSMutableArray alloc] initWithCapacity:MONTH_IN_YEAR];
-
-        [components setMonth:month];
-        
-        NSUInteger monthDaysCount = 31;
-        
-        for (NSInteger day = 1; day <= monthDaysCount; day++ ) {
-            
-            [components setDay:day];
-            
-            NSDate *date = [calendar dateFromComponents:components];
-            
-            if (day == 1) {
-                NSUInteger weekDay = [[calendar components:NSCalendarUnitWeekday fromDate:date] weekday];
-                monthDaysCount = [calendar rangeOfUnit:NSCalendarUnitDay
-                                           inUnit:NSCalendarUnitMonth
-                                          forDate:date].length;
-                if (weekDay == 1) {
-                    weekDay = DAYS_IN_WEEK + 1;
-                }
-                
-                for (NSInteger i = 1; i < weekDay; i++) {
-                    [monthArray addObject:[NSNull null]];
-                }
-            }
-            [monthArray addObject:date];
-        }
-        
-        while (monthArray.count % DAYS_IN_WEEK != 0) {
-            [monthArray addObject:[NSNull null]];
-        }
-        
-        [self.dataSource addObject:monthArray];
+    if (!self.dateFormatter) {
+        self.dateFormatter = [[NSDateFormatter alloc] init];
+        [self.dateFormatter setDateFormat:@"MMMM YYYY"];
     }
+    
+    self.monthAndYearLabel.text = [self.dateFormatter stringFromDate:[self centralDate]];
 }
 
--(NSIndexPath*)indexPathForTodayDate
+-(id)objectByIndexPath:(NSIndexPath*)indexPath
 {
-    __block NSIndexPath *indexPath = nil;
+    NSDate *firstDayOfWeek = [NSDate dateWithTimeIntervalSinceNow:(indexPath.section - self.currentWeekIndex)*D_WEEK];
+    NSUInteger weekDay = [[firstDayOfWeek dateComponents] weekday];
+    NSInteger daysDiff = (indexPath.row - weekDay + 1);
+    NSDate *resultDate = [firstDayOfWeek dateByAddingDays:daysDiff];
+    return resultDate;
+}
+
+-(NSIndexPath*)indexPathAfterIndexPath:(NSIndexPath*)indexPath
+{
+    NSInteger row = indexPath.row==6?0:indexPath.row+1;
+    NSInteger section = indexPath.row==6?indexPath.section+1:indexPath.section;
+    return [NSIndexPath indexPathForRow:row inSection:section];
+}
+
+-(void)scrollToDate:(NSDate*)targetDate
+{
+    NSInteger diff = [targetDate timeIntervalSinceDate:[self centralDate]]/D_WEEK;
     
-    [self.dataSource enumerateObjectsUsingBlock:^(NSArray *obj, NSUInteger idx, BOOL *stop) {
-        
-        [obj enumerateObjectsUsingBlock:^(id innerObj, NSUInteger innerIndex, BOOL *innerStop) {
-            if ([innerObj isKindOfClass:[NSDate class]] && [[NSCalendar currentCalendar] isDateInToday:innerObj]) {
-                indexPath = [NSIndexPath indexPathForRow:innerIndex inSection:idx];
-                *innerStop = YES;
-            }
-        }];
-        *stop = (indexPath!=nil);
-    }];
+    self.calendarCollectionView.contentOffset = CGPointMake(self.calendarCollectionView.contentOffset.x, self.calendarCollectionView.contentOffset.y + diff * CGRectGetWidth(self.calendarCollectionView.frame)/DAYS_IN_WEEK);
     
-    return indexPath;
+    [self.calendarCollectionView reloadData];
+}
+
+-(NSDate*)centralDate
+{
+    CGPoint centerPoint = CGPointMake(self.calendarCollectionView.frame.size.width / 2 + self.calendarCollectionView.contentOffset.x, self.calendarCollectionView.frame.size.height /2 + self.calendarCollectionView.contentOffset.y);
+    NSIndexPath *indexPath = [self.calendarCollectionView indexPathForItemAtPoint:centerPoint];
+    
+    NSDate *centralDate = [self objectByIndexPath:indexPath];
+    return centralDate;
 }
 
 #pragma mark - UICollectionViewDataSource
 
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section
 {
-    if (collectionView == self.weekdayTitleCollectionView) {
-        return DAYS_IN_WEEK;
-    }
-    
-    return [self.dataSource[section] count];
+    return DAYS_IN_WEEK;
 }
 
 - (NSInteger)numberOfSectionsInCollectionView: (UICollectionView *)collectionView
@@ -141,7 +130,7 @@
         return 1;
     }
     
-    return self.dataSource.count;
+    return self.numberOfVisibleWeeks * self.numberOfVirtualPages;
 }
 
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath
@@ -153,7 +142,7 @@
     }
     
     MWMonthCalendarCollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:[MWMonthCalendarCollectionViewCell identifier] forIndexPath:indexPath];
-    [cell configurateWithObject:[self objectForIndexPath:indexPath]];
+    [cell configurateWithObject:[self objectByIndexPath:indexPath]];
     //cell.isDayOff = (indexPath.row%DAYS_IN_WEEK==0) || (indexPath.row%(DAYS_IN_WEEK-1)==0);
     return cell;
 }
@@ -163,22 +152,15 @@
     if (collectionView == self.weekdayTitleCollectionView) {
         return NO;
     }
-    return [[self objectForIndexPath:indexPath] isKindOfClass:[NSDate class]];
+    return [[self objectByIndexPath:indexPath] isKindOfClass:[NSDate class]];
 }
 
 -(void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath
 {
-    NSLog(@"%@", [self objectForIndexPath:indexPath]);
-}
-
--(id)objectForIndexPath:(NSIndexPath*)indexPath
-{
-    return self.dataSource[indexPath.section][indexPath.row];
+    NSLog(@"%@", [self objectByIndexPath:indexPath]);
 }
 
 #pragma mark - 
-
-
 
 - (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath
 {
@@ -209,51 +191,61 @@
     return INSET;
 }
 
-
-
-
-
-
-
-//- (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout referenceSizeForHeaderInSection:(NSInteger)section;
-//- (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout referenceSizeForFooterInSection:(NSInteger)section;
-
-//-(void)scrollViewDidEndScrollingAnimation:(UIScrollView *)scrollView
+//- (void)scrollViewDidEndDragging:(UIScrollView *)scrollView willDecelerate:(BOOL)decelerate
 //{
-//    NSLog(@"%s", __PRETTY_FUNCTION__);
+//    if (scrollView == self.calendarCollectionView && !decelerate) {
+//        [self configurateScrollView:self.calendarCollectionView];
+//    }
 //}
 //
-//-(void)scrollViewDidScroll:(UIScrollView *)scrollView
+//- (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView
 //{
-//    NSLog(@"%s", __PRETTY_FUNCTION__);
+//    if (scrollView == self.calendarCollectionView) {
+//        [self configurateScrollView:self.calendarCollectionView];
+//    }
 //}
 
-- (void)scrollViewDidEndDragging:(UIScrollView *)scrollView willDecelerate:(BOOL)decelerate
+-(void)scrollViewDidScroll:(UIScrollView *)scrollView
 {
-//    NSLog(@"%s", __PRETTY_FUNCTION__);
-    
-    if (decelerate) {
-//        NSLog(@"YES");
-    }
-    
-    NSArray *visibleIndexPath = [self.calendarCollectionView indexPathsForVisibleItems];
-    for (NSIndexPath *indexPath in [visibleIndexPath reverseObjectEnumerator]) {
-        NSDate *firstVisibleDate = [self objectForIndexPath:indexPath];
-        if ([firstVisibleDate isKindOfClass:[NSNull class]]) {
-            continue;
-        }
-        
-        NSLog(@"%@", firstVisibleDate);
-        
-        return;
-    }
+    [self configurateScrollView:scrollView];
 }
 
-- (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView
+-(void)configurateScrollView:(UIScrollView*)scrollView
 {
-//    NSLog(@"%s", __PRETTY_FUNCTION__);
+    static CGFloat lastContentOffsetY = FLT_MIN;
+    if (FLT_MIN == lastContentOffsetY) {
+        lastContentOffsetY = scrollView.contentOffset.y;
+        return;
+    }
+    CGFloat currentOffsetX = scrollView.contentOffset.x;
+    CGFloat currentOffsetY = scrollView.contentOffset.y;
+    CGFloat oneWeekHeight = CGRectGetWidth(self.calendarCollectionView.frame)/DAYS_IN_WEEK;;
+    CGFloat pageHeight = oneWeekHeight * self.numberOfVisibleWeeks;
+    CGFloat offset = pageHeight * self.numberOfRealPages;
     
-    [self setupDataSource];
+    // the first page(showing the last item) is visible and user is still scrolling to the left
+    if (currentOffsetY < pageHeight && lastContentOffsetY > currentOffsetY) {
+        lastContentOffsetY = currentOffsetY + offset;
+        scrollView.contentOffset = (CGPoint){currentOffsetX, lastContentOffsetY};
+        self.currentWeekIndex += self.numberOfRealPages * self.numberOfVisibleWeeks;
+    }
+    // the last page (showing the first item) is visible and the user is still scrolling to the right
+    else if (currentOffsetY > offset && lastContentOffsetY < currentOffsetY) {
+        lastContentOffsetY = currentOffsetY - offset;
+        scrollView.contentOffset = (CGPoint){currentOffsetX, lastContentOffsetY};
+        self.currentWeekIndex -= self.numberOfRealPages * self.numberOfVisibleWeeks;
+    } else {
+        lastContentOffsetY = currentOffsetY;
+    }
+    
+    [self updateMonthAndYearLabel];
+}
+
+#pragma mark - Public
+
+-(void)showToday
+{
+    [self scrollToDate:[NSDate date]];
 }
 
 @end
