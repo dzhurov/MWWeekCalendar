@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name     = 'WeeklyCalendar'
-  s.version  = '0.0.3'
+  s.version  = '0.0.4'
   s.license  = 'MIT'
   s.summary  = 'WeeklyCalendar for iOS'
   s.description = <<-DESC

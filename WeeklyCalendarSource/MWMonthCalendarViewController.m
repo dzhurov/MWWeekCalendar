@@ -47,6 +47,12 @@
     [self.calendarCollectionView.collectionViewLayout invalidateLayout];
 }
 
+-(void)viewDidAppear:(BOOL)animated
+{
+    [super viewDidAppear:animated];
+    [self scrollToDate:[NSDate date]];
+}
+
 -(void)configurate
 {
     self.numberOfVisibleWeeks = CGRectGetHeight(self.calendarCollectionView.frame)*DAYS_IN_WEEK/CGRectGetWidth(self.calendarCollectionView.frame);
@@ -82,7 +88,7 @@
     self.monthAndYearLabel.text = [self.dateFormatter stringFromDate:[self centralDate]];
 }
 
--(id)objectByIndexPath:(NSIndexPath*)indexPath
+-(NSDate*)dateByIndexPath:(NSIndexPath*)indexPath
 {
     NSDate *firstDayOfWeek = [NSDate dateWithTimeIntervalSinceNow:(indexPath.section - self.currentWeekIndex)*D_WEEK];
     firstDayOfWeek = [firstDayOfWeek dateAtStartOfDay];
@@ -119,7 +125,7 @@
     CGPoint centerPoint = CGPointMake(self.calendarCollectionView.frame.size.width / 2 + self.calendarCollectionView.contentOffset.x, self.calendarCollectionView.frame.size.height /2 + self.calendarCollectionView.contentOffset.y);
     NSIndexPath *indexPath = [self.calendarCollectionView indexPathForItemAtPoint:centerPoint];
     
-    NSDate *centralDate = [self objectByIndexPath:indexPath];
+    NSDate *centralDate = [self dateByIndexPath:indexPath];
     return centralDate;
 }
 
@@ -151,7 +157,10 @@
     }
     
     MWMonthCalendarCollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:[MWMonthCalendarCollectionViewCell identifier] forIndexPath:indexPath];
-    [cell configurateWithObject:[self objectByIndexPath:indexPath]];
+    
+    NSDate *date = [self dateByIndexPath:indexPath];
+    [cell configurateWithObject:date];
+    cell.events = [self.calendarDataSource calendarController:self eventsForDate:date];
     cell.isDayOff = isDayOff;
     return cell;
 }
@@ -161,12 +170,12 @@
     if (collectionView == self.weekdayTitleCollectionView) {
         return NO;
     }
-    return [[self objectByIndexPath:indexPath] isKindOfClass:[NSDate class]];
+    return [[self dateByIndexPath:indexPath] isKindOfClass:[NSDate class]];
 }
 
 -(void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath
 {
-    NSLog(@"%@", [self objectByIndexPath:indexPath]);
+    NSLog(@"%@", [self dateByIndexPath:indexPath]);
 }
 
 #pragma mark - 

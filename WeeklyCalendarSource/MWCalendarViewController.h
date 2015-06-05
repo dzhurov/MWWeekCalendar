@@ -7,10 +7,9 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "MWCalendarViewControllerProtocols.h"
+#import "MWCalendarProtocols.h"
 
 @class MWWeekCalendarViewController;
-@protocol MWCalendarDelegate, MWCalendarDataSource;
 
 @interface MWCalendarViewController : UIViewController <MWCalendarViewControllerProtocol>
 

@@ -48,11 +48,11 @@
                         <barButtonItem style="plain" systemItem="flexibleSpace" id="yhc-UH-5vk"/>
                         <barButtonItem style="plain" id="VY1-fa-pJ9">
                             <segmentedControl key="customView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" segmentControlStyle="plain" selectedSegmentIndex="0" id="fSh-ve-uGv">
-                                <rect key="frame" x="247" y="5" width="107" height="29"/>
+                                <rect key="frame" x="246" y="8" width="107" height="30"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <segments>
                                     <segment title="Month"/>
-                                    <segment title="Day"/>
+                                    <segment title="Week"/>
                                 </segments>
                                 <connections>
                                     <action selector="segmentControlValueChanged:" destination="-1" eventType="valueChanged" id="I3f-cb-Nre"/>

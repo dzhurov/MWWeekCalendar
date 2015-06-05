@@ -57,6 +57,7 @@
     
     self.monthCalendarVC = [MWMonthCalendarViewController new];
     [self addChildViewController:self.monthCalendarVC];
+    self.monthCalendarVC.calendarDataSource = self.dataSource;
     [self.mainContentView addSubview:self.monthCalendarVC.view];
     
     [self.monthCalendarVC.view autoPinEdgeToSuperviewEdge:ALEdgeTop];
@@ -102,10 +103,10 @@
     
     if ( ([self.dataSource calendarEditingPresentationMode]==MWCalendarEditingPresentationModeSideMenu) && [self isSideMenuOpen]) {
         UIViewController *editingVC = [[self childViewControllers] lastObject];
-        [self hideEditingController:editingVC fromSideMenuWithCompletion:complete];
-    } else {
-        complete();
+        [self hideEditingController:editingVC fromSideMenuWithCompletion:nil];
     }
+    
+    complete();
 }
 
 -(BOOL)isSideMenuOpen
@@ -256,6 +257,5 @@
 {
     [self.monthCalendarVC showToday];
 }
-
 
 @end

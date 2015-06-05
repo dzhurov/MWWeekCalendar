@@ -45,14 +45,13 @@
                             <constraint firstAttribute="height" constant="1" id="i2k-5w-bLi"/>
                         </constraints>
                     </view>
-                    <label hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label0" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Ajx-7C-LAX">
-                        <rect key="frame" x="5" y="48" width="140" height="15"/>
-                        <color key="backgroundColor" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label0" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Ajx-7C-LAX">
+                        <rect key="frame" x="5" y="36" width="140" height="23"/>
+                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstAttribute="height" constant="15" id="Yha-H8-Ae9"/>
                         </constraints>
                         <fontDescription key="fontDescription" type="system" pointSize="12"/>
-                        <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                         <nil key="highlightedColor"/>
                         <variation key="default">
                             <mask key="constraints">
@@ -60,14 +59,13 @@
                             </mask>
                         </variation>
                     </label>
-                    <label hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label1" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="uIZ-il-LAo">
-                        <rect key="frame" x="5" y="68" width="140" height="15"/>
-                        <color key="backgroundColor" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label1" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="uIZ-il-LAo">
+                        <rect key="frame" x="5" y="64" width="140" height="23"/>
+                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstAttribute="height" constant="15" id="Oy9-1z-azU"/>
                         </constraints>
                         <fontDescription key="fontDescription" type="system" pointSize="12"/>
-                        <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                         <nil key="highlightedColor"/>
                         <variation key="default">
                             <mask key="constraints">
@@ -75,17 +73,16 @@
                             </mask>
                         </variation>
                     </label>
-                    <label hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="and 2 more" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="VCg-9i-NJj">
-                        <rect key="frame" x="5" y="108" width="140" height="15"/>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="and 2 more" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="VCg-9i-NJj">
+                        <rect key="frame" x="5" y="120" width="140" height="23"/>
+                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                         <fontDescription key="fontDescription" type="system" pointSize="12"/>
-                        <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                         <nil key="highlightedColor"/>
                     </label>
-                    <label hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label2" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="OAV-10-fwf">
-                        <rect key="frame" x="5" y="88" width="140" height="15"/>
-                        <color key="backgroundColor" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label2" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="OAV-10-fwf">
+                        <rect key="frame" x="5" y="92" width="140" height="23"/>
+                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                         <fontDescription key="fontDescription" type="system" pointSize="12"/>
-                        <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                         <nil key="highlightedColor"/>
                     </label>
                 </subviews>
@@ -110,7 +107,7 @@
                 <constraint firstItem="Ajx-7C-LAX" firstAttribute="height" secondItem="uIZ-il-LAo" secondAttribute="height" id="Jre-yU-Sba"/>
                 <constraint firstItem="kvK-Ja-ArM" firstAttribute="top" secondItem="3yx-sZ-nGt" secondAttribute="top" constant="2" id="NL6-ba-eKa"/>
                 <constraint firstAttribute="trailing" secondItem="Are-8O-Kqk" secondAttribute="trailing" id="OCf-hq-pSa"/>
-                <constraint firstItem="uIZ-il-LAo" firstAttribute="height" secondItem="xl1-RI-c5Z" secondAttribute="height" multiplier="0.1" id="QjC-fV-tdB"/>
+                <constraint firstItem="uIZ-il-LAo" firstAttribute="height" secondItem="xl1-RI-c5Z" secondAttribute="height" multiplier="0.15" id="QjC-fV-tdB"/>
                 <constraint firstItem="kvK-Ja-ArM" firstAttribute="width" secondItem="3yx-sZ-nGt" secondAttribute="width" constant="-4" id="TpG-pi-gO6"/>
                 <constraint firstItem="OAV-10-fwf" firstAttribute="height" secondItem="uIZ-il-LAo" secondAttribute="height" id="VNd-UN-hem"/>
                 <constraint firstItem="Ajx-7C-LAX" firstAttribute="trailing" secondItem="uIZ-il-LAo" secondAttribute="trailing" id="Xbh-TM-grn"/>
@@ -176,10 +173,10 @@
                 <outlet property="leftSeparatorViewWidthConstraint" destination="6OW-rW-sLi" id="5ds-Ys-uN6"/>
                 <outlet property="redRoundView" destination="3yx-sZ-nGt" id="Lff-D5-Qxq"/>
                 <outlet property="topSeparatorViewHeightConstraint" destination="i2k-5w-bLi" id="lSZ-lo-tUA"/>
-                <outletCollection property="eventLabels" destination="VCg-9i-NJj" id="okz-vf-gPX"/>
-                <outletCollection property="eventLabels" destination="Ajx-7C-LAX" id="Mb6-3U-Bze"/>
-                <outletCollection property="eventLabels" destination="uIZ-il-LAo" id="Xwu-XH-OKy"/>
-                <outletCollection property="eventLabels" destination="OAV-10-fwf" id="fK3-cK-qso"/>
+                <outletCollection property="eventLabels" destination="Ajx-7C-LAX" id="FR9-q2-rpC"/>
+                <outletCollection property="eventLabels" destination="uIZ-il-LAo" id="T8Q-ce-oBh"/>
+                <outletCollection property="eventLabels" destination="OAV-10-fwf" id="If2-In-tOI"/>
+                <outletCollection property="eventLabels" destination="VCg-9i-NJj" id="hSU-gX-Dv9"/>
             </connections>
             <point key="canvasLocation" x="562" y="360"/>
         </collectionViewCell>

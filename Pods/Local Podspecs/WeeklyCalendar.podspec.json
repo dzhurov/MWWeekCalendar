@@ -1,6 +1,6 @@
 {
   "name": "WeeklyCalendar",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "license": "MIT",
   "summary": "WeeklyCalendar for iOS",
   "description": "  \t\t\t\t\tWeeklyCalendar, calendar control\n",
@@ -12,7 +12,7 @@
   },
   "source": {
     "git": "https://github.com/dzhurov/MWWeekCalendar.git",
-    "tag": "0.0.2",
+    "tag": "0.0.3",
     "submodules": true
   },
   "requires_arc": true,

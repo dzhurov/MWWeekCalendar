@@ -7,8 +7,11 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "MWCalendarProtocols.h"
 
 @interface MWMonthCalendarViewController : UIViewController
+
+@property(nonatomic, weak) id <MWCalendarDataSource> calendarDataSource;
 
 -(void)showToday;
 

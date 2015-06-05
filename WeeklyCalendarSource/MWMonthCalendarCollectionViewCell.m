@@ -7,6 +7,7 @@
 //
 
 #import "MWMonthCalendarCollectionViewCell.h"
+#import "MWCalendarEvent.h"
 
 @interface MWMonthCalendarCollectionViewCell ()
 
@@ -38,6 +39,16 @@
     self.topSeparatorViewHeightConstraint.constant = separatorWidth;
     
     self.redRoundView.layer.cornerRadius = CGRectGetHeight(self.redRoundView.frame)/2;
+    
+    self.eventLabels = [self.eventLabels sortedArrayUsingComparator:^NSComparisonResult(UILabel *obj1, UILabel *obj2) {
+        
+        if ( CGRectGetMinY(obj1.frame) < CGRectGetMinY(obj2.frame)) {
+            return NSOrderedAscending;
+        } else if ( CGRectGetMinY(obj1.frame) > CGRectGetMinY(obj2.frame)) {
+            return NSOrderedDescending;
+        }
+        return NSOrderedSame;
+    }];
 }
 
 -(void)setEvents:(NSArray *)events
@@ -46,12 +57,30 @@
     
     [self.eventLabels setValue:@YES forKeyPath:@"hidden"];
     
-    [_events enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
+    [_events enumerateObjectsUsingBlock:^(MWCalendarEvent *event, NSUInteger idx, BOOL *stop) {
+        
+        NSAssert([event isKindOfClass:[MWCalendarEvent class]], @"Unexpected class");
+        
+        UILabel *eventLabel = nil;
         
         if (idx < self.eventLabels.count) {
             
+            eventLabel = self.eventLabels[idx];
+            eventLabel.hidden = NO;
+            eventLabel.text = [NSString stringWithFormat:@"%@, %@", event.title, event.eventDescription];
+            eventLabel.backgroundColor = event.calendarColor;
+//        } else if ( _events.count == self.eventLabels.count) {
+//            eventLabel = [self.eventLabels lastObject];
+//            eventLabel.hidden = NO;
+//            eventLabel.text = [NSString stringWithFormat:@"%@, %@", event.title, event.eventDescription];
+//            eventLabel.backgroundColor = event.calendarColor;
+        } else {
+            UILabel *eventLabel = [self.eventLabels lastObject];
+            eventLabel.backgroundColor = [UIColor clearColor];
+            eventLabel.textColor = [UIColor grayColor];
+            eventLabel.text = [NSString stringWithFormat:@"And %d more", _events.count - self.eventLabels.count + 1];
+            *stop = YES;
         }
-        
     }];
 }
 
