@@ -200,20 +200,6 @@
     return INSET;
 }
 
-//- (void)scrollViewDidEndDragging:(UIScrollView *)scrollView willDecelerate:(BOOL)decelerate
-//{
-//    if (scrollView == self.calendarCollectionView && !decelerate) {
-//        [self configurateScrollView:self.calendarCollectionView];
-//    }
-//}
-//
-//- (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView
-//{
-//    if (scrollView == self.calendarCollectionView) {
-//        [self configurateScrollView:self.calendarCollectionView];
-//    }
-//}
-
 -(void)scrollViewDidScroll:(UIScrollView *)scrollView
 {
     [self configurateScrollView:scrollView];
@@ -248,8 +234,6 @@
     }
     
     [self updateMonthAndYearLabel];
-    
-    NSLog(@"%d", self.currentWeekIndex);
 }
 
 #pragma mark - Public

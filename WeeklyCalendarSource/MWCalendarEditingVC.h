@@ -13,5 +13,6 @@
 
 @property (nonatomic, strong) MWCalendarEvent *event;
 @property (nonatomic, weak) MWWeekCalendarViewController <MWCalendarEditingControllerDelegate> *calendarVC;
+@property (nonatomic) BOOL isCreationMode;
 
 @end
