@@ -90,13 +90,28 @@
 
 - (IBAction)segmentControlValueChanged:(UISegmentedControl *)sender
 {
-    self.monthCalendarVC.view.hidden = sender.selectedSegmentIndex!=0;
-    self.weekCalendarVC.view.hidden = sender.selectedSegmentIndex==0;
+    sender.userInteractionEnabled = NO;
     
-    [self.monthCalendarVC.view layoutSubviews];
-    [self.weekCalendarVC.view layoutSubviews];
+    __weak __typeof(self)weakSelf = self;
+    void(^complete)() = ^(){
+        weakSelf.monthCalendarVC.view.hidden = sender.selectedSegmentIndex!=0;
+        weakSelf.weekCalendarVC.view.hidden = sender.selectedSegmentIndex==0;
+        
+        sender.userInteractionEnabled = YES;
+    };
+    
+    if ( ([self.dataSource calendarEditingPresentationMode]==MWCalendarEditingPresentationModeSideMenu) && [self isSideMenuOpen]) {
+        UIViewController *editingVC = [[self childViewControllers] lastObject];
+        [self hideEditingController:editingVC fromSideMenuWithCompletion:complete];
+    } else {
+        complete();
+    }
 }
 
+-(BOOL)isSideMenuOpen
+{
+    return self.mainContentViewRightConstraint.constant > 0;
+}
 
 #pragma mark --- MWCalendarViewControllerProtocol
 

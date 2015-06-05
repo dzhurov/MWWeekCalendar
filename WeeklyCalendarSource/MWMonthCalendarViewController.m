@@ -29,7 +29,6 @@
 
 #define DAYS_IN_WEEK 7
 #define MONTH_IN_YEAR 12
-
 #define INSET 0.5
 
 @implementation MWMonthCalendarViewController
@@ -86,6 +85,7 @@
 -(id)objectByIndexPath:(NSIndexPath*)indexPath
 {
     NSDate *firstDayOfWeek = [NSDate dateWithTimeIntervalSinceNow:(indexPath.section - self.currentWeekIndex)*D_WEEK];
+    firstDayOfWeek = [firstDayOfWeek dateAtStartOfDay];
     NSUInteger weekDay = [[firstDayOfWeek dateComponents] weekday];
     NSInteger daysDiff = (indexPath.row - weekDay + 1);
     NSDate *resultDate = [firstDayOfWeek dateByAddingDays:daysDiff];
@@ -102,10 +102,16 @@
 -(void)scrollToDate:(NSDate*)targetDate
 {
     NSInteger diff = [targetDate timeIntervalSinceDate:[self centralDate]]/D_WEEK;
+    NSInteger weeksToShow = self.numberOfRealPages * self.numberOfVisibleWeeks;
+    self.currentWeekIndex -= (diff/weeksToShow)*weeksToShow;
+
+    CGPoint offset = self.calendarCollectionView.contentOffset;
+    offset.y += (diff%weeksToShow)*CGRectGetWidth(self.calendarCollectionView.frame)/DAYS_IN_WEEK;
     
-    self.calendarCollectionView.contentOffset = CGPointMake(self.calendarCollectionView.contentOffset.x, self.calendarCollectionView.contentOffset.y + diff * CGRectGetWidth(self.calendarCollectionView.frame)/DAYS_IN_WEEK);
-    
+    self.calendarCollectionView.contentOffset = offset;
     [self.calendarCollectionView reloadData];
+    
+    [self updateMonthAndYearLabel];
 }
 
 -(NSDate*)centralDate
@@ -135,15 +141,18 @@
 
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath
 {
+    BOOL isDayOff = (indexPath.row%DAYS_IN_WEEK==0) || (indexPath.row%(DAYS_IN_WEEK-1)==0);
+    
     if (collectionView == self.weekdayTitleCollectionView) {
         MWWeekdayTitleCollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:[MWWeekdayTitleCollectionViewCell identifier] forIndexPath:indexPath];
         cell.textLabel.text = [[NSCalendar currentCalendar] shortWeekdaySymbols][indexPath.row];
+        cell.textLabel.textColor = isDayOff?[UIColor grayColor]:[UIColor blackColor];
         return cell;
     }
     
     MWMonthCalendarCollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:[MWMonthCalendarCollectionViewCell identifier] forIndexPath:indexPath];
     [cell configurateWithObject:[self objectByIndexPath:indexPath]];
-    //cell.isDayOff = (indexPath.row%DAYS_IN_WEEK==0) || (indexPath.row%(DAYS_IN_WEEK-1)==0);
+    cell.isDayOff = isDayOff;
     return cell;
 }
 
@@ -217,11 +226,11 @@
         lastContentOffsetY = scrollView.contentOffset.y;
         return;
     }
-    CGFloat currentOffsetX = scrollView.contentOffset.x;
-    CGFloat currentOffsetY = scrollView.contentOffset.y;
-    CGFloat oneWeekHeight = CGRectGetWidth(self.calendarCollectionView.frame)/DAYS_IN_WEEK;;
-    CGFloat pageHeight = oneWeekHeight * self.numberOfVisibleWeeks;
-    CGFloat offset = pageHeight * self.numberOfRealPages;
+    CGFloat currentOffsetX = lroundf(scrollView.contentOffset.x);
+    CGFloat currentOffsetY = lroundf(scrollView.contentOffset.y);
+    CGFloat oneWeekHeight = lroundf(CGRectGetWidth(self.calendarCollectionView.frame)/DAYS_IN_WEEK);
+    CGFloat pageHeight = lroundf(oneWeekHeight * self.numberOfVisibleWeeks);
+    CGFloat offset = lroundf(pageHeight * self.numberOfRealPages);
     
     // the first page(showing the last item) is visible and user is still scrolling to the left
     if (currentOffsetY < pageHeight && lastContentOffsetY > currentOffsetY) {
@@ -239,6 +248,8 @@
     }
     
     [self updateMonthAndYearLabel];
+    
+    NSLog(@"%d", self.currentWeekIndex);
 }
 
 #pragma mark - Public

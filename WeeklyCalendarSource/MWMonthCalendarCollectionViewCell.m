@@ -11,6 +11,7 @@
 @interface MWMonthCalendarCollectionViewCell ()
 
 @property (weak, nonatomic) IBOutlet UILabel *dateLabel;
+@property (unsafe_unretained, nonatomic) IBOutlet UIView *redRoundView;
 @property (nonatomic, strong) NSDateFormatter *dateFormat;
 
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *leftSeparatorViewWidthConstraint;
@@ -35,6 +36,8 @@
     
     self.leftSeparatorViewWidthConstraint.constant = separatorWidth;
     self.topSeparatorViewHeightConstraint.constant = separatorWidth;
+    
+    self.redRoundView.layer.cornerRadius = CGRectGetHeight(self.redRoundView.frame)/2;
 }
 
 -(void)setEvents:(NSArray *)events
@@ -54,8 +57,13 @@
 
 -(void)setIsDayOff:(BOOL)isDayOff
 {
-    _isDayOff = isDayOff;    
-    self.backgroundColor = _isDayOff?[[UIColor lightGrayColor] colorWithAlphaComponent:0.2]:[UIColor clearColor];
+    _isDayOff = isDayOff;
+    
+    if (_isDayOff) {
+        self.backgroundColor = [[UIColor lightGrayColor] colorWithAlphaComponent:0.05];
+    } else {
+        self.backgroundColor = [UIColor clearColor];
+    }
 }
 
 -(void)configurateWithObject:(id)object
@@ -67,7 +75,7 @@
     
     NSDate *date = object;
     
-    NSDateComponents *components = [[NSCalendar currentCalendar] components:NSCalendarUnitDay | NSCalendarUnitWeekday fromDate:date];
+    NSDateComponents *components = [[NSCalendar currentCalendar] components:NSCalendarUnitDay | NSCalendarUnitWeekday | NSCalendarUnitMonth fromDate:date];
     
     if (components.day == 1) {
         [self.dateFormat setDateFormat:@"MMM dd"];
@@ -76,17 +84,19 @@
     }
     self.dateLabel.text = [self.dateFormat stringFromDate:date];
     
-    UIColor *backgroundColor = [UIColor clearColor];
+    UIColor *textLabelBackgroundColor = [UIColor clearColor];
     UIColor *textColor = [UIColor blackColor];
     
+    self.redRoundView.hidden = YES;
+    
     if ([[NSCalendar currentCalendar] isDateInToday:date]) {
-        backgroundColor = [UIColor redColor];
+        self.redRoundView.hidden = NO;
         textColor = [UIColor whiteColor];
     } else if ( components.weekday == 7 || components.weekday == 1) { //Weekend
         textColor = [UIColor grayColor];
     }
     
-    self.dateLabel.backgroundColor = backgroundColor;
+    self.dateLabel.backgroundColor = textLabelBackgroundColor;
     self.dateLabel.textColor = textColor;
 }
 
