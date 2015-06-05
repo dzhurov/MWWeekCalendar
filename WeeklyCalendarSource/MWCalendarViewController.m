@@ -8,6 +8,8 @@
 
 #import "MWCalendarViewController.h"
 #import "MWWeekCalendarViewController.h"
+#import "MWMonthCalendarViewController.h"
+#import "PureLayout.h"
 
 @interface MWCalendarViewController ()
 
@@ -20,6 +22,8 @@
 @property (nonatomic, weak) id <MWCalendarDataSource> dataSource;
 
 @property (strong, nonatomic) UIPopoverController *editingControllerPopover;
+
+@property (nonatomic, strong) MWMonthCalendarViewController *monthCalendarVC;
 
 @end
 
@@ -45,10 +49,22 @@
     weekCalendarVC.delegate = self.delegate;
     weekCalendarVC.dataSource = self.dataSource;
     weekCalendarVC.view.frame = self.mainContentView.bounds;
+    weekCalendarVC.view.hidden = YES;
     weekCalendarVC.startWorkingDay = [self dateComponentsWithHours:9 minutes:30];
     weekCalendarVC.endWorkingDay = [self dateComponentsWithHours:19 minutes:30];
     _weekCalendarVC = weekCalendarVC;
     [self.mainContentView addSubview:weekCalendarVC.view];
+    
+    self.monthCalendarVC = [MWMonthCalendarViewController new];
+    [self addChildViewController:self.monthCalendarVC];
+    [self.mainContentView addSubview:self.monthCalendarVC.view];
+    
+    [self.monthCalendarVC.view autoPinEdgeToSuperviewEdge:ALEdgeTop];
+    [self.monthCalendarVC.view autoPinEdgeToSuperviewEdge:ALEdgeLeading];
+    [self.monthCalendarVC.view autoPinEdgeToSuperviewEdge:ALEdgeBottom];
+    [self.monthCalendarVC.view autoPinEdgeToSuperviewEdge:ALEdgeTrailing];
+    
+    [self.view layoutSubviews];
 }
 
 - (NSDateComponents *)dateComponentsWithHours:(NSInteger)hours minutes:(NSInteger)minutes
@@ -68,8 +84,33 @@
 
 - (void)viewDidLoad
 {
-    [super viewDidLoad];    
+    [super viewDidLoad];
     [self baseConfiguration];
+}
+
+- (IBAction)segmentControlValueChanged:(UISegmentedControl *)sender
+{
+    sender.userInteractionEnabled = NO;
+    
+    __weak __typeof(self)weakSelf = self;
+    void(^complete)() = ^(){
+        weakSelf.monthCalendarVC.view.hidden = sender.selectedSegmentIndex!=0;
+        weakSelf.weekCalendarVC.view.hidden = sender.selectedSegmentIndex==0;
+        
+        sender.userInteractionEnabled = YES;
+    };
+    
+    if ( ([self.dataSource calendarEditingPresentationMode]==MWCalendarEditingPresentationModeSideMenu) && [self isSideMenuOpen]) {
+        UIViewController *editingVC = [[self childViewControllers] lastObject];
+        [self hideEditingController:editingVC fromSideMenuWithCompletion:complete];
+    } else {
+        complete();
+    }
+}
+
+-(BOOL)isSideMenuOpen
+{
+    return self.mainContentViewRightConstraint.constant > 0;
 }
 
 #pragma mark --- MWCalendarViewControllerProtocol
@@ -208,5 +249,13 @@
 {
     [editingController dismissViewControllerAnimated:YES completion:completion];
 }
+
+#pragma mark - IBActions
+
+- (IBAction)todayButtonPressed:(id)sender
+{
+    [self.monthCalendarVC showToday];
+}
+
 
 @end

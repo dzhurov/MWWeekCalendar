@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="7706" systemVersion="14D136" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7703"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="MWMonthCalendarViewController">
+            <connections>
+                <outlet property="calendarCollectionView" destination="7uL-l2-cSW" id="ATv-GW-ETJ"/>
+                <outlet property="monthAndYearLabel" destination="TRy-tS-P9g" id="Jf6-mw-Oc7"/>
+                <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
+                <outlet property="weekdayTitleCollectionView" destination="EW0-3F-oPC" id="BQQ-Qx-XbO"/>
+            </connections>
+        </placeholder>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view clearsContextBeforeDrawing="NO" contentMode="scaleToFill" id="i5M-Pr-FkT">
+            <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+            <subviews>
+                <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" dataMode="none" translatesAutoresizingMaskIntoConstraints="NO" id="7uL-l2-cSW">
+                    <rect key="frame" x="0.0" y="70" width="600" height="530"/>
+                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                    <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="10" minimumInteritemSpacing="10" id="gJH-tK-sG8">
+                        <size key="itemSize" width="50" height="50"/>
+                        <size key="headerReferenceSize" width="0.0" height="0.0"/>
+                        <size key="footerReferenceSize" width="0.0" height="0.0"/>
+                        <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
+                    </collectionViewFlowLayout>
+                    <connections>
+                        <outlet property="dataSource" destination="-1" id="Sa9-mU-Io8"/>
+                        <outlet property="delegate" destination="-1" id="1wn-IQ-332"/>
+                    </connections>
+                </collectionView>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Pce-xz-akS">
+                    <rect key="frame" x="0.0" y="0.0" width="600" height="70"/>
+                    <subviews>
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="MM YY" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="TRy-tS-P9g">
+                            <rect key="frame" x="20" y="5" width="84" height="35"/>
+                            <fontDescription key="fontDescription" type="boldSystem" pointSize="25"/>
+                            <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                            <nil key="highlightedColor"/>
+                        </label>
+                        <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="none" translatesAutoresizingMaskIntoConstraints="NO" id="EW0-3F-oPC">
+                            <rect key="frame" x="0.0" y="40" width="600" height="30"/>
+                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                            <constraints>
+                                <constraint firstAttribute="height" constant="30" id="oh8-N6-RGb"/>
+                            </constraints>
+                            <collectionViewFlowLayout key="collectionViewLayout" scrollDirection="horizontal" minimumLineSpacing="10" minimumInteritemSpacing="10" id="JR4-kM-B5F">
+                                <size key="itemSize" width="50" height="50"/>
+                                <size key="headerReferenceSize" width="0.0" height="0.0"/>
+                                <size key="footerReferenceSize" width="0.0" height="0.0"/>
+                                <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
+                            </collectionViewFlowLayout>
+                            <connections>
+                                <outlet property="dataSource" destination="-1" id="FaM-r7-tJc"/>
+                                <outlet property="delegate" destination="-1" id="774-1M-9RC"/>
+                            </connections>
+                        </collectionView>
+                        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="vO9-Me-3ui">
+                            <rect key="frame" x="0.0" y="69" width="600" height="1"/>
+                            <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                            <constraints>
+                                <constraint firstAttribute="height" constant="1" id="fe7-fx-ymy"/>
+                            </constraints>
+                        </view>
+                    </subviews>
+                    <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    <constraints>
+                        <constraint firstAttribute="bottom" secondItem="EW0-3F-oPC" secondAttribute="bottom" id="6qH-DH-lL4"/>
+                        <constraint firstItem="TRy-tS-P9g" firstAttribute="top" secondItem="Pce-xz-akS" secondAttribute="top" constant="5" id="935-tX-b9t"/>
+                        <constraint firstItem="vO9-Me-3ui" firstAttribute="leading" secondItem="Pce-xz-akS" secondAttribute="leading" id="FAw-kN-nvY"/>
+                        <constraint firstItem="EW0-3F-oPC" firstAttribute="top" secondItem="TRy-tS-P9g" secondAttribute="bottom" id="GUN-g9-Ttb"/>
+                        <constraint firstAttribute="bottom" secondItem="vO9-Me-3ui" secondAttribute="bottom" id="R3J-I7-O8h"/>
+                        <constraint firstAttribute="trailing" secondItem="EW0-3F-oPC" secondAttribute="trailing" id="dO1-4Q-hvp"/>
+                        <constraint firstItem="TRy-tS-P9g" firstAttribute="leading" secondItem="Pce-xz-akS" secondAttribute="leading" constant="20" id="pY8-d0-Bwn"/>
+                        <constraint firstItem="EW0-3F-oPC" firstAttribute="leading" secondItem="Pce-xz-akS" secondAttribute="leading" id="vUE-Up-y3R"/>
+                        <constraint firstAttribute="trailing" secondItem="vO9-Me-3ui" secondAttribute="trailing" id="vuu-C1-fev"/>
+                        <constraint firstItem="TRy-tS-P9g" firstAttribute="bottom" secondItem="EW0-3F-oPC" secondAttribute="bottom" id="wBF-63-DAR"/>
+                        <constraint firstAttribute="height" constant="70" id="yfD-dc-J0E"/>
+                    </constraints>
+                    <variation key="default">
+                        <mask key="constraints">
+                            <exclude reference="wBF-63-DAR"/>
+                        </mask>
+                    </variation>
+                </view>
+            </subviews>
+            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+            <constraints>
+                <constraint firstItem="7uL-l2-cSW" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="3Ac-lL-YB1"/>
+                <constraint firstAttribute="trailing" secondItem="Pce-xz-akS" secondAttribute="trailing" id="5gW-1K-OBO"/>
+                <constraint firstAttribute="bottom" secondItem="7uL-l2-cSW" secondAttribute="bottom" id="AK5-Mn-u0c"/>
+                <constraint firstAttribute="trailing" secondItem="7uL-l2-cSW" secondAttribute="trailing" id="bGz-b4-qoo"/>
+                <constraint firstItem="7uL-l2-cSW" firstAttribute="top" secondItem="Pce-xz-akS" secondAttribute="bottom" id="cJR-w1-woV"/>
+                <constraint firstItem="Pce-xz-akS" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="in6-9g-K1X"/>
+                <constraint firstItem="Pce-xz-akS" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" id="rtT-FO-s53"/>
+            </constraints>
+            <point key="canvasLocation" x="337" y="321"/>
+        </view>
+    </objects>
+</document>
