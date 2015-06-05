@@ -141,22 +141,25 @@ struct TouchInfo {
             [indexPaths addObject:indexPath];
         }
     }
-    [self endEditingWithCompletion:^{
-        [self.bodyCollectionView reloadItemsAtIndexPaths:indexPaths];
-        self.eventViewBeforeEditing = nil;
-        [_currentAddingWeekEventView removeFromSuperview];
-        _currentAddingWeekEventView = nil;
-    }];
+    
+    [self.bodyCollectionView reloadItemsAtIndexPaths:indexPaths];
+    self.eventViewBeforeEditing = nil;
+    [_currentAddingWeekEventView removeFromSuperview];
+    _currentAddingWeekEventView = nil;
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [self endEditingWithCompletion:nil];
+    });
 }
 
 - (void)reloadEvents
 {
-    [self endEditingWithCompletion:^{
-        [self.bodyCollectionView reloadData];
-        self.eventViewBeforeEditing = nil;
-        [_currentAddingWeekEventView removeFromSuperview];
-        _currentAddingWeekEventView = nil;
-    }];
+    [self.bodyCollectionView reloadData];
+    self.eventViewBeforeEditing = nil;
+    [_currentAddingWeekEventView removeFromSuperview];
+    _currentAddingWeekEventView = nil;
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [self endEditingWithCompletion:nil];
+    });
 }
 
 #pragma mark - UICollectionViewDataSource
@@ -534,9 +537,6 @@ struct TouchInfo {
 
 - (void)moveCurrentEventViewToPoint:(CGPoint)position animated:(BOOL)animated
 {
-    if (_currentAddingWeekEventView == nil) {
-        return;
-    }
     CGRect frame = _currentAddingWeekEventView.frame;
     frame.origin = position;
     
@@ -552,9 +552,6 @@ struct TouchInfo {
 
 - (void)addCurrentEventToCellAtIndexPath:(NSIndexPath *)indexPath timeDate:(NSDate*)timeDate
 {
-    if (_currentAddingWeekEventView == nil) {
-        return;
-    }
     NSDate *date = [self dateForItem:indexPath.item];
     NSDateComponents *dateComponents = date.dateComponents;
     dateComponents.minute = timeDate.dateComponents.minute;

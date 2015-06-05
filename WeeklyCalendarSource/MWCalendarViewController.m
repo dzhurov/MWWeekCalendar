@@ -23,7 +23,7 @@
 
 @end
 
-#define MW_CALENDAR_ANIMATION_DURATION 0.15
+#define MW_CALENDAR_ANIMATION_DURATION 0.6
 
 @implementation MWCalendarViewController
 @synthesize weekCalendarVC = _weekCalendarVC;
@@ -107,18 +107,20 @@
     [self.sideMenuBaseView addSubview:editingController.view];
     [self addChildViewController:editingController];
     
-    [UIView animateWithDuration:MW_CALENDAR_ANIMATION_DURATION animations:^{
-        
-        self.mainContentViewRightConstraint.constant = self.sideMenuBaseViewWidthConstraint.constant;
-        [self.view layoutIfNeeded];
-        
-    } completion:^(BOOL finished) {
-        
-        if (completion) {
-            completion();
-        }
-        
-    }];
+    [UIView animateWithDuration:MW_CALENDAR_ANIMATION_DURATION
+                          delay:0
+         usingSpringWithDamping:0.5
+          initialSpringVelocity:1
+                        options:0
+                     animations:^{
+                         self.mainContentViewRightConstraint.constant = self.sideMenuBaseViewWidthConstraint.constant;
+                         [self.view layoutIfNeeded];
+                     }
+                     completion:^(BOOL finished) {
+                         if (completion) {
+                             completion();
+                         }
+                     }];
 }
 
 -(void)showEditingController:(UIViewController *)editingController withPopoverfromRect:(CGRect)rect inView:(UIView *)view completion:(void (^)())completion
@@ -173,21 +175,24 @@
 
 -(void)hideEditingController:(UIViewController *)editingController fromSideMenuWithCompletion:(void (^)())completion
 {
-    [UIView animateWithDuration:MW_CALENDAR_ANIMATION_DURATION animations:^{
-        
-        self.mainContentViewRightConstraint.constant = 0;
-        [self.view layoutIfNeeded];
-        
-    } completion:^(BOOL finished) {
-        
-        [editingController.view removeFromSuperview];
-        [editingController removeFromParentViewController];
-        
-        if (completion) {
-            completion();
-        }
-        
-    }];
+    [UIView animateWithDuration:MW_CALENDAR_ANIMATION_DURATION
+                          delay:0
+         usingSpringWithDamping:0.5
+          initialSpringVelocity:1
+                        options:0
+                     animations:^
+     {
+         self.mainContentViewRightConstraint.constant = 0;
+         [self.view layoutIfNeeded];
+     }
+                     completion:^(BOOL finished)
+     {
+         [editingController.view removeFromSuperview];
+         [editingController removeFromParentViewController];
+         if (completion) {
+             completion();
+         }
+     }];
 }
 
 -(void)hideEditingController:(UIViewController *)editingController fromPopoverWithCompletion:(void (^)())completion
